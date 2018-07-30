@@ -1,0 +1,8 @@
+{
+  "name": "@w11k/angular-sticky-things",
+  "version": "0.1.0",
+  "peerDependencies": {
+    "@angular/common": "^4.0.0 || ^6.0.0",
+    "@angular/core": "^4.0.0 || ^6.0.0"
+  }
+}
