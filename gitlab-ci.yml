@@ -1,0 +1,64 @@
+cache:
+  untracked: true
+  key: "$CI_BUILD_REF_NAME"
+  paths:
+  - node_modules/
+  - dist/
+
+stages:
+- build
+- integration
+- test
+- deploy
+
+build-lib:
+  image: node
+  stage: build
+  script:
+  - npm ci
+  - npm run build:lib
+  artifacts:
+    expire_in: 1 week
+    paths:
+    - dist/angular-sticky-things
+
+build-demo:
+  image: node
+  dependencies:
+  - build-lib
+  stage: integration
+  script:
+  - npm ci
+  - npm run build
+  artifacts:
+    expire_in: 1 week
+    paths:
+    - dist/angular-sticky-things-demo
+
+
+test-lib:
+  image: trion/ng-cli-karma
+  stage: test
+  script:
+  - npm test:lib
+
+test-demo:
+  image: trion/ng-cli-karma
+  dependencies:
+  - build-lib
+  stage: test
+  script:
+  - npm test
+
+
+publish:
+  stage: deploy
+  dependencies:
+  - build-lib
+  only:
+  - tags
+  - triggers
+  script:
+  - cd dist/angular-sticky-things
+  - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
+  - npm publish

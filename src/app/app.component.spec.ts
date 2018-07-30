@@ -1,10 +1,17 @@
-import { TestBed, async } from '@angular/core/testing';
-import { AppComponent } from './app.component';
+import {async, TestBed} from '@angular/core/testing';
+import {AppComponent} from './app.component';
+import {AngularStickyThingsModule} from 'angular-sticky-things';
+import {InfoComponent} from './info/info.component';
+
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        AngularStickyThingsModule
+      ],
       declarations: [
-        AppComponent
+        AppComponent,
+        InfoComponent,
       ],
     }).compileComponents();
   }));
@@ -12,16 +19,5 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
-  }));
-  it(`should have as title 'angular-sticky-things-demo'`, async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('angular-sticky-things-demo');
-  }));
-  it('should render title in a h1 tag', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to angular-sticky-things-demo!');
   }));
 });

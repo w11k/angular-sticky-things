@@ -4,8 +4,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
+    "build": "ng build --prod",
+    "build:lib": "ng build angular-sticky-things --prod",
+    "test": "ng test angular-sticky-things-demo --watch=false",
+    "test:lib": "ng test angular-sticky-things --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
