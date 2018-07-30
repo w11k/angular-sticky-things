@@ -1,6 +1,6 @@
 {
   "name": "angular-sticky-things-demo",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -46,6 +46,7 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "ng-packagr": "^3.0.0",
     "protractor": "~5.3.0",
+    "standard-changelog": "^2.0.0",
     "ts-node": "~5.0.1",
     "tsickle": ">=0.29.0",
     "tslib": "^1.9.0",
