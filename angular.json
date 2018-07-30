@@ -7,7 +7,7 @@
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
-      "prefix": "sticky",
+      "prefix": "demo",
       "schematics": {
         "@schematics/angular:component": {
           "styleext": "scss"
@@ -130,7 +130,7 @@
       "root": "projects/angular-sticky-things",
       "sourceRoot": "projects/angular-sticky-things/src",
       "projectType": "library",
-      "prefix": "lib",
+      "prefix": "sticky",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
