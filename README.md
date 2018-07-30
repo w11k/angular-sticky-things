@@ -27,3 +27,12 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+# Release
+1. Start release: `git flow release start x.x.x`
+1. Update versions
+   1. ./projects/angular-sticky-things/package.json
+   1. ./package.json
+1. Generate changelog: `./node_modules/.bin/standard-changelog`
+1. Finish release: `git flow release finish x.x.x`
+1. Push: `git push --tags && git push origin develop:develop`
