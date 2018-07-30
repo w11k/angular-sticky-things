@@ -1,6 +1,6 @@
 import {async, TestBed} from '@angular/core/testing';
 import {AppComponent} from './app.component';
-import {AngularStickyThingsModule} from 'angular-sticky-things';
+import {AngularStickyThingsModule} from '@w11k/angular-sticky-things';
 import {InfoComponent} from './info/info.component';
 
 describe('AppComponent', () => {

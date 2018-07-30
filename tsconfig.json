@@ -18,11 +18,11 @@
       "dom"
     ],
     "paths": {
-      "angular-sticky-things": [
-        "dist/angular-sticky-things"
+      "@w11k/angular-sticky-things": [
+        "dist/@w11k/angular-sticky-things"
       ],
       "angular-sticky-things/*": [
-        "dist/angular-sticky-things/*"
+        "dist/@w11k/angular-sticky-things/*"
       ]
     }
   }

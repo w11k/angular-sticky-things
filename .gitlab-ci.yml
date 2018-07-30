@@ -20,7 +20,7 @@ build-lib:
   artifacts:
     expire_in: 1 week
     paths:
-    - dist/angular-sticky-things
+    - dist/@w11k/angular-sticky-things
 
 build-demo:
   image: node
@@ -40,7 +40,7 @@ test-lib:
   image: trion/ng-cli-karma
   stage: test
   script:
-  - npm test:lib
+  - npm run test:lib
 
 test-demo:
   image: trion/ng-cli-karma
@@ -48,7 +48,7 @@ test-demo:
   - build-lib
   stage: test
   script:
-  - npm test
+  - npm run test
 
 
 publish:
@@ -59,6 +59,6 @@ publish:
   - tags
   - triggers
   script:
-  - cd dist/angular-sticky-things
+  - cd dist/@w11k/angular-sticky-things
   - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
   - npm publish
