@@ -33,6 +33,9 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 1. Update versions
    1. ./projects/angular-sticky-things/package.json
    1. ./package.json
-1. Generate changelog: `./node_modules/.bin/standard-changelog`
-1. Finish release: `git flow release finish x.x.x`
-1. Push: `git push --tags && git push origin develop:develop`
+   1. Commit them (`chore(project): bump version to x.x.x`)
+1. Changelog
+   1. Generate `./node_modules/.bin/standard-changelog`
+   1. Commit: `docs(changelog): update changelog for version x.x.x`
+1. Finish release: `git flow release finish`
+1. Push: `git push --tags && git push origin develop:develop && git push origin master:master`

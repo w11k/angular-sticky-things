@@ -52,6 +52,7 @@ test-demo:
 
 
 publish:
+  image: node:alpine
   stage: deploy
   dependencies:
   - build-lib
