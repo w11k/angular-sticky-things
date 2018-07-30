@@ -7,7 +7,7 @@
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
-      "prefix": "sticky",
+      "prefix": "demo",
       "schematics": {
         "@schematics/angular:component": {
           "styleext": "scss"
@@ -27,7 +27,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/bootstrap/dist/css/bootstrap.css"
             ],
             "scripts": []
           },
@@ -119,6 +120,46 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "e2e/tsconfig.e2e.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "angular-sticky-things": {
+      "root": "projects/angular-sticky-things",
+      "sourceRoot": "projects/angular-sticky-things/src",
+      "projectType": "library",
+      "prefix": "sticky",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/angular-sticky-things/tsconfig.lib.json",
+            "project": "projects/angular-sticky-things/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/angular-sticky-things/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/angular-sticky-things/src/test.ts",
+            "tsConfig": "projects/angular-sticky-things/tsconfig.spec.json",
+            "karmaConfig": "projects/angular-sticky-things/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/angular-sticky-things/tsconfig.lib.json",
+              "projects/angular-sticky-things/tsconfig.spec.json"
+            ],
             "exclude": [
               "**/node_modules/**"
             ]

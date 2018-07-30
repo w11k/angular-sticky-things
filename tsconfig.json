@@ -16,6 +16,14 @@
     "lib": [
       "es2017",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@w11k/angular-sticky-things": [
+        "dist/@w11k/angular-sticky-things"
+      ],
+      "angular-sticky-things/*": [
+        "dist/@w11k/angular-sticky-things/*"
+      ]
+    }
   }
 }
