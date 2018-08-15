@@ -1,41 +1,58 @@
 # Angular Sticky Things
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.1.1.
+A pure TypeScript directive for making things sticky when the user scrolls (for Angular 2+).
 
-## Development server
+### Requirements
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+* Angular (requires Angular 4.x or higher)
+* Supports all major browsers and IE9 and up (lower versions might not be supported)
 
-## Code scaffolding
+### Features:
+* Stick all the things!
+* Super smooth!
+* Tested in real world projects
+* Support for Angular Universal
+* Prevents page-jumping when switching to sticky mode
+* No jQuery or other dependencies - pure Angular solution
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Installation
 
-## Build
+with npm:
+```
+npm install @w11k/angular-sticky-things
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+with yarn:
+```
+yarn add @w11k/angular-sticky-things
+```
 
-Run `ng build angular-sticky-things --prod`
 
-## Running unit tests
+Now import the **AngularStickyThingsModule** in the corresponding Module
+```
+import {AngularStickyThingsModule} from '@w11k/angular-sticky-things';
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+@NgModule({
+  declarations: [
+  ],
+  imports: [
+    AngularStickyThingsModule,
+  ],
+  providers: [],
+})
+export class SomeModule { }
+```
 
-## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+### Usage:
+```html
+<div #spacer></div>
+<div stickyThing" [spacer]="spacer">
+  I am sticky!
+</div>
+```
 
-## Further help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+#### Spacer
 
-# Release
-1. Start release: `git flow release start x.x.x`
-1. Update versions
-   1. ./projects/angular-sticky-things/package.json
-   1. ./package.json
-   1. Commit them (`chore(project): bump version to x.x.x`)
-1. Changelog
-   1. Generate `./node_modules/.bin/standard-changelog`
-   1. Commit: `docs(changelog): update changelog for version x.x.x`
-1. Finish release: `git flow release finish`
-1. Push: `git push --tags && git push origin develop:develop && git push origin master:master`
+The spacer is not required but prevents a page jump when the sticky effect steps in.
