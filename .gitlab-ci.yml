@@ -30,7 +30,6 @@ build-demo:
   - build-lib
   stage: integration
   script:
-  - npm ci
   - npm run build
   artifacts:
     expire_in: 1 week
@@ -60,7 +59,7 @@ publish-demo:
   - build-demo
   only:
   - master
-  - triggers
+  - web
   script:
   - git push https://${GITHUB_TOKEN}@github.com/w11k/angular-sticky-things master
   - npx ngh --dir=dist/angular-sticky-things-demo --message=\"updates demo\" --repo=https://${GITHUB_TOKEN}@github.com/w11k/angular-sticky-things
@@ -73,7 +72,6 @@ publish:
   - build-lib
   only:
   - tags
-  - triggers
   script:
   - cd dist/@w11k/angular-sticky-things
   - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
