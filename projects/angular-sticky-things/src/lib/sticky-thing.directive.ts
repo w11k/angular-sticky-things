@@ -9,7 +9,7 @@ export class StickyThingDirective implements OnInit {
 
   @Input() spacer: HTMLElement | undefined;
 
-  private stick = true;
+  private stick = false;
   private offSet = 0;
   private className = 'is-sticky';
   private selectedOffset = 0;
