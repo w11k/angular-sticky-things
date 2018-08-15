@@ -52,12 +52,17 @@ export class StickyThingDirective implements OnInit {
       return;
     }
 
+    // do this before setting it to pos:fixed
+    const width = this.getWidth(this.stickyElement.nativeElement);
+    const height = this.getHeight(this.stickyElement.nativeElement);
+
     this.stick = true;
     this.stickyElement.nativeElement.style.position = 'fixed';
     this.stickyElement.nativeElement.style.top = this.offSet + 'px';
+    this.stickyElement.nativeElement.style.width = width;
     this.render.addClass(this.stickyElement.nativeElement, this.className);
     if (this.spacer) {
-      this.spacer.style.height = this.getHeight(this.stickyElement.nativeElement);
+      this.spacer.style.height = height;
     }
   }
 
@@ -77,6 +82,10 @@ export class StickyThingDirective implements OnInit {
 
   private getHeight(el: HTMLElement): string {
     return window.getComputedStyle(el, null).getPropertyValue('height');
+  }
+
+  private getWidth(el: HTMLElement): string {
+    return window.getComputedStyle(el, null).getPropertyValue('width');
   }
 
   private checkSetup() {
