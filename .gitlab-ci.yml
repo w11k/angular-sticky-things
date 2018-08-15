@@ -53,7 +53,7 @@ build-demo:
 #  - npm run test
 
 publish-demo:
-  image: node:alpine
+  image: node
   stage: deploy
   dependencies:
   - build-lib
