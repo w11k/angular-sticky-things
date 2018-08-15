@@ -19,6 +19,20 @@ export class StickyThingDirective implements OnInit {
     this.selectedOffset = this.stickyElement.nativeElement.offsetTop;
   }
 
+  /**
+   * If the window gets resized and the element is currently sticky
+   * it will get resetted for a tick. This allows a proper width-
+   * restore.
+   * */
+  @HostListener('window:resize', [])
+  onWindowResize() {
+    if (this.stick) {
+      this.removeSticky();
+      setTimeout(this.makeSticky(), 0);
+    }
+  }
+
+
   @HostListener('window:scroll', [])
   onWindowScroll() {
     if (!isPlatformBrowser(this.platformId)) {
@@ -77,6 +91,7 @@ export class StickyThingDirective implements OnInit {
 
     this.stick = false;
     this.stickyElement.nativeElement.style.position = '';
+    this.stickyElement.nativeElement.style.width = 'auto';
     this.render.removeClass(this.stickyElement.nativeElement, this.className);
     if (this.spacer) {
       this.spacer.style.height = '0';
