@@ -36,10 +36,14 @@ export class StickyThingDirective implements OnInit {
       this.selectedOffset = offset;
     }
 
-    if ((this.windowOffsetTop + this.offSet) > this.selectedOffset) {
-      this.makeSticky();
+    if (((this.windowOffsetTop + this.offSet) > this.selectedOffset)) {
+      if (this.stick === false) {
+        this.makeSticky();
+      }
     } else {
-      this.removeSticky();
+      if (this.stick === true) {
+        this.removeSticky();
+      }
     }
   }
 
