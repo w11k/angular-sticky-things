@@ -47,7 +47,7 @@ export class SomeModule { }
 ### Usage:
 ```html
 <div #spacer></div>
-<div stickyThing" [spacer]="spacer">
+<div stickyThing [spacer]="spacer">
   I am sticky!
 </div>
 ```

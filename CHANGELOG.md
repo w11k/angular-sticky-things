@@ -1,3 +1,8 @@
+<a name="0.1.3"></a>
+## [0.1.3](https://gitlab.com/w11k-es/angular-sticky-things/compare/0.1.2...0.1.3) (2018-08-15)
+
+
+
 <a name="0.1.2"></a>
 ## [0.1.2](https://gitlab.com/w11k-es/angular-sticky-things/compare/0.1.1...0.1.2) (2018-08-15)
 
