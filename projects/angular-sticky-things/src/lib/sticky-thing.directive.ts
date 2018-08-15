@@ -9,7 +9,7 @@ export class StickyThingDirective implements OnInit {
 
   @Input() spacer: HTMLElement | undefined;
 
-  private stick = true;
+  private stick = false;
   private offSet = 0;
   private className = 'is-sticky';
   private selectedOffset = 0;
@@ -18,6 +18,20 @@ export class StickyThingDirective implements OnInit {
   constructor(private stickyElement: ElementRef, private render: Renderer2, @Inject(PLATFORM_ID) private platformId: string) {
     this.selectedOffset = this.stickyElement.nativeElement.offsetTop;
   }
+
+  /**
+   * If the window gets resized and the element is currently sticky
+   * it will get resetted for a tick. This allows a proper width-
+   * restore.
+   * */
+  @HostListener('window:resize', [])
+  onWindowResize() {
+    if (this.stick) {
+      this.removeSticky();
+      setTimeout(this.makeSticky(), 0);
+    }
+  }
+
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
@@ -36,10 +50,14 @@ export class StickyThingDirective implements OnInit {
       this.selectedOffset = offset;
     }
 
-    if ((this.windowOffsetTop + this.offSet) > this.selectedOffset) {
-      this.makeSticky();
+    if (((this.windowOffsetTop + this.offSet) > this.selectedOffset)) {
+      if (this.stick === false) {
+        this.makeSticky();
+      }
     } else {
-      this.removeSticky();
+      if (this.stick === true) {
+        this.removeSticky();
+      }
     }
   }
 
@@ -52,12 +70,17 @@ export class StickyThingDirective implements OnInit {
       return;
     }
 
+    // do this before setting it to pos:fixed
+    const width = this.getWidth(this.stickyElement.nativeElement);
+    const height = this.getHeight(this.stickyElement.nativeElement);
+
     this.stick = true;
     this.stickyElement.nativeElement.style.position = 'fixed';
     this.stickyElement.nativeElement.style.top = this.offSet + 'px';
+    this.stickyElement.nativeElement.style.width = width;
     this.render.addClass(this.stickyElement.nativeElement, this.className);
     if (this.spacer) {
-      this.spacer.style.height = this.getHeight(this.stickyElement.nativeElement);
+      this.spacer.style.height = height;
     }
   }
 
@@ -68,6 +91,7 @@ export class StickyThingDirective implements OnInit {
 
     this.stick = false;
     this.stickyElement.nativeElement.style.position = '';
+    this.stickyElement.nativeElement.style.width = 'auto';
     this.render.removeClass(this.stickyElement.nativeElement, this.className);
     if (this.spacer) {
       this.spacer.style.height = '0';
@@ -77,6 +101,10 @@ export class StickyThingDirective implements OnInit {
 
   private getHeight(el: HTMLElement): string {
     return window.getComputedStyle(el, null).getPropertyValue('height');
+  }
+
+  private getWidth(el: HTMLElement): string {
+    return window.getComputedStyle(el, null).getPropertyValue('width');
   }
 
   private checkSetup() {
