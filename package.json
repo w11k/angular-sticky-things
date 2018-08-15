@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "prestart": "npm run build:lib",
     "build": "ng build --prod",
     "build:lib": "ng build angular-sticky-things --prod",
     "test": "ng test angular-sticky-things-demo --watch=false",
