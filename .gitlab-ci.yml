@@ -65,3 +65,5 @@ publish:
   - cd dist/@w11k/angular-sticky-things
   - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
   - npm publish --access=public
+  - git push https://${GITHUB_TOKEN}@github.com/w11k/angular-sticky-things master
+  - npx ngh --dir=dist/angular-sticky-things-demo --message=\"updates demo\" --repo=https://${GITHUB_TOKEN}@github.com/w11k/angular-sticky-things
