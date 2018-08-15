@@ -37,20 +37,33 @@ build-demo:
     paths:
     - dist/angular-sticky-things-demo
 
+#
+#test-lib:
+#  image: trion/ng-cli-karma
+#  stage: test
+#  script:
+#  - npm run test:lib
+#
+#test-demo:
+#  image: trion/ng-cli-karma
+#  dependencies:
+#  - build-lib
+#  stage: test
+#  script:
+#  - npm run test
 
-test-lib:
-  image: trion/ng-cli-karma
-  stage: test
-  script:
-  - npm run test:lib
-
-test-demo:
-  image: trion/ng-cli-karma
+publish-demo:
+  image: node:alpine
+  stage: deploy
   dependencies:
   - build-lib
-  stage: test
+  - build-demo
+  only:
+  - master
+  - triggers
   script:
-  - npm run test
+  - git push https://${GITHUB_TOKEN}@github.com/w11k/angular-sticky-things master
+  - npx ngh --dir=dist/angular-sticky-things-demo --message=\"updates demo\" --repo=https://${GITHUB_TOKEN}@github.com/w11k/angular-sticky-things
 
 
 publish:
@@ -65,5 +78,5 @@ publish:
   - cd dist/@w11k/angular-sticky-things
   - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
   - npm publish --access=public
-  - git push https://${GITHUB_TOKEN}@github.com/w11k/angular-sticky-things master
-  - npx ngh --dir=dist/angular-sticky-things-demo --message=\"updates demo\" --repo=https://${GITHUB_TOKEN}@github.com/w11k/angular-sticky-things
+
+
