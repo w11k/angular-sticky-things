@@ -12,11 +12,15 @@ export class StickyThingDirective implements OnInit {
   private stick = false;
   private offSet = 0;
   private className = 'is-sticky';
-  private selectedOffset = 0;
-  private windowOffsetTop = 0;
+  private offsetTopUnsticky = 0;
 
   constructor(private stickyElement: ElementRef, private render: Renderer2, @Inject(PLATFORM_ID) private platformId: string) {
-    this.selectedOffset = this.stickyElement.nativeElement.offsetTop;
+    this.reCalcOffsetTopUnsticky();
+  }
+
+
+  reCalcOffsetTopUnsticky() {
+    this.offsetTopUnsticky = getPosition(this.stickyElement.nativeElement).y;
   }
 
   /**
@@ -28,6 +32,7 @@ export class StickyThingDirective implements OnInit {
   onWindowResize() {
     if (this.stick) {
       this.removeSticky();
+      this.reCalcOffsetTopUnsticky();
       setTimeout(this.makeSticky(), 0);
     }
   }
@@ -35,34 +40,30 @@ export class StickyThingDirective implements OnInit {
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
+
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
 
-    const offset: number = this.stickyElement.nativeElement.offsetTop;
-    this.windowOffsetTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-
-    if (this.selectedOffset === 0) {
-      this.selectedOffset = offset;
-    }
-
+    // In cases where the page has changed content length.
     if (this.stick === false) {
-      this.selectedOffset = offset;
+      this.reCalcOffsetTopUnsticky();
     }
 
-    if (((this.windowOffsetTop + this.offSet) > this.selectedOffset)) {
-      if (this.stick === false) {
-        this.makeSticky();
-      }
+    if (window.pageYOffset >= this.offsetTopUnsticky) {
+      this.makeSticky();
     } else {
-      if (this.stick === true) {
-        this.removeSticky();
-      }
+      this.removeSticky();
     }
+
   }
 
   ngOnInit(): void {
     this.checkSetup();
+  }
+
+  getComputedStyle(el: HTMLElement): ClientRect | DOMRect {
+    return el.getBoundingClientRect();
   }
 
   private makeSticky() {
@@ -71,16 +72,16 @@ export class StickyThingDirective implements OnInit {
     }
 
     // do this before setting it to pos:fixed
-    const width = this.getWidth(this.stickyElement.nativeElement);
-    const height = this.getHeight(this.stickyElement.nativeElement);
+    const {width, height, left} = this.getComputedStyle(this.stickyElement.nativeElement);
 
     this.stick = true;
     this.stickyElement.nativeElement.style.position = 'fixed';
     this.stickyElement.nativeElement.style.top = this.offSet + 'px';
-    this.stickyElement.nativeElement.style.width = width;
+    this.stickyElement.nativeElement.style.left = left + 'px';
+    this.stickyElement.nativeElement.style.width = `${width}px`;
     this.render.addClass(this.stickyElement.nativeElement, this.className);
     if (this.spacer) {
-      this.spacer.style.height = height;
+      this.spacer.style.height = `${height}px`;
     }
   }
 
@@ -92,6 +93,8 @@ export class StickyThingDirective implements OnInit {
     this.stick = false;
     this.stickyElement.nativeElement.style.position = '';
     this.stickyElement.nativeElement.style.width = 'auto';
+    this.stickyElement.nativeElement.style.left = 'auto';
+    this.stickyElement.nativeElement.style.top = 'auto';
     this.render.removeClass(this.stickyElement.nativeElement, this.className);
     if (this.spacer) {
       this.spacer.style.height = '0';
@@ -124,4 +127,24 @@ Then pass the spacer element as input:
     }
   }
 
+}
+
+// Thanks to https://stanko.github.io/javascript-get-element-offset/
+function getPosition(el) {
+  let top = 0;
+  let left = 0;
+  let element = el;
+
+  // Loop through the DOM tree
+  // and add it's parent's offset to get page offset
+  do {
+    top += element.offsetTop || 0;
+    left += element.offsetLeft || 0;
+    element = element.offsetParent;
+  } while (element);
+
+  return {
+    y: top,
+    x: left,
+  };
 }
