@@ -71,6 +71,7 @@ If a boundary element is defined, the sticky element scrolls only within the hei
 
 ```
 
+*Hint*: The boundary feature is still in beta - position errors might occur!
 
 #### Spacer
 
