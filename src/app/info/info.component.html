@@ -1,4 +1,13 @@
+<div #spacer></div>
+<div class="header" stickyThing="" [spacer]="spacer" [boundary]="infoCmpElement.nativeElement">
+  <div class="container p-5 pb-3">
+    <h1>@w11k/angular-sticky-things Demo!</h1>
+  </div>
+</div>
+
 <div class="container py-5">
+
+
   <h3 class="mt-4">Features:</h3>
   <ul>
     <li>Stick all the things!</li>
@@ -7,6 +16,7 @@
     <li>Support for <strong>Angular Universal</strong></li>
     <li>Prevents page-jumping when switching to sticky mode</li>
     <li>No jQuery or other dependencies - <strong>pure Angular</strong> solution</li>
+    <li>Support for boundaries to make elements stop.</li>
   </ul>
   <h3 class="mt-4">Usage:</h3>
   <pre><code>&lt;div #spacer&gt;&lt;/div&gt;
@@ -15,11 +25,14 @@
 &lt;/div&gt;</code></pre>
   <h3 class="mt-4">More:</h3>
   <p>
-    For more information see
+    For more information see:
     <a href="https://github.com/w11k/angular-sticky-things" rel="noopener" target="_blank">https://github.com/w11k/angular-sticky-things</a>.
+    <br>Changelog:
+    <a href="https://github.com/w11k/angular-sticky-things/blob/master/CHANGELOG.md" rel="noopener" target="_blank">https://github.com/w11k/angular-sticky-things/blob/master/CHANGELOG.md</a>.
   </p>
-  <h5>Image Credit:</h5>
+  <h5 class="mt-4">Image Credit:</h5>
   The used placeholder image is by Orin zuu from the Noun Project.
+
   <p class="text-center mt-5">
     <small>Brought to you by
       <a href="http://www.w11k.de" rel="noopener"

@@ -8,19 +8,30 @@ export class StickyThingDirective implements OnInit {
 
 
   @Input() spacer: HTMLElement | undefined;
+  @Input() boundary: HTMLElement | undefined;
 
-  private stick = false;
+  private sticky = false;
   private offSet = 0;
   private className = 'is-sticky';
   private offsetTopUnsticky = 0;
+  private offsetBottomBoundary = 0;
 
   constructor(private stickyElement: ElementRef, private render: Renderer2, @Inject(PLATFORM_ID) private platformId: string) {
-    this.reCalcOffsetTopUnsticky();
   }
 
 
+  /**
+   * Calculates the height from the sticky element to top - only works if the sticky = false*/
   reCalcOffsetTopUnsticky() {
     this.offsetTopUnsticky = getPosition(this.stickyElement.nativeElement).y;
+  }
+
+  reCalcBottomBoundary() {
+    if (this.boundary) {
+      const boundaryElementHeight = this.getComputedStyle(this.boundary).height;
+      const boundaryElementOffset = getPosition(this.boundary).y;
+      this.offsetBottomBoundary = boundaryElementHeight + boundaryElementOffset;
+    }
   }
 
   /**
@@ -30,10 +41,11 @@ export class StickyThingDirective implements OnInit {
    * */
   @HostListener('window:resize', [])
   onWindowResize() {
-    if (this.stick) {
+    if (this.sticky) {
       this.removeSticky();
       this.reCalcOffsetTopUnsticky();
-      setTimeout(this.makeSticky(), 0);
+      this.reCalcBottomBoundary();
+      setTimeout(this.makeSticky(), 20);
     }
   }
 
@@ -46,19 +58,39 @@ export class StickyThingDirective implements OnInit {
     }
 
     // In cases where the page has changed content length.
-    if (this.stick === false) {
+    if (this.sticky === false) {
       this.reCalcOffsetTopUnsticky();
+    } else {
+      // is only relevant during sticky
+      this.reCalcBottomBoundary();
     }
 
     if (window.pageYOffset >= this.offsetTopUnsticky) {
-      this.makeSticky();
+      if (this.sticky === false) {
+        this.makeSticky();
+      }
     } else {
-      this.removeSticky();
+      if (this.sticky === true) {
+        this.removeSticky();
+      }
+    }
+
+
+    if (this.boundary && this.sticky) {
+      const stickyElementHeight = this.getComputedStyle(this.stickyElement.nativeElement).height;
+      const reachedLowerEdge = window.pageYOffset + stickyElementHeight > this.offsetBottomBoundary;
+
+      if (reachedLowerEdge) {
+        this.stickyElement.nativeElement.style.position = 'fixed';
+        this.stickyElement.nativeElement.style.top = `${this.getComputedStyle(this.boundary).bottom - this.getComputedStyle(this.stickyElement.nativeElement).height}px`;
+      }
     }
 
   }
 
   ngOnInit(): void {
+    this.reCalcOffsetTopUnsticky();
+    this.reCalcBottomBoundary();
     this.checkSetup();
   }
 
@@ -74,7 +106,7 @@ export class StickyThingDirective implements OnInit {
     // do this before setting it to pos:fixed
     const {width, height, left} = this.getComputedStyle(this.stickyElement.nativeElement);
 
-    this.stick = true;
+    this.sticky = true;
     this.stickyElement.nativeElement.style.position = 'fixed';
     this.stickyElement.nativeElement.style.top = this.offSet + 'px';
     this.stickyElement.nativeElement.style.left = left + 'px';
@@ -90,7 +122,7 @@ export class StickyThingDirective implements OnInit {
       return;
     }
 
-    this.stick = false;
+    this.sticky = false;
     this.stickyElement.nativeElement.style.position = '';
     this.stickyElement.nativeElement.style.width = 'auto';
     this.stickyElement.nativeElement.style.left = 'auto';
