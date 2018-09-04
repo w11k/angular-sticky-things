@@ -144,7 +144,7 @@ Then pass the spacer element as input:
 
 <div #spacer></div>
 
-<div tccSticky="" [spacer]="spacer">
+<div stickyThing="" [spacer]="spacer">
     I am sticky!
 </div>`);
     }
