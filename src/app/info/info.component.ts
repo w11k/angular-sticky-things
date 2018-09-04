@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit} from '@angular/core';
 
 @Component({
   selector: 'demo-info',
@@ -7,7 +7,7 @@ import {Component, OnInit} from '@angular/core';
 })
 export class InfoComponent implements OnInit {
 
-  constructor() {
+  constructor(public infoCmpElement: ElementRef) {
   }
 
   ngOnInit() {

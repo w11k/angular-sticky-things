@@ -54,9 +54,24 @@ export class SomeModule { }
 <div #spacer></div>
 <div stickyThing [spacer]="spacer">
   I am sticky!
-</div>change
+</div>
 ```
 
+
+#### Boundary Elements
+
+If a boundary element is defined, the sticky element scrolls only within the height of the boundary element and then stops. This is useful if you have multiple sticky elements since it prevents stacking. You can [take a look at the examples](https://w11k.github.io/angular-sticky-things/).
+```html
+<div #boundary style="height:1000px;">
+  <div #spacer></div>
+  <div stickyThing [spacer]="spacer" [boundary]="boundary">
+    I am sticky but only inside #boundary!
+  </div>
+</div>
+
+```
+
+*Hint*: The boundary feature is still in beta - position errors might occur!
 
 #### Spacer
 

@@ -1,3 +1,22 @@
+<a name="0.2.0"></a>
+# [0.2.0](https://gitlab.com/w11k-es/angular-sticky-things/compare/0.1.3...0.2.0) (2018-09-04)
+
+
+### Bug Fixes
+
+* **stick:** calculates now left properly, works now in nested elements and correctly calculates offsetTop. ([34eae37](https://gitlab.com/w11k-es/angular-sticky-things/commit/34eae37))
+* **sticky:** fixes bug on window:resize ([8170a67](https://gitlab.com/w11k-es/angular-sticky-things/commit/8170a67))
+* **sticky:** fixes wrong directive name in developer warning ([f592eb1](https://gitlab.com/w11k-es/angular-sticky-things/commit/f592eb1))
+
+
+### Features
+
+* **npm:** adds readme and license to npm package ([af28e20](https://gitlab.com/w11k-es/angular-sticky-things/commit/af28e20))
+* **sticky:** implements boundary elements ([4538b5a](https://gitlab.com/w11k-es/angular-sticky-things/commit/4538b5a))
+* **sticky:** removes deprecated methods 'getHeight' and 'getWidth' ([0875601](https://gitlab.com/w11k-es/angular-sticky-things/commit/0875601))
+
+
+
 <a name="0.1.4"></a>
 ## [0.1.4](https://gitlab.com/w11k-es/angular-sticky-things/compare/0.1.3...0.1.4) (2018-09-04)
 

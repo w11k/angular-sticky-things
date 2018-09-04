@@ -1,0 +1,82 @@
+:host {
+  padding-bottom: 200vh;
+  display: block;
+}
+
+section {
+  height: 100vh;
+}
+
+.color-1 {
+  background-color: #FCFFF5;
+  color: #193441;
+  path {
+    fill: #193441;
+  }
+  p {
+    background-color: #193441;
+  }
+}
+
+.color-2 {
+  background-color: #D1DBBD;
+  color: #193441;
+  path {
+    fill: #193441;
+  }
+  p {
+    background-color: #193441;
+  }
+}
+
+.color-3 {
+  background-color: #91AA9D;
+  color: #193441;
+  path {
+    fill: #193441;
+  }
+  p {
+    background-color: #193441;
+  }
+}
+
+.color-4 {
+  background-color: #3E606F;
+  color: #D1DBBD;
+  path {
+    fill: #D1DBBD;
+  }
+  p {
+    background-color: #D1DBBD;
+  }
+}
+
+.color-5 {
+  background-color: #193441;
+  color: #D1DBBD;
+  path {
+    fill: #D1DBBD;
+  }
+  p {
+    background-color: #D1DBBD;
+  }
+}
+
+.wrap {
+  padding-top: 50px;
+  svg {
+    width: 100%;
+    height: auto;
+    opacity: .7;
+  }
+  p {
+    height: 25px;
+    margin-bottom: 28px;
+    opacity: .7;
+
+    &:first-child {
+      padding-top: 12px;
+    }
+  }
+}
+
