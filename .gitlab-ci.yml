@@ -1,12 +1,3 @@
-# TODO: Cache policy to pull, see https://docs.gitlab.com/ee/ci/yaml/#cache-policy
-
-cache:
-  untracked: true
-  key: "$CI_BUILD_REF_NAME"
-  paths:
-  - node_modules/
-  - dist/
-
 stages:
 - build
 - integration
