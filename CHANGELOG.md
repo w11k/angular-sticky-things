@@ -1,3 +1,18 @@
+<a name="0.1.4"></a>
+## [0.1.4](https://gitlab.com/w11k-es/angular-sticky-things/compare/0.1.3...0.1.4) (2018-09-04)
+
+
+### Bug Fixes
+
+* **stick:** calculates now left properly, works now in nested elements and correctly calculates offsetTop. ([34eae37](https://gitlab.com/w11k-es/angular-sticky-things/commit/34eae37))
+
+
+### Features
+
+* **npm:** adds readme and license to npm package ([af28e20](https://gitlab.com/w11k-es/angular-sticky-things/commit/af28e20))
+
+
+
 <a name="0.1.3"></a>
 ## [0.1.3](https://gitlab.com/w11k-es/angular-sticky-things/compare/0.1.2...0.1.3) (2018-08-15)
 
