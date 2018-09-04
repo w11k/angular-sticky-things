@@ -74,6 +74,8 @@ publish:
   - tags
   script:
   - cd dist/@w11k/angular-sticky-things
+  - cp ../../../README.md .
+  - cp ../../../LICENSE .
   - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
   - npm publish --access=public
 
