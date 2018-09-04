@@ -133,15 +133,6 @@ export class StickyThingDirective implements OnInit {
     }
   }
 
-
-  private getHeight(el: HTMLElement): string {
-    return window.getComputedStyle(el, null).getPropertyValue('height');
-  }
-
-  private getWidth(el: HTMLElement): string {
-    return window.getComputedStyle(el, null).getPropertyValue('width');
-  }
-
   private checkSetup() {
     if (isDevMode() && !this.spacer) {
       console.warn(`******There might be an issue with your sticky directive!******
