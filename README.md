@@ -1,3 +1,5 @@
+[![npm version](https://badge.fury.io/js/%40w11k%2Fangular-sticky-things.svg)](https://badge.fury.io/js/%40w11k%2Fangular-sticky-things)
+
 # Angular Sticky Things
 
 A pure TypeScript directive for making things sticky when the user scrolls (for Angular 2+).
