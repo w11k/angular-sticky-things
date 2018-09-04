@@ -30,6 +30,7 @@ build-demo:
   - build-lib
   stage: integration
   script:
+  - npm ci
   - npm run build
   artifacts:
     expire_in: 1 week
