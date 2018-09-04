@@ -45,7 +45,7 @@ export class StickyThingDirective implements OnInit {
       this.removeSticky();
       this.reCalcOffsetTopUnsticky();
       this.reCalcBottomBoundary();
-      setTimeout(this.makeSticky(), 20);
+      setTimeout(() => this.onWindowScroll(), 0);
     }
   }
 
@@ -116,6 +116,15 @@ export class StickyThingDirective implements OnInit {
       this.spacer.style.height = `${height}px`;
     }
   }
+
+  private removeStuck() {
+    this.stickyElement.nativeElement.style.position = '';
+    this.stickyElement.nativeElement.style.position = '';
+    this.stickyElement.nativeElement.style.width = 'auto';
+    this.stickyElement.nativeElement.style.left = 'auto';
+    this.stickyElement.nativeElement.style.top = 'auto';
+  }
+
 
   private removeSticky() {
     if (!isPlatformBrowser(this.platformId)) {
