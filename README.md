@@ -1,6 +1,11 @@
+[![npm version](https://badge.fury.io/js/%40w11k%2Fangular-sticky-things.svg)](https://badge.fury.io/js/%40w11k%2Fangular-sticky-things)
+
 # Angular Sticky Things
 
 A pure TypeScript directive for making things sticky when the user scrolls (for Angular 2+).
+
+[See the demo here](https://w11k.github.io/angular-sticky-things/).
+
 
 ### Requirements
 
@@ -49,7 +54,7 @@ export class SomeModule { }
 <div #spacer></div>
 <div stickyThing [spacer]="spacer">
   I am sticky!
-</div>
+</div>change
 ```
 
 
