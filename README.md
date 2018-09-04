@@ -2,6 +2,9 @@
 
 A pure TypeScript directive for making things sticky when the user scrolls (for Angular 2+).
 
+[See the demo here](https://w11k.github.io/angular-sticky-things/).
+
+
 ### Requirements
 
 * Angular (requires Angular 4.x or higher)
@@ -49,7 +52,7 @@ export class SomeModule { }
 <div #spacer></div>
 <div stickyThing [spacer]="spacer">
   I am sticky!
-</div>
+</div>change
 ```
 
 
