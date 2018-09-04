@@ -1,0 +1,50 @@
+$sticky-height: 200px;
+$space-before: 500px;
+$container-height: 500px;
+
+:host {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.first {
+  margin-top: $space-before;
+  background: #91AA9D;
+  height: $container-height;
+  margin-bottom: 2500px;
+}
+
+.some-thing-sticky {
+  width: 100%;
+  height: $sticky-height;
+  background-color: #193441;
+  color: #ffffff;
+  text-align: center;
+}
+
+.debug-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: pink;
+
+  .text {
+    transform: translate(5px, -30px);
+  }
+}
+
+#debug-line-1 {
+  top: $space-before + $container-height - $sticky-height;
+  background-color: blue;
+}
+
+#debug-line-2 {
+  top: $container-height + $space-before;
+  background-color: red;
+
+}
+

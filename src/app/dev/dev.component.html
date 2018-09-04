@@ -1,0 +1,22 @@
+<div class="first" #boundary>
+  <div class="container">
+    <div class="row">
+      <div class="col-6"></div>
+      <div class="col-6">
+        <div #spacer></div>
+        <div class="some-thing-sticky" stickyThing="" [spacer]="spacer" [boundary]="boundary">
+          Hello
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="debug-line-1" class="debug-line">
+  <div class="text">It should stop when reaching this with top.</div>
+</div>
+
+<div id="debug-line-2" class="debug-line">
+  <div class="text">Or this with bottom.</div>
+</div>
