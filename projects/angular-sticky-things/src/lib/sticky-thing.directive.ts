@@ -117,14 +117,6 @@ export class StickyThingDirective implements OnInit {
     }
   }
 
-  private removeStuck() {
-    this.stickyElement.nativeElement.style.position = '';
-    this.stickyElement.nativeElement.style.position = '';
-    this.stickyElement.nativeElement.style.width = 'auto';
-    this.stickyElement.nativeElement.style.left = 'auto';
-    this.stickyElement.nativeElement.style.top = 'auto';
-  }
-
 
   private removeSticky() {
     if (!isPlatformBrowser(this.platformId)) {
