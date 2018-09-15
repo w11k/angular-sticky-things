@@ -1,11 +1,23 @@
-import { browser, by, element } from 'protractor';
+import {browser, by, element} from 'protractor';
 
 export class AppPage {
-  navigateTo() {
-    return browser.get('/');
+
+
+  constructor() {
+    const width = 1200;
+    const height = 900;
+    browser.driver.manage().window().setSize(width, height);
   }
 
-  getParagraphText() {
-    return element(by.css('sticky-root h1')).getText();
+  navigateToDev() {
+    return browser.get('/dev');
+  }
+
+  getStickyText() {
+    return this.getStickyElement().getText();
+  }
+
+  getStickyElement() {
+    return element(by.css('.some-thing-sticky'));
   }
 }

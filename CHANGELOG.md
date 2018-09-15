@@ -1,3 +1,25 @@
+<a name="1.0.0"></a>
+# [1.0.0](https://gitlab.com/w11k-es/angular-sticky-things/compare/0.2.0...1.0.0) (2018-09-15)
+
+
+### Bug Fixes
+
+* **demo:** fixes home height on small devices ([88bdccf](https://gitlab.com/w11k-es/angular-sticky-things/commit/88bdccf))
+* **sticky:** fixes minor position issue for boundary elements ([2c79fc0](https://gitlab.com/w11k-es/angular-sticky-things/commit/2c79fc0))
+
+
+### Features
+
+* **demo:** adds breakpoint to dev demo ([0479a52](https://gitlab.com/w11k-es/angular-sticky-things/commit/0479a52))
+* **sticky:** rewrites scroll logic in rxjs in order to fix a bug, adds e2e tests and fixes a bug when boundary class was not removed ([1860784](https://gitlab.com/w11k-es/angular-sticky-things/commit/1860784))
+
+
+### BREAKING CHANGES
+
+* **sticky:** This package has now a dependency on rxjs and @w11k/ngx-componentdestroyed
+
+
+
 <a name="0.2.0"></a>
 # [0.2.0](https://gitlab.com/w11k-es/angular-sticky-things/compare/0.1.3...0.2.0) (2018-09-04)
 
