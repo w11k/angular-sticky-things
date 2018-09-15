@@ -76,3 +76,9 @@ If a boundary element is defined, the sticky element scrolls only within the hei
 #### Spacer
 
 The spacer is not required but prevents a page jump when the sticky effect steps in.
+
+## Patron
+
+❤️ [W11K - The Web Engineers](https://www.w11k.de/)
+
+❤️ [theCodeCampus - Trainings for Angular and TypeScript](https://www.thecodecampus.de/)
