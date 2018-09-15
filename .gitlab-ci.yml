@@ -44,11 +44,12 @@ build-demo:
 #  - npm run test
 
 test-demo:
-  image: pijzl/docker-node-karma-protractor-chrome
+  image: weboaks/node-karma-protractor-chrome
   dependencies:
   - build-lib
   stage: test
   script:
+  - npm install -g npm@latest
   - npm ci
   - npm run e2e
 
