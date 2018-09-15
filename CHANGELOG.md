@@ -1,3 +1,13 @@
+<a name="1.0.1"></a>
+## [1.0.1](https://gitlab.com/w11k-es/angular-sticky-things/compare/1.0.0...1.0.1) (2018-09-15)
+
+
+### Bug Fixes
+
+* **dependency:** fixes dependency in libraries 'package.json' file ([e5b9d39](https://gitlab.com/w11k-es/angular-sticky-things/commit/e5b9d39))
+
+
+
 <a name="1.0.0"></a>
 # [1.0.0](https://gitlab.com/w11k-es/angular-sticky-things/compare/0.2.0...1.0.0) (2018-09-15)
 
