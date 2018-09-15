@@ -65,7 +65,7 @@ export class StickyThingDirective implements OnInit {
       this.reCalcBottomBoundary();
     }
 
-    if (window.pageYOffset >= this.offsetTopUnsticky) {
+    if (window.pageYOffset > this.offsetTopUnsticky) {
       if (this.sticky === false) {
         this.makeSticky();
       }
@@ -78,7 +78,7 @@ export class StickyThingDirective implements OnInit {
 
     if (this.boundary && this.sticky) {
       const stickyElementHeight = this.getComputedStyle(this.stickyElement.nativeElement).height;
-      const reachedLowerEdge = window.pageYOffset + stickyElementHeight > this.offsetBottomBoundary;
+      const reachedLowerEdge = window.pageYOffset + stickyElementHeight >= this.offsetBottomBoundary;
 
       if (reachedLowerEdge) {
         this.stickyElement.nativeElement.style.position = 'fixed';
