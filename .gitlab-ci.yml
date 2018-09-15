@@ -43,6 +43,14 @@ build-demo:
 #  script:
 #  - npm run test
 
+test-demo:
+  image: pijzl/docker-node-karma-protractor-chrome
+  dependencies:
+  - build-lib
+  stage: test
+  script:
+  - npm run e2e
+
 publish-demo:
   image: node
   stage: deploy
