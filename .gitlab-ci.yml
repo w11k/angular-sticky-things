@@ -49,6 +49,7 @@ test-demo:
   - build-lib
   stage: test
   script:
+  - npm ci
   - npm run e2e
 
 publish-demo:
