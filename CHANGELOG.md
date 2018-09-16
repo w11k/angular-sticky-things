@@ -1,3 +1,13 @@
+<a name="1.0.3"></a>
+## [1.0.3](https://gitlab.com/w11k-es/angular-sticky-things/compare/1.0.2...1.0.3) (2018-09-16)
+
+
+### Bug Fixes
+
+* **boundary:** adds missing check for boundary element in order to prevent NPE ([014effc](https://gitlab.com/w11k-es/angular-sticky-things/commit/014effc))
+
+
+
 <a name="1.0.2"></a>
 ## [1.0.2](https://gitlab.com/w11k-es/angular-sticky-things/compare/1.0.1...1.0.2) (2018-09-16)
 
