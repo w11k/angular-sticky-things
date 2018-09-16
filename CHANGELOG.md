@@ -1,3 +1,13 @@
+<a name="1.0.2"></a>
+## [1.0.2](https://gitlab.com/w11k-es/angular-sticky-things/compare/1.0.1...1.0.2) (2018-09-16)
+
+
+### Features
+
+* **dependency:** removes [@w11k](https://gitlab.com/w11k)/ngx-componentdestroyed for easier handling of peerDependencies ([6df0aa4](https://gitlab.com/w11k-es/angular-sticky-things/commit/6df0aa4))
+
+
+
 <a name="1.0.1"></a>
 ## [1.0.1](https://gitlab.com/w11k-es/angular-sticky-things/compare/1.0.0...1.0.1) (2018-09-15)
 
