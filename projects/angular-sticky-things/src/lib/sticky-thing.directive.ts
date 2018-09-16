@@ -14,8 +14,7 @@ import {
 import {isPlatformBrowser} from '@angular/common';
 import {combineLatest, Observable, Subject} from 'rxjs';
 import {animationFrame} from 'rxjs/internal/scheduler/animationFrame';
-import {map, share, startWith, throttleTime} from 'rxjs/operators';
-import {untilComponentDestroyed} from '@w11k/ngx-componentdestroyed';
+import {map, share, startWith, takeUntil, throttleTime} from 'rxjs/operators';
 
 
 export interface StickyPositions {
@@ -58,6 +57,8 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
 
   private status$: Observable<StickyStatus>;
 
+  private componentDestroyed = new Subject<void>();
+
 
   constructor(private stickyElement: ElementRef, @Inject(PLATFORM_ID) private platformId: string) {
 
@@ -88,7 +89,7 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
       .pipe(
         map(([originalVals, pageYOffset]) => this.determineStatus(originalVals, pageYOffset)),
         share(),
-        untilComponentDestroyed(this),
+        takeUntil(this.componentDestroyed),
       );
 
   }
@@ -118,6 +119,7 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.componentDestroyed.next();
   }
 
   ngOnInit(): void {

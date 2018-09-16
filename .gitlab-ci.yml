@@ -64,7 +64,7 @@ publish-demo:
   - web
   script:
   - git push https://${GITHUB_TOKEN}@github.com/w11k/angular-sticky-things master
-  - npx ngh --dir=dist/angular-sticky-things-demo --message=\"updates demo\" --repo=https://${GITHUB_TOKEN}@github.com/w11k/angular-sticky-things
+  - npx ngh --dir=dist/angular-sticky-things-demo --message=updates-demo --repo=https://${GITHUB_TOKEN}@github.com/w11k/angular-sticky-things
 
 
 publish:
