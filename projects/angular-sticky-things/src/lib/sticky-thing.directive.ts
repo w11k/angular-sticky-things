@@ -36,9 +36,11 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
   @Input('spacer') spacerElement: HTMLElement | undefined;
   @Input('boundary') boundaryElement: HTMLElement | undefined;
 
-  @HostBinding('class.is-sticky') sticky = false;
+  @HostBinding('class.is-sticky')
+  private sticky = false;
 
-  @HostBinding('class.boundary-reached') boundaryReached = false;
+  @HostBinding('class.boundary-reached')
+  private boundaryReached = false;
 
 
   /**
