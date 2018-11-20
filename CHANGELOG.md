@@ -1,3 +1,13 @@
+<a name="1.0.4"></a>
+## [1.0.4](https://gitlab.com/w11k-es/angular-sticky-things/compare/1.0.3...1.0.4) (2018-11-20)
+
+
+### Bug Fixes
+
+* **aot:** makes host listener public ([e51c132](https://gitlab.com/w11k-es/angular-sticky-things/commit/e51c132))
+
+
+
 <a name="1.0.3"></a>
 ## [1.0.3](https://gitlab.com/w11k-es/angular-sticky-things/compare/1.0.2...1.0.3) (2018-09-16)
 
