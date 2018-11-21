@@ -174,7 +174,6 @@ export class StickyThingDirective implements OnInit, OnChanges, OnDestroy {
 
     // do this before setting it to pos:fixed
     const {width, height, left} = this.getComputedStyle(this.stickyElement.nativeElement);
-    // tslint:disable-next-line:max-line-length
     const offSet = boundaryReached ? (this.getComputedStyle(this.boundaryElement).bottom - this.getComputedStyle(this.stickyElement.nativeElement).height) : 0;
 
     this.sticky = true;
