@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Directive,
   ElementRef,
   HostBinding,
@@ -33,7 +32,7 @@ export interface StickyStatus {
 @Directive({
   selector: '[stickyThing]'
 })
-export class StickyThingDirective implements OnInit, OnChanges, AfterViewInit, OnDestroy {
+export class StickyThingDirective implements OnInit, OnChanges, OnDestroy {
 
 
   @Input() enable = true;
@@ -97,28 +96,24 @@ export class StickyThingDirective implements OnInit, OnChanges, AfterViewInit, O
 
   }
 
-  ngAfterViewInit(): void {
-    this.isEnabled ? this.activate() : this.deActivate();
-  }
-
   ngOnChanges(changes: SimpleChanges): void {
     const enableChanged: SimpleChange | undefined = changes.enable;
 
     if (enableChanged && !enableChanged.firstChange) {
-      this.isEnabled ? this.activate() : this.deActivate();
+      this.isEnabled ? this.activate() : this.deactivate();
     }
   }
 
   @HostListener('window:resize', [])
   onWindowResize(): void {
-    if (this.isEnabled) {
+    if (isPlatformBrowser(this.platformId)) {
       this.resize$.next();
     }
   }
 
   @HostListener('window:scroll', [])
   adapter(): void {
-    if (this.isEnabled) {
+    if (isPlatformBrowser(this.platformId)) {
       this.scroll$.next();
     }
   }
@@ -129,6 +124,10 @@ export class StickyThingDirective implements OnInit, OnChanges, AfterViewInit, O
 
   ngOnInit(): void {
     this.checkSetup();
+
+    if (this.isEnabled) {
+      this.activate();
+    }
   }
 
   getComputedStyle(el: HTMLElement): ClientRect | DOMRect {
@@ -213,9 +212,10 @@ Then pass the spacer element as input:
         this.removeSticky();
       }
     });
+    this.scroll$.next();
   }
 
-  private deActivate(): void {
+  private deactivate(): void {
     this.removeSticky();
 
     if (this.statusSubscription$) {
