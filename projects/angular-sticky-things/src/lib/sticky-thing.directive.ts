@@ -80,7 +80,7 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
     /**
      * Start with initial value (1 since void doesn't work) so that
      * the original position gets set during view init.*/
-    this.normalPosition$ = this.resize$.pipe(startWith(1), map(_ => this.determineElementOffsets()));
+    this.normalPosition$ = this.resizeThrottled$.pipe(startWith(1), map(_ => this.determineElementOffsets()));
 
 
     this.status$ = combineLatest(this.normalPosition$, this.scrollThrottled$)
