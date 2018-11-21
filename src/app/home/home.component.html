@@ -30,7 +30,10 @@
 <section class="color-2" #boundary2>
   <div class="container wrap">
     <div class="row">
-      <div class="col pt-5">
+      <div class="col pt-5 text-center">
+        <button class="btn btn-light mb-4" type="button" (click)="enableSticky = !enableSticky">
+          {{ enableSticky ? 'Disable' : 'Enable'}} sticky element
+        </button>
         <p></p>
         <p></p>
         <p></p>
