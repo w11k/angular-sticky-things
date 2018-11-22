@@ -204,14 +204,8 @@ Then pass the spacer element as input:
   }
 
   private activate(): void {
-    this.statusSubscription$ = this.status$.subscribe(status => {
-      if (status.isSticky) {
-        this.makeSticky(status.reachedLowerEdge);
-      } else {
-        this.removeSticky();
-      }
-    });
-    this.scroll$.next();
+    this.statusSubscription$ = this.status$.subscribe((status) => this.calculateSticky(status));
+    this.calculateSticky(this.determineStatus(this.determineElementOffsets(), window.pageYOffset));
   }
 
   private deactivate(): void {
@@ -219,6 +213,14 @@ Then pass the spacer element as input:
 
     if (this.statusSubscription$) {
       this.statusSubscription$.unsubscribe();
+    }
+  }
+
+  private calculateSticky(status: StickyStatus): void {
+    if (status.isSticky) {
+      this.makeSticky(status.reachedLowerEdge);
+    } else {
+      this.removeSticky();
     }
   }
 
