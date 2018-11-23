@@ -162,6 +162,7 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
   private makeSticky(boundaryReached: boolean = false): void {
 
     this.boundaryReached = boundaryReached;
+
     // do this before setting it to pos:fixed
     const {width, height, left} = this.getComputedStyle(this.stickyElement.nativeElement);
     const offSet = boundaryReached ? (this.getComputedStyle(this.boundaryElement).bottom - height) : this.marginTop;
