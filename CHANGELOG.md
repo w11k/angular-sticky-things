@@ -1,3 +1,22 @@
+<a name="1.0.5"></a>
+## [1.0.5](https://gitlab.com/w11k-es/angular-sticky-things/compare/1.0.4...1.0.5) (2018-12-03)
+
+
+### Bug Fixes
+
+* **margin:** respect empty space above ([71ecdbe](https://gitlab.com/w11k-es/angular-sticky-things/commit/71ecdbe))
+* **margins:** respect margin top in start calculation ([4ec6625](https://gitlab.com/w11k-es/angular-sticky-things/commit/4ec6625))
+* **sticky-directive:** use resizeThrottled$ observable ([ad3a8a9](https://gitlab.com/w11k-es/angular-sticky-things/commit/ad3a8a9))
+
+
+### Features
+
+* **margins:** adds marginBottom ([c0e3cb4](https://gitlab.com/w11k-es/angular-sticky-things/commit/c0e3cb4))
+* **sticky-directive:** add enable flag ([9d6d952](https://gitlab.com/w11k-es/angular-sticky-things/commit/9d6d952))
+* **sticky-directive:** add marginTop input ([89f8afd](https://gitlab.com/w11k-es/angular-sticky-things/commit/89f8afd))
+
+
+
 <a name="1.0.4"></a>
 ## [1.0.4](https://gitlab.com/w11k-es/angular-sticky-things/compare/1.0.3...1.0.4) (2018-11-20)
 
