@@ -1,11 +1,24 @@
+<div class="fixed">
+  Set a margin top: <input (change)="marginTop=+($event.target.value)" [value]="marginTop" id="top" type="text"> <br>
+  Set margin bottom: <input (change)="marginBottom=+($event.target.value)" [value]="marginBottom" id="bottom"
+                            type="text"> <br>
+  <button id="enable-btn" (click)="enabled = !enabled">{{enabled ? 'disable' : 'enable'}}</button>
+</div>
 <div class="first" #boundary>
   <div class="container">
     <div class="row">
       <div class="col-6"></div>
       <div class="col-6">
         <div #spacer></div>
-        <div class="some-thing-sticky" stickyThing="" [spacer]="spacer" [boundary]="boundary">
-          Hello
+        <div
+          class="some-thing-sticky"
+          stickyThing=""
+          [spacer]="spacer"
+          [boundary]="boundary"
+          [marginTop]="marginTop"
+          [enable]="enabled"
+          [marginBottom]="marginBottom"
+        >Hello
         </div>
       </div>
     </div>

@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Directive,
   ElementRef,
   HostBinding,
@@ -7,12 +6,15 @@ import {
   Inject,
   Input,
   isDevMode,
+  OnChanges,
   OnDestroy,
   OnInit,
-  PLATFORM_ID
+  PLATFORM_ID,
+  SimpleChange,
+  SimpleChanges
 } from '@angular/core';
 import {isPlatformBrowser} from '@angular/common';
-import {combineLatest, Observable, Subject} from 'rxjs';
+import {combineLatest, Observable, Subject, Subscription} from 'rxjs';
 import {animationFrame} from 'rxjs/internal/scheduler/animationFrame';
 import {map, share, startWith, takeUntil, throttleTime} from 'rxjs/operators';
 
@@ -30,9 +32,11 @@ export interface StickyStatus {
 @Directive({
   selector: '[stickyThing]'
 })
-export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
+export class StickyThingDirective implements OnInit, OnChanges, OnDestroy {
 
-
+  @Input() marginTop = 0;
+  @Input() marginBottom = 0;
+  @Input() enable = true;
   @Input('spacer') spacerElement: HTMLElement | undefined;
   @Input('boundary') boundaryElement: HTMLElement | undefined;
 
@@ -54,6 +58,7 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
   private resizeThrottled$: Observable<void>;
 
   private status$: Observable<StickyStatus>;
+  private statusSubscription$: Subscription;
 
   private componentDestroyed = new Subject<void>();
 
@@ -80,7 +85,7 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
     /**
      * Start with initial value (1 since void doesn't work) so that
      * the original position gets set during view init.*/
-    this.normalPosition$ = this.resize$.pipe(startWith(1), map(_ => this.determineElementOffsets()));
+    this.normalPosition$ = this.resizeThrottled$.pipe(startWith(1), map(_ => this.determineElementOffsets()));
 
 
     this.status$ = combineLatest(this.normalPosition$, this.scrollThrottled$)
@@ -92,14 +97,14 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
-  ngAfterViewInit(): void {
-    this.status$.subscribe(status => {
-      if (status.isSticky) {
-        this.makeSticky(status.reachedLowerEdge);
-      } else {
-        this.removeSticky();
-      }
-    });
+
+
+  ngOnChanges(changes: SimpleChanges): void {
+    const enableChanged: SimpleChange | undefined = changes.enable;
+
+    if (enableChanged && !enableChanged.firstChange) {
+      this.isEnabled ? this.activate() : this.deactivate();
+    }
   }
 
   @HostListener('window:resize', [])
@@ -122,17 +127,25 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.checkSetup();
+
+    if (this.isEnabled) {
+      this.activate();
+    }
   }
 
   getComputedStyle(el: HTMLElement): ClientRect | DOMRect {
     return el.getBoundingClientRect();
   }
 
+  private get isEnabled(): boolean {
+    return isPlatformBrowser(this.platformId) && this.enable;
+  }
+
   private determineStatus(originalVals: StickyPositions, pageYOffset: number): StickyStatus {
     const stickyElementHeight = this.getComputedStyle(this.stickyElement.nativeElement).height;
-    const reachedLowerEdge = this.boundaryElement && window.pageYOffset + stickyElementHeight >= originalVals.bottomBoundary;
+    const reachedLowerEdge = this.boundaryElement && window.pageYOffset + stickyElementHeight + this.marginBottom >= (originalVals.bottomBoundary - this.marginTop);
     return {
-      isSticky: pageYOffset > originalVals.offsetY,
+      isSticky: pageYOffset > originalVals.offsetY - this.marginTop,
       reachedLowerEdge
     };
   }
@@ -155,7 +168,7 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
       bottomBoundary = boundaryElementHeight + boundaryElementOffset;
     }
 
-    return {offsetY: getPosition(this.stickyElement.nativeElement).y, bottomBoundary};
+    return {offsetY: (getPosition(this.stickyElement.nativeElement).y - this.marginTop), bottomBoundary};
   }
 
   private makeSticky(boundaryReached: boolean = false): void {
@@ -164,7 +177,7 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
 
     // do this before setting it to pos:fixed
     const {width, height, left} = this.getComputedStyle(this.stickyElement.nativeElement);
-    const offSet = boundaryReached ? (this.getComputedStyle(this.boundaryElement).bottom - this.getComputedStyle(this.stickyElement.nativeElement).height) : 0;
+    const offSet = boundaryReached ? (this.getComputedStyle(this.boundaryElement).bottom - height - this.marginBottom) : this.marginTop;
 
     this.sticky = true;
     this.stickyElement.nativeElement.style.position = 'fixed';
@@ -190,6 +203,28 @@ Then pass the spacer element as input:
 <div stickyThing="" [spacer]="spacer">
     I am sticky!
 </div>`);
+    }
+  }
+
+  private activate(): void {
+    this.statusSubscription$ = this.status$.subscribe((status) => this.setSticky(status));
+    this.setSticky(this.determineStatus(this.determineElementOffsets(), window.pageYOffset));
+  }
+
+  private deactivate(): void {
+    this.removeSticky();
+
+    if (this.statusSubscription$) {
+      this.statusSubscription$.unsubscribe();
+    }
+  }
+
+  private setSticky(status: StickyStatus): void {
+    // console.log(status, status.isSticky);
+    if (status.isSticky) {
+      this.makeSticky(status.reachedLowerEdge);
+    } else {
+      this.removeSticky();
     }
   }
 

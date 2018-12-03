@@ -68,7 +68,6 @@ If a boundary element is defined, the sticky element scrolls only within the hei
     I am sticky but only inside #boundary!
   </div>
 </div>
-
 ```
 
 *Hint*: The boundary feature is still in beta - position errors might occur!
@@ -76,6 +75,32 @@ If a boundary element is defined, the sticky element scrolls only within the hei
 #### Spacer
 
 The spacer is not required but prevents a page jump when the sticky effect steps in.
+
+#### Enable
+
+An `enable` (default `true`) input can be used to dynamically activate or deactivate the sticky directive (e.g. to have a sticky navbar only in certain conditions). You can [take a look at the examples](https://w11k.github.io/angular-sticky-things/).
+
+```html
+<div #spacer></div>
+<div stickyThing [spacer]="spacer" [enable]="enableSticky">
+  I can become sticky only when enableSticky is true!
+</div>
+```
+
+#### Margins
+
+A `marginTop` (default `0`) input can be used to add some top spacing to the sticky element, in case you don't want it to stick right at the top. It expects the `number` of pixels you want to use for the space. You can [take a look at the examples](https://w11k.github.io/angular-sticky-things/). Accordingly, `marginBottom` is available.
+
+
+```html
+<div #boundary style="height:1000px;">
+  <div #spacer></div>
+  <div stickyThing [spacer]="spacer" marginTop="30">
+    I leave 30px of space to the top when I'm sticky!
+  </div>
+</div>
+```
+
 
 ## Patron
 

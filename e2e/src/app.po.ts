@@ -1,4 +1,4 @@
-import {browser, by, element} from 'protractor';
+import {browser, by, element, protractor} from 'protractor';
 
 export class AppPage {
 
@@ -13,11 +13,32 @@ export class AppPage {
     return browser.get('/dev');
   }
 
+
+  async setMargin(value: number, pos: 'top' | 'bottom') {
+    const inputEl = element(by.css(`#${pos}`));
+    await inputEl.clear();
+    await inputEl.sendKeys(value);
+    await browser.actions().sendKeys(protractor.Key.ENTER).perform();
+  }
+
+
+
+
+  async toggleEnabled() {
+    const btn = this.getEnableButton();
+    await btn.click();
+    // await browser.actions().sendKeys(protractor.Key.ENTER).perform();
+  }
+
   getStickyText() {
     return this.getStickyElement().getText();
   }
 
   getStickyElement() {
     return element(by.css('.some-thing-sticky'));
+  }
+
+  getEnableButton() {
+    return element(by.css('#enable-btn'));
   }
 }

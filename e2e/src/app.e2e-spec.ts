@@ -6,6 +6,10 @@ describe('angular sticky things', () => {
 
   beforeEach(() => {
     page = new AppPage();
+    page.navigateToDev();
+    // browser.waitForAngular();
+
+    // page.setMarginTop(0).then(()=>done());
   });
 
   it('should have sticky element with text Hello', () => {
@@ -64,6 +68,63 @@ describe('angular sticky things', () => {
 
 
     });
+  });
+
+  describe('marginTop', () => {
+    it('should respect margin top when set', async () => {
+      page.navigateToDev();
+      await page.setMargin(50, 'top');
+      await browser.executeScript('window.scrollTo(0,601);');
+      const stickyElement = page.getStickyElement();
+      const top = await stickyElement.getCssValue('top');
+      expect(top).toBe('50px');
+    });
+
+    it('should respect margin top in start', async () => {
+      page.navigateToDev();
+      await page.setMargin(50, 'top');
+      await browser.executeScript('window.scrollTo(0,475);');
+      const stickyElement = page.getStickyElement();
+      const top = await stickyElement.getCssValue('top');
+      expect(top).toBe('50px');
+    });
+
+    it('should respect margin bottom when set', async () => {
+      page.navigateToDev();
+      await page.setMargin(50, 'bottom');
+      await browser.executeScript('window.scrollTo(0,1000);');
+      const stickyElement = page.getStickyElement();
+      const top = await stickyElement.getCssValue('top');
+      expect(top).toBe('-250px');
+    });
+
+  });
+
+
+  describe('enabled', () => {
+    it('should respect enabled = false', async () => {
+      page.navigateToDev();
+      await page.toggleEnabled();
+      await browser.executeScript('window.scrollTo(0,601);');
+      const hasStickyClass = await hasClass(page.getStickyElement(), 'is-sticky');
+      expect(hasStickyClass).toBe(false);
+    });
+
+    it('should be re-enable-able', async () => {
+      page.navigateToDev();
+      await page.toggleEnabled();
+      await browser.executeScript('window.scrollTo(0,601);');
+      const hasStickyClass = await hasClass(page.getStickyElement(), 'is-sticky');
+      expect(hasStickyClass).toBe(false);
+
+      await page.toggleEnabled();
+      await browser.executeScript('window.scrollTo(0,201);');
+      await browser.executeScript('window.scrollTo(0,601);');
+      const hasStickyClass2 = await hasClass(page.getStickyElement(), 'is-sticky');
+      expect(hasStickyClass2).toBe(true);
+
+    });
+
   });
 
 
