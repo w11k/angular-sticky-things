@@ -33,6 +33,8 @@ export interface StickyStatus {
 export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
 
 
+  @Input() marginTop = 0;
+  @Input() marginBottom = 0;
   @Input('spacer') spacerElement: HTMLElement | undefined;
   @Input('boundary') boundaryElement: HTMLElement | undefined;
 
@@ -130,9 +132,9 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
 
   private determineStatus(originalVals: StickyPositions, pageYOffset: number): StickyStatus {
     const stickyElementHeight = this.getComputedStyle(this.stickyElement.nativeElement).height;
-    const reachedLowerEdge = this.boundaryElement && window.pageYOffset + stickyElementHeight >= originalVals.bottomBoundary;
+    const reachedLowerEdge = this.boundaryElement && window.pageYOffset + stickyElementHeight + this.marginBottom >= (originalVals.bottomBoundary - this.marginTop);
     return {
-      isSticky: pageYOffset > originalVals.offsetY,
+      isSticky: pageYOffset + this.marginTop > originalVals.offsetY,
       reachedLowerEdge
     };
   }
@@ -155,7 +157,7 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
       bottomBoundary = boundaryElementHeight + boundaryElementOffset;
     }
 
-    return {offsetY: getPosition(this.stickyElement.nativeElement).y, bottomBoundary};
+    return {offsetY: (getPosition(this.stickyElement.nativeElement).y - this.marginTop), bottomBoundary};
   }
 
   private makeSticky(boundaryReached: boolean = false): void {
@@ -164,7 +166,7 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
 
     // do this before setting it to pos:fixed
     const {width, height, left} = this.getComputedStyle(this.stickyElement.nativeElement);
-    const offSet = boundaryReached ? (this.getComputedStyle(this.boundaryElement).bottom - this.getComputedStyle(this.stickyElement.nativeElement).height) : 0;
+    const offSet = boundaryReached ? (this.getComputedStyle(this.boundaryElement).bottom - height - this.marginBottom) : this.marginTop;
 
     this.sticky = true;
     this.stickyElement.nativeElement.style.position = 'fixed';
