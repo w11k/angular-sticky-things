@@ -133,7 +133,7 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
     const stickyElementHeight = this.getComputedStyle(this.stickyElement.nativeElement).height;
     const reachedLowerEdge = this.boundaryElement && window.pageYOffset + stickyElementHeight >= (originalVals.bottomBoundary - this.marginTop);
     return {
-      isSticky: pageYOffset > originalVals.offsetY,
+      isSticky: pageYOffset + this.marginTop > originalVals.offsetY,
       reachedLowerEdge
     };
   }
