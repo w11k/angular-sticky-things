@@ -101,6 +101,33 @@ describe('angular sticky things', () => {
   });
 
 
+  describe('enabled', () => {
+    it('should respect enabled = false', async () => {
+      page.navigateToDev();
+      await page.toggleEnabled();
+      await browser.executeScript('window.scrollTo(0,601);');
+      const hasStickyClass = await hasClass(page.getStickyElement(), 'is-sticky');
+      expect(hasStickyClass).toBe(false);
+    });
+
+    it('should be re-enable-able', async () => {
+      page.navigateToDev();
+      await page.toggleEnabled();
+      await browser.executeScript('window.scrollTo(0,601);');
+      const hasStickyClass = await hasClass(page.getStickyElement(), 'is-sticky');
+      expect(hasStickyClass).toBe(false);
+
+      await page.toggleEnabled();
+      await browser.executeScript('window.scrollTo(0,201);');
+      await browser.executeScript('window.scrollTo(0,601);');
+      const hasStickyClass2 = await hasClass(page.getStickyElement(), 'is-sticky');
+      expect(hasStickyClass2).toBe(true);
+
+    });
+
+  });
+
+
 });
 
 // via https://stackoverflow.com/questions/20268128/how-to-test-if-an-element-has-class-using-protractor

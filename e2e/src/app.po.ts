@@ -21,11 +21,24 @@ export class AppPage {
     await browser.actions().sendKeys(protractor.Key.ENTER).perform();
   }
 
+
+
+
+  async toggleEnabled() {
+    const btn = this.getEnableButton();
+    await btn.click();
+    // await browser.actions().sendKeys(protractor.Key.ENTER).perform();
+  }
+
   getStickyText() {
     return this.getStickyElement().getText();
   }
 
   getStickyElement() {
     return element(by.css('.some-thing-sticky'));
+  }
+
+  getEnableButton() {
+    return element(by.css('#enable-btn'));
   }
 }
