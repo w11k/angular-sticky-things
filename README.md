@@ -87,6 +87,21 @@ An `enable` (default `true`) input can be used to dynamically activate or deacti
 </div>
 ```
 
+#### Margins
+
+A `marginTop` (default `0`) input can be used to add some top spacing to the sticky element, in case you don't want it to stick right at the top. It expects the `number` of pixels you want to use for the space. You can [take a look at the examples](https://w11k.github.io/angular-sticky-things/). Accordingly, `marginBottom` is available.
+
+
+```html
+<div #boundary style="height:1000px;">
+  <div #spacer></div>
+  <div stickyThing [spacer]="spacer" marginTop="30">
+    I leave 30px of space to the top when I'm sticky!
+  </div>
+</div>
+```
+
+
 ## Patron
 
 ❤️ [W11K - The Web Engineers](https://www.w11k.de/)

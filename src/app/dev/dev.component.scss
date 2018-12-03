@@ -53,3 +53,13 @@ $container-height: 500px;
 
 }
 
+
+.fixed {
+  top: 0;
+  position: fixed;
+  left: 0;
+  display: inline-block;
+  background-color: #ffffff;
+  padding: 5px;
+  z-index: 999999;
+}
