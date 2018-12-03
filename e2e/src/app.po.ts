@@ -1,4 +1,4 @@
-import {browser, by, element} from 'protractor';
+import {browser, by, element, protractor} from 'protractor';
 
 export class AppPage {
 
@@ -11,6 +11,14 @@ export class AppPage {
 
   navigateToDev() {
     return browser.get('/dev');
+  }
+
+
+  async setMargin(value: number, pos: 'top' | 'bottom') {
+    const inputEl = element(by.css(`#${pos}`));
+    await inputEl.clear();
+    await inputEl.sendKeys(value);
+    await browser.actions().sendKeys(protractor.Key.ENTER).perform();
   }
 
   getStickyText() {
