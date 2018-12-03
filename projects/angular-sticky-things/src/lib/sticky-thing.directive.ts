@@ -145,7 +145,7 @@ export class StickyThingDirective implements OnInit, OnChanges, OnDestroy {
     const stickyElementHeight = this.getComputedStyle(this.stickyElement.nativeElement).height;
     const reachedLowerEdge = this.boundaryElement && window.pageYOffset + stickyElementHeight + this.marginBottom >= (originalVals.bottomBoundary - this.marginTop);
     return {
-      isSticky: pageYOffset + this.marginTop > originalVals.offsetY,
+      isSticky: pageYOffset > originalVals.offsetY - this.marginTop,
       reachedLowerEdge
     };
   }
@@ -220,6 +220,7 @@ Then pass the spacer element as input:
   }
 
   private setSticky(status: StickyStatus): void {
+    // console.log(status, status.isSticky);
     if (status.isSticky) {
       this.makeSticky(status.reachedLowerEdge);
     } else {
