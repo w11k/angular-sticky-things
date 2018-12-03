@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Directive,
   ElementRef,
   HostBinding,
@@ -7,12 +6,15 @@ import {
   Inject,
   Input,
   isDevMode,
+  OnChanges,
   OnDestroy,
   OnInit,
-  PLATFORM_ID
+  PLATFORM_ID,
+  SimpleChange,
+  SimpleChanges
 } from '@angular/core';
 import {isPlatformBrowser} from '@angular/common';
-import {combineLatest, Observable, Subject} from 'rxjs';
+import {combineLatest, Observable, Subject, Subscription} from 'rxjs';
 import {animationFrame} from 'rxjs/internal/scheduler/animationFrame';
 import {map, share, startWith, takeUntil, throttleTime} from 'rxjs/operators';
 
@@ -30,11 +32,11 @@ export interface StickyStatus {
 @Directive({
   selector: '[stickyThing]'
 })
-export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
-
+export class StickyThingDirective implements OnInit, OnChanges, OnDestroy {
 
   @Input() marginTop = 0;
   @Input() marginBottom = 0;
+  @Input() enable = true;
   @Input('spacer') spacerElement: HTMLElement | undefined;
   @Input('boundary') boundaryElement: HTMLElement | undefined;
 
@@ -56,6 +58,7 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
   private resizeThrottled$: Observable<void>;
 
   private status$: Observable<StickyStatus>;
+  private statusSubscription$: Subscription;
 
   private componentDestroyed = new Subject<void>();
 
@@ -94,14 +97,14 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
-  ngAfterViewInit(): void {
-    this.status$.subscribe(status => {
-      if (status.isSticky) {
-        this.makeSticky(status.reachedLowerEdge);
-      } else {
-        this.removeSticky();
-      }
-    });
+
+
+  ngOnChanges(changes: SimpleChanges): void {
+    const enableChanged: SimpleChange | undefined = changes.enable;
+
+    if (enableChanged && !enableChanged.firstChange) {
+      this.isEnabled ? this.activate() : this.deactivate();
+    }
   }
 
   @HostListener('window:resize', [])
@@ -124,10 +127,18 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.checkSetup();
+
+    if (this.isEnabled) {
+      this.activate();
+    }
   }
 
   getComputedStyle(el: HTMLElement): ClientRect | DOMRect {
     return el.getBoundingClientRect();
+  }
+
+  private get isEnabled(): boolean {
+    return isPlatformBrowser(this.platformId) && this.enable;
   }
 
   private determineStatus(originalVals: StickyPositions, pageYOffset: number): StickyStatus {
@@ -192,6 +203,27 @@ Then pass the spacer element as input:
 <div stickyThing="" [spacer]="spacer">
     I am sticky!
 </div>`);
+    }
+  }
+
+  private activate(): void {
+    this.statusSubscription$ = this.status$.subscribe((status) => this.setSticky(status));
+    this.setSticky(this.determineStatus(this.determineElementOffsets(), window.pageYOffset));
+  }
+
+  private deactivate(): void {
+    this.removeSticky();
+
+    if (this.statusSubscription$) {
+      this.statusSubscription$.unsubscribe();
+    }
+  }
+
+  private setSticky(status: StickyStatus): void {
+    if (status.isSticky) {
+      this.makeSticky(status.reachedLowerEdge);
+    } else {
+      this.removeSticky();
     }
   }
 
