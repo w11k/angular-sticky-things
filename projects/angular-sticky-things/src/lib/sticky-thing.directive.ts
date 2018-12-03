@@ -6,12 +6,12 @@ import {
   Inject,
   Input,
   isDevMode,
+  OnChanges,
   OnDestroy,
   OnInit,
-  OnChanges,
-  SimpleChanges,
+  PLATFORM_ID,
   SimpleChange,
-  PLATFORM_ID
+  SimpleChanges
 } from '@angular/core';
 import {isPlatformBrowser} from '@angular/common';
 import {combineLatest, Observable, Subject, Subscription} from 'rxjs';
@@ -106,16 +106,6 @@ export class StickyThingDirective implements OnInit, OnChanges, OnDestroy {
       this.isEnabled ? this.activate() : this.deactivate();
     }
   }
-  //
-  // ngAfterViewInit(): void {
-  //   this.status$.subscribe(status => {
-  //     if (status.isSticky) {
-  //       this.makeSticky(status.reachedLowerEdge);
-  //     } else {
-  //       this.removeSticky();
-  //     }
-  //   });
-  // }
 
   @HostListener('window:resize', [])
   onWindowResize(): void {
