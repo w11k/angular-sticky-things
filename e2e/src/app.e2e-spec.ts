@@ -70,7 +70,7 @@ describe('angular sticky things', () => {
     });
   });
 
-  fdescribe('marginTop', () => {
+  describe('marginTop', () => {
     it('should respect margin top when set', async () => {
       page.navigateToDev();
       await page.setMargin(50, 'top');
