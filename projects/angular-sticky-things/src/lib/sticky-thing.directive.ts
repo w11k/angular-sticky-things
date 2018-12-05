@@ -44,6 +44,8 @@ export class StickyThingDirective implements OnInit, OnChanges, OnDestroy {
 
   @HostBinding('class.boundary-reached') boundaryReached = false;
 
+  private initialMarginTop: number;
+  private initialMarginBottom: number;
 
   /**
    * The field represents some position values in normal (not sticky) mode.
@@ -129,6 +131,7 @@ export class StickyThingDirective implements OnInit, OnChanges, OnDestroy {
     this.checkSetup();
 
     if (this.isEnabled) {
+      this.setInitialMargins();
       this.activate();
     }
   }
@@ -185,7 +188,8 @@ export class StickyThingDirective implements OnInit, OnChanges, OnDestroy {
     this.stickyElement.nativeElement.style.left = left + 'px';
     this.stickyElement.nativeElement.style.width = `${width}px`;
     if (this.spacerElement) {
-      this.spacerElement.style.height = `${height}px`;
+      const spacerHeight = this.initialMarginBottom + height + this.initialMarginTop;
+      this.spacerElement.style.height = `${spacerHeight}px`;
     }
   }
 
@@ -242,6 +246,11 @@ Then pass the spacer element as input:
     }
   }
 
+  private setInitialMargins(): void {
+    const stickyStyles = window.getComputedStyle(this.stickyElement.nativeElement);
+    this.initialMarginTop = parseInt(stickyStyles.marginTop, 10);
+    this.initialMarginBottom = parseInt(stickyStyles.marginBottom, 10);
+  }
 }
 
 // Thanks to https://stanko.github.io/javascript-get-element-offset/
