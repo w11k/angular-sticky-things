@@ -1,3 +1,13 @@
+<a name="1.0.6"></a>
+## [1.0.6](https://gitlab.com/w11k-es/angular-sticky-things/compare/1.0.5...1.0.6) (2018-12-07)
+
+
+### Bug Fixes
+
+* **sticky-directive:** fix element jumping ([9d59702](https://gitlab.com/w11k-es/angular-sticky-things/commit/9d59702))
+
+
+
 <a name="1.0.5"></a>
 ## [1.0.5](https://gitlab.com/w11k-es/angular-sticky-things/compare/1.0.4...1.0.5) (2018-12-03)
 
