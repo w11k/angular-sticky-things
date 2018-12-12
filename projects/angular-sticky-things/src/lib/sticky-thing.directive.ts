@@ -53,12 +53,12 @@ export class StickyThingDirective implements OnInit, OnChanges, OnDestroy {
    * The field represents some position values in normal (not sticky) mode.
    * If the browser size or the content of the page changes, this value must be recalculated.
    * */
-  private recalculate$ = new Subject<void>();
   private normalPosition$: Observable<StickyPositions>;
   private scroll$ = new Subject<any>();
   private scrollThrottled$: Observable<number>;
 
 
+  private recalculate$ = new Subject<void>();
   private resize$ = new Subject<void>();
   private redetermineThrottled$: Observable<void>;
 
