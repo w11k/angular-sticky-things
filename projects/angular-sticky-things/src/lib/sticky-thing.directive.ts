@@ -14,7 +14,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 import {isPlatformBrowser} from '@angular/common';
-import {combineLatest, Observable, Subject, Subscription} from 'rxjs';
+import {BehaviorSubject, combineLatest, Observable, Subject, Subscription} from 'rxjs';
 import {animationFrame} from 'rxjs/internal/scheduler/animationFrame';
 import {map, share, startWith, takeUntil, throttleTime} from 'rxjs/operators';
 
@@ -34,9 +34,21 @@ export interface StickyStatus {
 })
 export class StickyThingDirective implements OnInit, OnChanges, OnDestroy {
 
-  @Input() marginTop = 0;
-  @Input() marginBottom = 0;
-  @Input() enable = true;
+  marginTop$ = new BehaviorSubject(0);
+  marginBottom$ = new BehaviorSubject(0);
+  enable$ = new BehaviorSubject(true);
+
+  @Input() set marginTop(value: number) {
+    this.marginTop$.next(value);
+  }
+
+  @Input() set marginBottom(value: number) {
+    this.marginBottom$.next(value);
+  }
+
+  @Input() set enable(value: boolean) {
+    this.enable$.next(value);
+  }
   @Input('spacer') spacerElement: HTMLElement | undefined;
   @Input('boundary') boundaryElement: HTMLElement | undefined;
 
@@ -141,12 +153,12 @@ export class StickyThingDirective implements OnInit, OnChanges, OnDestroy {
   }
 
   private get isEnabled(): boolean {
-    return isPlatformBrowser(this.platformId) && this.enable;
+    return isPlatformBrowser(this.platformId) && this.enable$.value;
   }
 
   private determineStatus(originalVals: StickyPositions, pageYOffset: number): StickyStatus {
     const stickyElementHeight = this.getComputedStyle(this.stickyElement.nativeElement).height;
-    const reachedLowerEdge = this.boundaryElement && window.pageYOffset + stickyElementHeight + this.marginBottom >= (originalVals.bottomBoundary - this.marginTop);
+    const reachedLowerEdge = this.boundaryElement && window.pageYOffset + stickyElementHeight + this.marginBottom$.value >= (originalVals.bottomBoundary - this.marginTop$.value);
     return {
       isSticky: pageYOffset > originalVals.offsetY,
       reachedLowerEdge
@@ -171,7 +183,7 @@ export class StickyThingDirective implements OnInit, OnChanges, OnDestroy {
       bottomBoundary = boundaryElementHeight + boundaryElementOffset;
     }
 
-    return {offsetY: (getPosition(this.stickyElement.nativeElement).y - this.marginTop), bottomBoundary};
+    return {offsetY: (getPosition(this.stickyElement.nativeElement).y - this.marginTop$.value), bottomBoundary};
   }
 
   private makeSticky(boundaryReached: boolean = false): void {
@@ -180,7 +192,7 @@ export class StickyThingDirective implements OnInit, OnChanges, OnDestroy {
 
     // do this before setting it to pos:fixed
     const {width, height, left} = this.getComputedStyle(this.stickyElement.nativeElement);
-    const offSet = boundaryReached ? (this.getComputedStyle(this.boundaryElement).bottom - height - this.marginBottom) : this.marginTop;
+    const offSet = boundaryReached ? (this.getComputedStyle(this.boundaryElement).bottom - height - this.marginBottom$.value) : this.marginTop$.value;
 
     this.sticky = true;
     this.stickyElement.nativeElement.style.position = 'fixed';
