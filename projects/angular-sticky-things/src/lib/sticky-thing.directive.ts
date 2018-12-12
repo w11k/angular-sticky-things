@@ -14,7 +14,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 import {isPlatformBrowser} from '@angular/common';
-import {combineLatest, Observable, Subject, Subscription} from 'rxjs';
+import {combineLatest, Observable, Subject, Subscription, merge} from 'rxjs';
 import {animationFrame} from 'rxjs/internal/scheduler/animationFrame';
 import {map, share, startWith, takeUntil, throttleTime} from 'rxjs/operators';
 
@@ -30,6 +30,7 @@ export interface StickyStatus {
 }
 
 @Directive({
+  exportAs: 'stickyDirective',
   selector: '[stickyThing]'
 })
 export class StickyThingDirective implements OnInit, OnChanges, OnDestroy {
@@ -46,18 +47,20 @@ export class StickyThingDirective implements OnInit, OnChanges, OnDestroy {
 
   private initialMarginTop: number;
   private initialMarginBottom: number;
+  private stickyElementHeight: number;
 
   /**
    * The field represents some position values in normal (not sticky) mode.
    * If the browser size or the content of the page changes, this value must be recalculated.
    * */
+  private recalculate$ = new Subject<void>();
   private normalPosition$: Observable<StickyPositions>;
   private scroll$ = new Subject<any>();
   private scrollThrottled$: Observable<number>;
 
 
   private resize$ = new Subject<void>();
-  private resizeThrottled$: Observable<void>;
+  private redetermineThrottled$: Observable<void>;
 
   private status$: Observable<StickyStatus>;
   private statusSubscription$: Subscription;
@@ -78,7 +81,7 @@ export class StickyThingDirective implements OnInit, OnChanges, OnDestroy {
 
     /**
      * Throttle the resize to animation frame (around 16.67ms) */
-    this.resizeThrottled$ = this.resize$
+    this.redetermineThrottled$ = merge(this.recalculate$, this.resize$)
       .pipe(
         throttleTime(0, animationFrame),
         share()
@@ -87,7 +90,7 @@ export class StickyThingDirective implements OnInit, OnChanges, OnDestroy {
     /**
      * Start with initial value (1 since void doesn't work) so that
      * the original position gets set during view init.*/
-    this.normalPosition$ = this.resizeThrottled$.pipe(startWith(1), map(_ => this.determineElementOffsets()));
+    this.normalPosition$ = this.redetermineThrottled$.pipe(startWith(1), map(_ => this.determineElementOffsets()));
 
 
     this.status$ = combineLatest(this.normalPosition$, this.scrollThrottled$)
@@ -132,7 +135,15 @@ export class StickyThingDirective implements OnInit, OnChanges, OnDestroy {
 
     if (this.isEnabled) {
       this.setInitialMargins();
+      this.determineHeight();
       this.activate();
+    }
+  }
+
+  recalculate(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.determineHeight();
+      this.recalculate$.next();
     }
   }
 
@@ -144,9 +155,12 @@ export class StickyThingDirective implements OnInit, OnChanges, OnDestroy {
     return isPlatformBrowser(this.platformId) && this.enable;
   }
 
+  private determineHeight(): void {
+    this.stickyElementHeight = this.getComputedStyle(this.stickyElement.nativeElement).height;
+  }
+
   private determineStatus(originalVals: StickyPositions, pageYOffset: number): StickyStatus {
-    const stickyElementHeight = this.getComputedStyle(this.stickyElement.nativeElement).height;
-    const reachedLowerEdge = this.boundaryElement && window.pageYOffset + stickyElementHeight + this.marginBottom >= (originalVals.bottomBoundary - this.marginTop);
+    const reachedLowerEdge = this.boundaryElement && pageYOffset + this.stickyElementHeight + this.marginBottom >= (originalVals.bottomBoundary - this.marginTop);
     return {
       isSticky: pageYOffset > originalVals.offsetY,
       reachedLowerEdge

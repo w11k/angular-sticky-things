@@ -3,8 +3,15 @@
   Set margin bottom: <input (change)="marginBottom=+($event.target.value)" [value]="marginBottom" id="bottom"
                             type="text"> <br>
   <button id="enable-btn" (click)="enabled = !enabled">{{enabled ? 'disable' : 'enable'}}</button>
+  <button id="enable-btn" (click)="inside.push(inside.length+1)">Add content inside</button>
+  <button id="enable-btn" (click)="outside.push(outside.length+1)">Add content outside</button>
+  <button id="enable-btn" (click)="stickyDirective.recalculate()">Recalculate offsets</button>
 </div>
 <div class="first" #boundary>
+  <p>Some initial content</p>
+  <p *ngFor="let item of outside">
+    New content {{ item }}
+  </p>
   <div class="container">
     <div class="row">
       <div class="col-6"></div>
@@ -12,6 +19,7 @@
         <div #spacer></div>
         <div
           class="some-thing-sticky"
+          #stickyDirective="stickyDirective"
           stickyThing=""
           [spacer]="spacer"
           [boundary]="boundary"
@@ -19,6 +27,9 @@
           [enable]="enabled"
           [marginBottom]="marginBottom"
         >Hello
+        <p *ngFor="let item of inside">
+          New content {{ item }}
+        </p>
         </div>
       </div>
     </div>

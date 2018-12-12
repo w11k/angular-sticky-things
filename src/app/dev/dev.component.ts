@@ -6,7 +6,8 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./dev.component.scss']
 })
 export class DevComponent implements OnInit {
-
+  inside = [];
+  outside = [];
   marginTop = 0;
   marginBottom = 0;
   enabled = true;

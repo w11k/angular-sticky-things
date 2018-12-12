@@ -2,7 +2,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
-import {AngularStickyThingsModule} from '@w11k/angular-sticky-things';
+import {AngularStickyThingsModule} from '../../projects/angular-sticky-things/src/public_api';
 import {InfoComponent} from './info/info.component';
 import {DevComponent} from './dev/dev.component';
 import {HomeComponent} from './home/home.component';

@@ -24,10 +24,14 @@ $container-height: 500px;
 
 .some-thing-sticky {
   width: 100%;
-  height: $sticky-height;
+  // height: $sticky-height;
   background-color: #193441;
   color: #ffffff;
   text-align: center;
+}
+
+p:last-child {
+  margin-bottom: 0;
 }
 
 .debug-line {
@@ -55,9 +59,8 @@ $container-height: 500px;
 
 
 .fixed {
-  top: 0;
+  bottom: 5%;
   position: fixed;
-  left: 0;
   display: inline-block;
   background-color: #ffffff;
   padding: 5px;
