@@ -62,7 +62,7 @@ export class SomeModule { }
 
 If a boundary element is defined, the sticky element scrolls only within the height of the boundary element and then stops. This is useful if you have multiple sticky elements since it prevents stacking. You can [take a look at the examples](https://w11k.github.io/angular-sticky-things/).
 ```html
-<div #boundary style="height:1000px;">
+<div #boundary>
   <div #spacer></div>
   <div stickyThing [spacer]="spacer" [boundary]="boundary">
     I am sticky but only inside #boundary!
@@ -91,15 +91,29 @@ An `enable` (default `true`) input can be used to dynamically activate or deacti
 
 A `marginTop` (default `0`) input can be used to add some top spacing to the sticky element, in case you don't want it to stick right at the top. It expects the `number` of pixels you want to use for the space. You can [take a look at the examples](https://w11k.github.io/angular-sticky-things/). Accordingly, `marginBottom` is available.
 
-
 ```html
-<div #boundary style="height:1000px;">
+<div #boundary>
   <div #spacer></div>
   <div stickyThing [spacer]="spacer" marginTop="30">
     I leave 30px of space to the top when I'm sticky!
   </div>
 </div>
 ```
+
+#### Recalculate offsets
+
+In case where the sticky element or any element above it changes height (e.g. because of translations or other dynamic content), a `recalculate()` method can be called to redetermine the element's offsets.
+
+```html
+<button (click)="stickyDirective.recalculate()">Recalculate offsets</button>
+<div #boundary>
+  <div #spacer></div>
+  <div stickyThing  [spacer]="spacer" #stickyDirective="stickyDirective">
+    I am sticky!
+  </div>
+</div>
+```
+
 
 
 ## Patron
