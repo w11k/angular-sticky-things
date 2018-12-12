@@ -43,12 +43,12 @@ $container-height: 500px;
 }
 
 #debug-line-1 {
-  top: $space-before + $container-height - $sticky-height;
+  //top: $space-before + $container-height - $sticky-height;
   background-color: blue;
 }
 
 #debug-line-2 {
-  top: $container-height + $space-before;
+  //top: $container-height + $space-before;
   background-color: red;
 
 }
