@@ -28,6 +28,10 @@ $container-height: 500px;
   background-color: #193441;
   color: #ffffff;
   text-align: center;
+
+  &.large {
+    height: $sticky-height + 50px;
+  }
 }
 
 .debug-line {

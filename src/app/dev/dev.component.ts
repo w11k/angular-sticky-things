@@ -10,6 +10,7 @@ export class DevComponent implements OnInit {
   marginTop = 0;
   marginBottom = 0;
   enabled = true;
+  large = false;
 
   constructor() {
   }
