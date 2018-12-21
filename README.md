@@ -20,7 +20,9 @@ An Angular directive for making things sticky when the user scrolls (for Angular
 * Prevents page-jumping when switching to sticky mode
 * No jQuery or other dependencies - pure Angular solution
 
-![Scroll in Actiont](./src/assets/screencast.apng)
+<p align="center">
+  <img src="./src/assets/screencast.apng?raw=true" alt="Scroll in Action" width="500"/>
+</p>
 
 ### Installation
 
