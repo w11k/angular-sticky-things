@@ -3,7 +3,7 @@
   Set margin bottom: <input (change)="marginBottom=+($event.target.value)" [value]="marginBottom" id="bottom"
                             type="text"> <br>
   <button id="enable-btn" (click)="enabled = !enabled">{{enabled ? 'disable' : 'enable'}}</button>
-  <button (click)="large = !large" id="size-toggle-btn">Make Sticky Element {{large ? 'small' : 'large'}}.</button>
+  <button (click)="toggleSize()" id="size-toggle-btn">Make Sticky Element {{large ? 'small' : 'large'}}.</button>
 </div>
 <div class="first" #boundary>
   <div class="container">
@@ -12,6 +12,7 @@
       <div class="col-6">
         <div #spacer></div>
         <div
+          #stickyElement
           class="some-thing-sticky"
           [class.large]="large"
           stickyThing=""

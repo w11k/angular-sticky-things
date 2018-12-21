@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {StickyThingDirective} from '@w11k/angular-sticky-things';
 
 @Component({
   selector: 'demo-dev',
@@ -12,10 +13,17 @@ export class DevComponent implements OnInit {
   enabled = true;
   large = false;
 
+
+  @ViewChild('stickyElement', {read: StickyThingDirective}) stickyElement: StickyThingDirective;
+
   constructor() {
   }
 
   ngOnInit() {
   }
 
+  toggleSize() {
+    this.large = !this.large;
+    this.stickyElement.recalculate();
+  }
 }
