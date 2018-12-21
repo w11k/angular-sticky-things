@@ -4,10 +4,6 @@
 
 An Angular directive for making things sticky when the user scrolls (for Angular 2+) with no jQuery Dependency.
 
-![Scroll in Actiont](./src/assets/screencast.apng)
-
-
-
 [See the demo here](https://w11k.github.io/angular-sticky-things/).
 
 
@@ -23,6 +19,8 @@ An Angular directive for making things sticky when the user scrolls (for Angular
 * Support for Angular Universal
 * Prevents page-jumping when switching to sticky mode
 * No jQuery or other dependencies - pure Angular solution
+
+![Scroll in Actiont](./src/assets/screencast.apng)
 
 ### Installation
 
