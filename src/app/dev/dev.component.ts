@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {StickyThingDirective} from '@w11k/angular-sticky-things';
+import {StickyThingDirective} from '../../../projects/angular-sticky-things/src/lib/sticky-thing.directive';
 
 @Component({
   selector: 'demo-dev',
