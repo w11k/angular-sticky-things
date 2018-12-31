@@ -12,7 +12,7 @@ import {
   PLATFORM_ID
 } from '@angular/core';
 import {isPlatformBrowser} from '@angular/common';
-import {BehaviorSubject, combineLatest, Observable, Subject, Subscription} from 'rxjs';
+import {BehaviorSubject, combineLatest, Observable, Subject} from 'rxjs';
 import {animationFrame} from 'rxjs/internal/scheduler/animationFrame';
 import {filter, map, share, startWith, takeUntil, throttleTime} from 'rxjs/operators';
 
@@ -34,6 +34,7 @@ export interface StickyStatus {
 })
 export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
 
+  filterGate = false;
   marginTop$ = new BehaviorSubject(0);
   marginBottom$ = new BehaviorSubject(0);
   enable$ = new BehaviorSubject(true);
@@ -69,7 +70,6 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
   private extraordinaryChange$ = new BehaviorSubject<void>(undefined);
 
   private status$: Observable<StickyStatus>;
-  private statusSubscription$: Subscription;
 
   private componentDestroyed = new Subject<void>();
 
@@ -106,14 +106,14 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
     )
       .pipe(
         filter(([enabled]) => this.checkEnabled(enabled)),
-        map(([enabled, pageYOffset, marginTop, marginBottom]) => this.determineStatus(this.determineElementOffsets(), pageYOffset, marginTop, marginBottom)),
+        map(([enabled, pageYOffset, marginTop, marginBottom]) => this.determineStatus(this.determineElementOffsets(), pageYOffset, marginTop, marginBottom, enabled)),
         share(),
       );
 
   }
 
   ngAfterViewInit(): void {
-    this.statusSubscription$ = this.status$
+    this.status$
       .pipe(takeUntil(this.componentDestroyed))
       .subscribe((status) => this.setSticky(status));
   }
@@ -127,8 +127,39 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+
+  /**
+   * This is nasty code that should be refactored at some point.
+   *
+   * The Problem is, we filter for enabled. So that the code doesn't run
+   * if @Input enabled = false. But if the user disables, we need exactly 1
+   * emit in order to reset and call removeSticky. So this method basically
+   * turns the filter in "filter, but let the first pass".
+   * */
   private checkEnabled(enabled: boolean): boolean {
-    return isPlatformBrowser(this.platformId) && enabled;
+
+    if (!isPlatformBrowser(this.platformId)) {
+      return false;
+    }
+
+    if (enabled) {
+      // reset the gate
+      this.filterGate = false;
+      return true;
+    } else {
+      if (this.filterGate) {
+        // gate closed, first emit has happened
+        return false;
+      } else {
+        // this is the first emit for enabled = false,
+        // let it pass, and activate the gate
+        // so the next wont pass.
+        this.filterGate = true;
+        return true;
+      }
+    }
+
+
   }
 
   @HostListener('window:resize', [])
@@ -157,11 +188,11 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
     return el.getBoundingClientRect();
   }
 
-  private determineStatus(originalVals: StickyPositions, pageYOffset: number, marginTop: number, marginBottom: number): StickyStatus {
+  private determineStatus(originalVals: StickyPositions, pageYOffset: number, marginTop: number, marginBottom: number, enabled: boolean): StickyStatus {
     const stickyElementHeight = this.getComputedStyle(this.stickyElement.nativeElement).height;
     const reachedLowerEdge = this.boundaryElement && window.pageYOffset + stickyElementHeight + marginBottom >= (originalVals.bottomBoundary - marginTop);
     return {
-      isSticky: pageYOffset > originalVals.offsetY,
+      isSticky: enabled && pageYOffset > originalVals.offsetY,
       reachedLowerEdge,
       marginBottom,
       marginTop,
