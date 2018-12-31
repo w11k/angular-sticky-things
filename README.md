@@ -2,7 +2,7 @@
 
 # Angular Sticky Things
 
-A pure TypeScript directive for making things sticky when the user scrolls (for Angular 2+).
+An Angular directive for making things sticky when the user scrolls (for Angular 2+) with no jQuery Dependency.
 
 [See the demo here](https://w11k.github.io/angular-sticky-things/).
 
@@ -19,6 +19,10 @@ A pure TypeScript directive for making things sticky when the user scrolls (for 
 * Support for Angular Universal
 * Prevents page-jumping when switching to sticky mode
 * No jQuery or other dependencies - pure Angular solution
+
+<p align="center">
+  <img src="./src/assets/screencast.apng?raw=true" alt="Scroll in Action" width="500"/>
+</p>
 
 ### Installation
 

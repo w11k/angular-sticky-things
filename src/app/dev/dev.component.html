@@ -3,6 +3,7 @@
   Set margin bottom: <input (change)="marginBottom=+($event.target.value)" [value]="marginBottom" id="bottom"
                             type="text"> <br>
   <button id="enable-btn" (click)="enabled = !enabled">{{enabled ? 'disable' : 'enable'}}</button>
+  <button (click)="toggleSize()" id="size-toggle-btn">Make Sticky Element {{large ? 'small' : 'large'}}.</button>
 </div>
 <div class="first" #boundary>
   <div class="container">
@@ -11,7 +12,9 @@
       <div class="col-6">
         <div #spacer></div>
         <div
+          #stickyElement
           class="some-thing-sticky"
+          [class.large]="large"
           stickyThing=""
           [spacer]="spacer"
           [boundary]="boundary"
@@ -26,10 +29,10 @@
 </div>
 
 
-<div id="debug-line-1" class="debug-line">
+<div id="debug-line-1" class="debug-line" [ngStyle]="{ top: 800- marginBottom+ 'px'}">
   <div class="text">It should stop when reaching this with top.</div>
 </div>
 
-<div id="debug-line-2" class="debug-line">
+<div id="debug-line-2" class="debug-line" [ngStyle]="{ top: 1000 - marginBottom + 'px'}">
   <div class="text">Or this with bottom.</div>
 </div>

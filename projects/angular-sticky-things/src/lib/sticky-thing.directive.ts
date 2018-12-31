@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Directive,
   ElementRef,
   HostBinding,
@@ -6,17 +7,14 @@ import {
   Inject,
   Input,
   isDevMode,
-  OnChanges,
   OnDestroy,
   OnInit,
-  PLATFORM_ID,
-  SimpleChange,
-  SimpleChanges
+  PLATFORM_ID
 } from '@angular/core';
 import {isPlatformBrowser} from '@angular/common';
-import {combineLatest, Observable, Subject, Subscription} from 'rxjs';
+import {BehaviorSubject, combineLatest, Observable, Subject} from 'rxjs';
 import {animationFrame} from 'rxjs/internal/scheduler/animationFrame';
-import {map, share, startWith, takeUntil, throttleTime} from 'rxjs/operators';
+import {filter, map, share, startWith, takeUntil, throttleTime} from 'rxjs/operators';
 
 
 export interface StickyPositions {
@@ -27,16 +25,31 @@ export interface StickyPositions {
 export interface StickyStatus {
   isSticky: boolean;
   reachedLowerEdge: boolean;
+  marginTop: number;
+  marginBottom: number;
 }
 
 @Directive({
   selector: '[stickyThing]'
 })
-export class StickyThingDirective implements OnInit, OnChanges, OnDestroy {
+export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
 
-  @Input() marginTop = 0;
-  @Input() marginBottom = 0;
-  @Input() enable = true;
+  filterGate = false;
+  marginTop$ = new BehaviorSubject(0);
+  marginBottom$ = new BehaviorSubject(0);
+  enable$ = new BehaviorSubject(true);
+
+  @Input() set marginTop(value: number) {
+    this.marginTop$.next(value);
+  }
+
+  @Input() set marginBottom(value: number) {
+    this.marginBottom$.next(value);
+  }
+
+  @Input() set enable(value: boolean) {
+    this.enable$.next(value);
+  }
   @Input('spacer') spacerElement: HTMLElement | undefined;
   @Input('boundary') boundaryElement: HTMLElement | undefined;
 
@@ -44,23 +57,19 @@ export class StickyThingDirective implements OnInit, OnChanges, OnDestroy {
 
   @HostBinding('class.boundary-reached') boundaryReached = false;
 
-  private initialMarginTop: number;
-  private initialMarginBottom: number;
-
   /**
    * The field represents some position values in normal (not sticky) mode.
    * If the browser size or the content of the page changes, this value must be recalculated.
    * */
-  private normalPosition$: Observable<StickyPositions>;
   private scroll$ = new Subject<any>();
   private scrollThrottled$: Observable<number>;
 
 
   private resize$ = new Subject<void>();
   private resizeThrottled$: Observable<void>;
+  private extraordinaryChange$ = new BehaviorSubject<void>(undefined);
 
   private status$: Observable<StickyStatus>;
-  private statusSubscription$: Subscription;
 
   private componentDestroyed = new Subject<void>();
 
@@ -81,32 +90,76 @@ export class StickyThingDirective implements OnInit, OnChanges, OnDestroy {
     this.resizeThrottled$ = this.resize$
       .pipe(
         throttleTime(0, animationFrame),
+        // emit once since we are currently using combineLatest
+        startWith(null),
         share()
       );
 
-    /**
-     * Start with initial value (1 since void doesn't work) so that
-     * the original position gets set during view init.*/
-    this.normalPosition$ = this.resizeThrottled$.pipe(startWith(1), map(_ => this.determineElementOffsets()));
 
-
-    this.status$ = combineLatest(this.normalPosition$, this.scrollThrottled$)
+    this.status$ = combineLatest(
+      this.enable$,
+      this.scrollThrottled$,
+      this.marginTop$,
+      this.marginBottom$,
+      this.extraordinaryChange$,
+      this.resizeThrottled$,
+    )
       .pipe(
-        map(([originalVals, pageYOffset]) => this.determineStatus(originalVals, pageYOffset)),
+        filter(([enabled]) => this.checkEnabled(enabled)),
+        map(([enabled, pageYOffset, marginTop, marginBottom]) => this.determineStatus(this.determineElementOffsets(), pageYOffset, marginTop, marginBottom, enabled)),
         share(),
-        takeUntil(this.componentDestroyed),
       );
 
   }
 
+  ngAfterViewInit(): void {
+    this.status$
+      .pipe(takeUntil(this.componentDestroyed))
+      .subscribe((status) => this.setSticky(status));
+  }
 
-
-  ngOnChanges(changes: SimpleChanges): void {
-    const enableChanged: SimpleChange | undefined = changes.enable;
-
-    if (enableChanged && !enableChanged.firstChange) {
-      this.isEnabled ? this.activate() : this.deactivate();
+  public recalculate(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      // Make sure to be in the next tick by using timeout
+      setTimeout(() => {
+        this.extraordinaryChange$.next(undefined);
+      }, 0);
     }
+  }
+
+
+  /**
+   * This is nasty code that should be refactored at some point.
+   *
+   * The Problem is, we filter for enabled. So that the code doesn't run
+   * if @Input enabled = false. But if the user disables, we need exactly 1
+   * emit in order to reset and call removeSticky. So this method basically
+   * turns the filter in "filter, but let the first pass".
+   * */
+  private checkEnabled(enabled: boolean): boolean {
+
+    if (!isPlatformBrowser(this.platformId)) {
+      return false;
+    }
+
+    if (enabled) {
+      // reset the gate
+      this.filterGate = false;
+      return true;
+    } else {
+      if (this.filterGate) {
+        // gate closed, first emit has happened
+        return false;
+      } else {
+        // this is the first emit for enabled = false,
+        // let it pass, and activate the gate
+        // so the next wont pass.
+        this.filterGate = true;
+        return true;
+      }
+    }
+
+
   }
 
   @HostListener('window:resize', [])
@@ -129,29 +182,23 @@ export class StickyThingDirective implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit(): void {
     this.checkSetup();
-
-    if (this.isEnabled) {
-      this.setInitialMargins();
-      this.activate();
-    }
   }
 
   getComputedStyle(el: HTMLElement): ClientRect | DOMRect {
     return el.getBoundingClientRect();
   }
 
-  private get isEnabled(): boolean {
-    return isPlatformBrowser(this.platformId) && this.enable;
-  }
-
-  private determineStatus(originalVals: StickyPositions, pageYOffset: number): StickyStatus {
+  private determineStatus(originalVals: StickyPositions, pageYOffset: number, marginTop: number, marginBottom: number, enabled: boolean): StickyStatus {
     const stickyElementHeight = this.getComputedStyle(this.stickyElement.nativeElement).height;
-    const reachedLowerEdge = this.boundaryElement && window.pageYOffset + stickyElementHeight + this.marginBottom >= (originalVals.bottomBoundary - this.marginTop);
+    const reachedLowerEdge = this.boundaryElement && window.pageYOffset + stickyElementHeight + marginBottom >= (originalVals.bottomBoundary - marginTop);
     return {
-      isSticky: pageYOffset > originalVals.offsetY,
-      reachedLowerEdge
+      isSticky: enabled && pageYOffset > originalVals.offsetY,
+      reachedLowerEdge,
+      marginBottom,
+      marginTop,
     };
   }
+
 
   /**
    * Gets the offset for element. If the element
@@ -171,16 +218,16 @@ export class StickyThingDirective implements OnInit, OnChanges, OnDestroy {
       bottomBoundary = boundaryElementHeight + boundaryElementOffset;
     }
 
-    return {offsetY: (getPosition(this.stickyElement.nativeElement).y - this.marginTop), bottomBoundary};
+    return {offsetY: (getPosition(this.stickyElement.nativeElement).y - this.marginTop$.value), bottomBoundary};
   }
 
-  private makeSticky(boundaryReached: boolean = false): void {
+  private makeSticky(boundaryReached: boolean = false, marginTop: number, marginBottom: number): void {
 
     this.boundaryReached = boundaryReached;
 
     // do this before setting it to pos:fixed
     const {width, height, left} = this.getComputedStyle(this.stickyElement.nativeElement);
-    const offSet = boundaryReached ? (this.getComputedStyle(this.boundaryElement).bottom - height - this.marginBottom) : this.marginTop;
+    const offSet = boundaryReached ? (this.getComputedStyle(this.boundaryElement).bottom - height - this.marginBottom$.value) : this.marginTop$.value;
 
     this.sticky = true;
     this.stickyElement.nativeElement.style.position = 'fixed';
@@ -188,7 +235,7 @@ export class StickyThingDirective implements OnInit, OnChanges, OnDestroy {
     this.stickyElement.nativeElement.style.left = left + 'px';
     this.stickyElement.nativeElement.style.width = `${width}px`;
     if (this.spacerElement) {
-      const spacerHeight = this.initialMarginBottom + height + this.initialMarginTop;
+      const spacerHeight = marginBottom + height + marginTop;
       this.spacerElement.style.height = `${spacerHeight}px`;
     }
   }
@@ -210,23 +257,10 @@ Then pass the spacer element as input:
     }
   }
 
-  private activate(): void {
-    this.statusSubscription$ = this.status$.subscribe((status) => this.setSticky(status));
-    this.setSticky(this.determineStatus(this.determineElementOffsets(), window.pageYOffset));
-  }
-
-  private deactivate(): void {
-    this.removeSticky();
-
-    if (this.statusSubscription$) {
-      this.statusSubscription$.unsubscribe();
-    }
-  }
 
   private setSticky(status: StickyStatus): void {
-    // console.log(status, status.isSticky);
     if (status.isSticky) {
-      this.makeSticky(status.reachedLowerEdge);
+      this.makeSticky(status.reachedLowerEdge, status.marginTop, status.marginBottom);
     } else {
       this.removeSticky();
     }
@@ -244,12 +278,6 @@ Then pass the spacer element as input:
     if (this.spacerElement) {
       this.spacerElement.style.height = '0';
     }
-  }
-
-  private setInitialMargins(): void {
-    const stickyStyles = window.getComputedStyle(this.stickyElement.nativeElement);
-    this.initialMarginTop = parseInt(stickyStyles.marginTop, 10);
-    this.initialMarginBottom = parseInt(stickyStyles.marginBottom, 10);
   }
 }
 

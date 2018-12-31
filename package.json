@@ -1,6 +1,6 @@
 {
   "name": "angular-sticky-things-demo",
-  "version": "1.0.6",
+  "version": "1.1.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -58,5 +58,9 @@
     "tslint": "~5.9.1",
     "typescript": "~2.7.2",
     "watch": "^1.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/w11k/angular-sticky-things"
   }
 }
