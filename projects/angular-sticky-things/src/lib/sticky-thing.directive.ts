@@ -12,7 +12,7 @@ import {
   PLATFORM_ID
 } from '@angular/core';
 import {isPlatformBrowser} from '@angular/common';
-import {BehaviorSubject, combineLatest, Observable, Subject, Subscription} from 'rxjs';
+import {BehaviorSubject, combineLatest, Observable, Subject} from 'rxjs';
 import {animationFrame} from 'rxjs/internal/scheduler/animationFrame';
 import {filter, map, share, startWith, takeUntil, throttleTime} from 'rxjs/operators';
 
@@ -70,7 +70,6 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
   private extraordinaryChange$ = new BehaviorSubject<void>(undefined);
 
   private status$: Observable<StickyStatus>;
-  private statusSubscription$: Subscription;
 
   private componentDestroyed = new Subject<void>();
 
@@ -114,7 +113,7 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.statusSubscription$ = this.status$
+    this.status$
       .pipe(takeUntil(this.componentDestroyed))
       .subscribe((status) => this.setSticky(status));
   }
