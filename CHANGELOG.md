@@ -1,3 +1,15 @@
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/w11k/angular-sticky-things/compare/1.0.6...1.1.0) (2018-12-31)
+
+
+### Features
+
+* **dev:** extends dev by toggle for sticky elements height ([cfed356](https://github.com/w11k/angular-sticky-things/commit/cfed356))
+* **sticky:** enables height change, exposes recalculate method, combine all possible triggers in one stream ([9407681](https://github.com/w11k/angular-sticky-things/commit/9407681))
+* **sticky:** improves the enabled=false handling ([cd8f7bc](https://github.com/w11k/angular-sticky-things/commit/cd8f7bc))
+
+
+
 <a name="1.0.6"></a>
 ## [1.0.6](https://gitlab.com/w11k-es/angular-sticky-things/compare/1.0.5...1.0.6) (2018-12-07)
 
