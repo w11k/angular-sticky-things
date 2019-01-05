@@ -136,7 +136,7 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
    * emit in order to reset and call removeSticky. So this method basically
    * turns the filter in "filter, but let the first pass".
    * */
-  private checkEnabled(enabled: boolean): boolean {
+  checkEnabled(enabled: boolean): boolean {
 
     if (!isPlatformBrowser(this.platformId)) {
       return false;

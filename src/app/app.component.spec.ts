@@ -3,7 +3,7 @@ import {AppComponent} from './app.component';
 import {AngularStickyThingsModule} from '@w11k/angular-sticky-things';
 import {InfoComponent} from './info/info.component';
 
-describe('AppComponent', () => {
+xdescribe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
