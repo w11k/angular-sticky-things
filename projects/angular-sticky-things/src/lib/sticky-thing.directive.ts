@@ -25,8 +25,6 @@ export interface StickyPositions {
 export interface StickyStatus {
   isSticky: boolean;
   reachedLowerEdge: boolean;
-  marginTop: number;
-  marginBottom: number;
 }
 
 @Directive({
@@ -72,6 +70,8 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
   private status$: Observable<StickyStatus>;
 
   private componentDestroyed = new Subject<void>();
+  private initialMarginTop: number;
+  private initialMarginBottom: number;
 
 
   constructor(private stickyElement: ElementRef, @Inject(PLATFORM_ID) private platformId: string) {
@@ -181,6 +181,10 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.setInitialMargins();
+    }
+
     this.checkSetup();
   }
 
@@ -194,8 +198,6 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
     return {
       isSticky: enabled && pageYOffset > originalVals.offsetY,
       reachedLowerEdge,
-      marginBottom,
-      marginTop,
     };
   }
 
@@ -221,7 +223,7 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
     return {offsetY: (getPosition(this.stickyElement.nativeElement).y - this.marginTop$.value), bottomBoundary};
   }
 
-  private makeSticky(boundaryReached: boolean = false, marginTop: number, marginBottom: number): void {
+  private makeSticky(boundaryReached: boolean = false): void {
 
     this.boundaryReached = boundaryReached;
 
@@ -235,7 +237,7 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
     this.stickyElement.nativeElement.style.left = left + 'px';
     this.stickyElement.nativeElement.style.width = `${width}px`;
     if (this.spacerElement) {
-      const spacerHeight = marginBottom + height + marginTop;
+      const spacerHeight = this.initialMarginBottom + height + this.initialMarginTop;
       this.spacerElement.style.height = `${spacerHeight}px`;
     }
   }
@@ -260,7 +262,7 @@ Then pass the spacer element as input:
 
   private setSticky(status: StickyStatus): void {
     if (status.isSticky) {
-      this.makeSticky(status.reachedLowerEdge, status.marginTop, status.marginBottom);
+      this.makeSticky(status.reachedLowerEdge);
     } else {
       this.removeSticky();
     }
@@ -278,6 +280,12 @@ Then pass the spacer element as input:
     if (this.spacerElement) {
       this.spacerElement.style.height = '0';
     }
+  }
+
+  private setInitialMargins(): void {
+    const stickyStyles = window.getComputedStyle(this.stickyElement.nativeElement);
+    this.initialMarginTop = parseInt(stickyStyles.marginTop, 10);
+    this.initialMarginBottom = parseInt(stickyStyles.marginBottom, 10);
   }
 }
 
