@@ -1,32 +1,50 @@
 stages:
-- build
-- integration
-- test
-- deploy
+  - build
+  - integration
+  - test
+  - review
+  - deploy
 
 build-lib:
-  image: node
+  image: node:10-alpine
   stage: build
   script:
-  - npm ci
-  - npm run build:lib
+    - npm ci
+    - npm run build:lib
   artifacts:
     expire_in: 1 week
     paths:
-    - dist/@w11k/angular-sticky-things
+      - dist/@w11k/angular-sticky-things
 
-build-demo:
-  image: node
-  dependencies:
-  - build-lib
+build-demo-master:
+  image: node:10-alpine
   stage: integration
   script:
-  - npm ci
-  - npm run build
+    - npm ci
+    - npm run build
   artifacts:
     expire_in: 1 week
     paths:
-    - dist/angular-sticky-things-demo
+      - dist/angular-sticky-things-demo
+  only:
+    refs:
+      - master
+      - develop
+
+
+build-demo-review:
+  image: node:10-alpine
+  stage: integration
+  script:
+    - npm ci
+    - npm run build  -- --base-href /angular-sticky-things/review/$CI_COMMIT_REF_NAME/
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - dist/angular-sticky-things-demo
+  except:
+    - master
+    - develop
 
 #
 #test-lib:
@@ -37,48 +55,63 @@ build-demo:
 #
 #test-demo:
 #  image: trion/ng-cli-karma
-#  dependencies:
-#  - build-lib
 #  stage: test
 #  script:
 #  - npm run test
 
-test-demo:
-  image: weboaks/node-karma-protractor-chrome
-  dependencies:
-  - build-lib
-  stage: test
-  script:
-  - npm install -g npm@latest
-  - npm ci
-  - npm run e2e
+#test-demo:
+#  image: weboaks/node-karma-protractor-chrome
+#  stage: test
+#  script:
+#  - npm install -g npm@latest
+#  - npm ci
+#  - npm run e2e
 
-publish-demo:
-  image: node
-  stage: deploy
-  dependencies:
-  - build-lib
-  - build-demo
-  only:
-  - master
-  - web
+
+
+publish-review:
+  image: node:10
+  stage: review
   script:
-  - git push https://${GITHUB_TOKEN}@github.com/w11k/angular-sticky-things master
-  - npx ngh --dir=dist/angular-sticky-things-demo --message=updates-demo --repo=https://${GITHUB_TOKEN}@github.com/w11k/angular-sticky-things
+    - git config --global user.email "deploy@w11k.de"
+    - git config --global user.name "W11K Deploy"
+    - npx gh-pages -e review/$CI_COMMIT_REF_NAME -d dist/angular-sticky-things-demo --repo https://$GITHUB_TOKEN@github.com/w11k/angular-sticky-things --silent
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    url: https://w11k.github.io/angular-sticky-things/review/$CI_COMMIT_REF_NAME
+  only:
+    - branches
+  except:
+    - master
+    - develop
+
+#publish-demo:
+#  image: node:10
+#  stage: review
+#  script:
+#    - git config --global user.email "deploy@w11k.de"
+#    - git config --global user.name "W11K Deploy"
+#    - npx gh-pages -e review/$CI_COMMIT_REF_NAME -d dist/angular-sticky-things-demo --remote https://$GITHUB_TOKEN@github.com/w11k/angular-sticky-things --silent
+#  environment:
+#    name: review/$CI_COMMIT_REF_NAME
+#    url: https://w11k.github.io/angular-sticky-things/review/$CI_COMMIT_REF_NAME
+#  only:
+#    - branches
+#  except:
+#    - master
+#    - develop
 
 
 publish:
-  image: node:alpine
+  image: node:10-alpine
   stage: deploy
-  dependencies:
-  - build-lib
   only:
-  - tags
+    - tags
   script:
-  - cd dist/@w11k/angular-sticky-things
-  - cp ../../../README.md .
-  - cp ../../../LICENSE .
-  - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
-  - npm publish --access=public
+    - cd dist/@w11k/angular-sticky-things
+    - cp ../../../README.md .
+    - cp ../../../LICENSE .
+    - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
+    - npm publish --access=public
 
 
