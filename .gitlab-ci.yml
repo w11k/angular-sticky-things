@@ -6,7 +6,7 @@ stages:
   - deploy
 
 build-lib:
-  image: node:alpine
+  image: node:10-alpine
   stage: build
   script:
     - npm ci
@@ -17,7 +17,7 @@ build-lib:
       - dist/@w11k/angular-sticky-things
 
 build-demo-master:
-  image: node:alpine
+  image: node:10-alpine
   stage: integration
   script:
     - npm ci
@@ -33,7 +33,7 @@ build-demo-master:
 
 
 build-demo-review:
-  image: node:alpine
+  image: node:10-alpine
   stage: integration
   script:
     - npm ci
@@ -70,7 +70,7 @@ build-demo-review:
 
 
 publish-review:
-  image: node:alpine
+  image: node:10-alpine
   stage: review
   script:
     - npx gh-pages -e review/$$CI_COMMIT_REF_NAME -d dist/angular-sticky-things-demo
@@ -83,23 +83,23 @@ publish-review:
     - master
     - develop
 
-publish-demo:
-  image: node:alpine
-  stage: review
-  script:
-    - npx gh-pages -e review/$$CI_COMMIT_REF_NAME -d dist/angular-sticky-things-demo
-  environment:
-    name: review/$CI_COMMIT_REF_NAME
-    url: https://w11k.github.io/angular-sticky-things/review/$CI_COMMIT_REF_NAME
-  only:
-    - branches
-  except:
-    - master
-    - develop
+#publish-demo:
+#  image: node:10-alpine
+#  stage: review
+#  script:
+#    - npx gh-pages -e review/$$CI_COMMIT_REF_NAME -d dist/angular-sticky-things-demo
+#  environment:
+#    name: review/$CI_COMMIT_REF_NAME
+#    url: https://w11k.github.io/angular-sticky-things/review/$CI_COMMIT_REF_NAME
+#  only:
+#    - branches
+#  except:
+#    - master
+#    - develop
 
 
 publish:
-  image: node:alpine
+  image: node:10-alpine
   stage: deploy
   only:
     - tags
