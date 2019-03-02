@@ -37,7 +37,7 @@ build-demo-review:
   stage: integration
   script:
     - npm ci
-    - npm run build  -- --base-href /angular-sticky-things/review/$CI_COMMIT_SHORT_SHA/
+    - npm run build  -- --base-href /angular-sticky-things/review/$CI_COMMIT_REF_NAME/
   artifacts:
     expire_in: 1 week
     paths:
@@ -75,10 +75,10 @@ publish-review:
   script:
     - git config --global user.email "deploy@w11k.de"
     - git config --global user.name "W11K Deploy"
-    - npx gh-pages -e review/$CI_COMMIT_SHORT_SHA -d dist/angular-sticky-things-demo --repo https://$GITHUB_TOKEN@github.com/w11k/angular-sticky-things --silent
+    - npx gh-pages -e review/$CI_COMMIT_REF_NAME -d dist/angular-sticky-things-demo --repo https://$GITHUB_TOKEN@github.com/w11k/angular-sticky-things --silent
   environment:
-    name: review/$CI_COMMIT_SHORT_SHA
-    url: https://w11k.github.io/angular-sticky-things/review/$CI_COMMIT_SHORT_SHA
+    name: review/$CI_COMMIT_REF_NAME
+    url: https://w11k.github.io/angular-sticky-things/review/$CI_COMMIT_REF_NAME
   only:
     - branches
   except:
@@ -91,10 +91,10 @@ publish-review:
 #  script:
 #    - git config --global user.email "deploy@w11k.de"
 #    - git config --global user.name "W11K Deploy"
-#    - npx gh-pages -e review/$CI_COMMIT_SHORT_SHA -d dist/angular-sticky-things-demo --remote https://$GITHUB_TOKEN@github.com/w11k/angular-sticky-things --silent
+#    - npx gh-pages -e review/$CI_COMMIT_REF_NAME -d dist/angular-sticky-things-demo --remote https://$GITHUB_TOKEN@github.com/w11k/angular-sticky-things --silent
 #  environment:
-#    name: review/$CI_COMMIT_SHORT_SHA
-#    url: https://w11k.github.io/angular-sticky-things/review/$CI_COMMIT_SHORT_SHA
+#    name: review/$CI_COMMIT_REF_NAME
+#    url: https://w11k.github.io/angular-sticky-things/review/$CI_COMMIT_REF_NAME
 #  only:
 #    - branches
 #  except:
