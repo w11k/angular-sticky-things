@@ -73,6 +73,8 @@ publish-review:
   image: node:10
   stage: review
   script:
+    - git config --global user.email "deploy@w11k.de"
+    - git config --global user.name "W11K Deploy"
     - npx gh-pages -e review/$$CI_COMMIT_REF_NAME -d dist/angular-sticky-things-demo
   environment:
     name: review/$CI_COMMIT_REF_NAME
@@ -87,6 +89,8 @@ publish-review:
 #  image: node:10
 #  stage: review
 #  script:
+#    - git config --global user.email "deploy@w11k.de"
+#    - git config --global user.name "W11K Deploy"
 #    - npx gh-pages -e review/$$CI_COMMIT_REF_NAME -d dist/angular-sticky-things-demo
 #  environment:
 #    name: review/$CI_COMMIT_REF_NAME
