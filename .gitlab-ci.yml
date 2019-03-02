@@ -70,7 +70,7 @@ build-demo-review:
 
 
 publish-review:
-  image: node:10-alpine
+  image: node:10
   stage: review
   script:
     - npx gh-pages -e review/$$CI_COMMIT_REF_NAME -d dist/angular-sticky-things-demo
@@ -84,7 +84,7 @@ publish-review:
     - develop
 
 #publish-demo:
-#  image: node:10-alpine
+#  image: node:10
 #  stage: review
 #  script:
 #    - npx gh-pages -e review/$$CI_COMMIT_REF_NAME -d dist/angular-sticky-things-demo
