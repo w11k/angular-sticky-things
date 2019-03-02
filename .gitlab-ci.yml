@@ -37,7 +37,7 @@ build-demo-review:
   stage: integration
   script:
     - npm ci
-    - npm run build  -- --base-href /angular-sticky-things/$CI_COMMIT_SHORT_SHA/
+    - npm run build  -- --base-href /angular-sticky-things/review/$CI_COMMIT_SHORT_SHA/
   artifacts:
     expire_in: 1 week
     paths:
