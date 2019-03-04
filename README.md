@@ -61,7 +61,7 @@ export class SomeModule { }
 </div>
 ```
 
-#### Scroll in 
+#### Scroll in Container
 
 Per default Sticky Things expects your body to be the element that scrolls. However, if Sticky Things is used in an `overflow`-container, that container must be made known to the directive.
 
