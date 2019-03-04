@@ -1,3 +1,14 @@
+<a name="1.1.1"></a>
+## [1.1.1](https://github.com/w11k/angular-sticky-things/compare/1.1.0...1.1.1) (2019-03-04)
+
+
+### Features
+
+* **sticky:** adds ability to change scroll container ([78c315d](https://github.com/w11k/angular-sticky-things/commit/78c315d)), closes [#25](https://github.com/w11k/angular-sticky-things/issues/25)
+* **sticky:** bump angular support to 8.x.x ([9a08ba1](https://github.com/w11k/angular-sticky-things/commit/9a08ba1))
+
+
+
 <a name="1.1.0"></a>
 # [1.1.0](https://github.com/w11k/angular-sticky-things/compare/1.0.6...1.1.0) (2018-12-31)
 
