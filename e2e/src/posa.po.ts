@@ -18,6 +18,10 @@ export class PosaPage {
     return element(by.css('.some-thing-sticky'));
   }
 
+  getOtherScrollable() {
+    return element(by.css('.another-scrollable-container'));
+  }
+
   getEnableButton() {
     return element(by.css('#enable-btn'));
   }

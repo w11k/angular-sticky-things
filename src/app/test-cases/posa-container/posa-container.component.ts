@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostBinding, OnInit} from '@angular/core';
 
 @Component({
   selector: 'demo-posa-container',
@@ -6,6 +6,8 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./posa-container.component.scss']
 })
 export class PosaContainerComponent implements OnInit {
+
+  @HostBinding('class') class = 'scroll-container';
 
   constructor() {
   }

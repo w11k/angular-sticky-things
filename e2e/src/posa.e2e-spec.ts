@@ -11,8 +11,10 @@ describe('with position:absolute container', () => {
 
 
   it('should recognize sticky ', async () => {
-    page.navigateToDev();
-    await browser.executeScript('window.scrollTo(0,501);');
+    await page.navigateToDev();
+
+    // dont use window scroll here.
+    browser.actions().mouseMove(await page.getOtherScrollable()).perform();
     const hasStickyClass = await hasClass(page.getStickyElement(), 'is-sticky');
     expect(hasStickyClass).toBe(true);
   });

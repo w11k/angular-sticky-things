@@ -39,6 +39,8 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
   marginBottom$ = new BehaviorSubject(0);
   enable$ = new BehaviorSubject(true);
 
+  @Input() scrollContainer: string | HTMLElement;
+
   @Input() set marginTop(value: number) {
     this.marginTop$.next(value);
   }
@@ -61,7 +63,7 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
    * The field represents some position values in normal (not sticky) mode.
    * If the browser size or the content of the page changes, this value must be recalculated.
    * */
-  private scroll$ = new Subject<any>();
+  private scroll$ = new Subject<number>();
   private scrollThrottled$: Observable<number>;
 
 
@@ -81,7 +83,6 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
     this.scrollThrottled$ = this.scroll$
       .pipe(
         throttleTime(0, animationFrame),
-        map(() => window.pageYOffset),
         share()
       );
 
@@ -169,19 +170,49 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  @HostListener('window:scroll', [])
-  adapter(): void {
+  setupListener(): void {
     if (isPlatformBrowser(this.platformId)) {
-      this.scroll$.next();
+      const target = this.getScrollTarget();
+      target.addEventListener('scroll', this.listener);
     }
+  }
+
+  removeListener() {
+    if (isPlatformBrowser(this.platformId)) {
+      const target = this.getScrollTarget();
+      target.removeEventListener('scroll', this.listener);
+    }
+  }
+
+  listener = (e: Event) => {
+    const upperScreenEdgeAt = (e.target as HTMLElement).scrollTop || window.pageYOffset;
+    this.scroll$.next(upperScreenEdgeAt);
+  };
+
+
+  ngOnInit(): void {
+    this.checkSetup();
+    this.setupListener();
+
   }
 
   ngOnDestroy(): void {
     this.componentDestroyed.next();
+    this.removeListener();
   }
 
-  ngOnInit(): void {
-    this.checkSetup();
+  private getScrollTarget(): Element | Window {
+
+    let target: Element | Window;
+
+    if (this.scrollContainer && typeof this.scrollContainer === 'string') {
+      target = document.querySelector(this.scrollContainer);
+    } else if (this.scrollContainer && this.scrollContainer instanceof HTMLElement) {
+      target = this.scrollContainer;
+    } else {
+      target = window;
+    }
+    return target;
   }
 
   getComputedStyle(el: HTMLElement): ClientRect | DOMRect {

@@ -16,3 +16,16 @@
   padding: 15px;
   color: #000;
 }
+
+.another-scrollable-container {
+  width: 150px;
+  height: 100px;
+  overflow: auto;
+
+  div {
+    background-color: #fff;
+    border: 1px solid #333;
+    padding: 15px;
+    width: 200px;
+  }
+}
