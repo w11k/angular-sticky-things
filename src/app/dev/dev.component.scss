@@ -23,6 +23,7 @@ $container-height: 500px;
 }
 
 .some-thing-sticky {
+  margin-top: 5px;
   width: 100%;
   height: $sticky-height;
   background-color: #193441;
@@ -59,11 +60,12 @@ $container-height: 500px;
 
 
 .fixed {
-  top: 0;
+  bottom: 0;
   position: fixed;
   left: 0;
   display: inline-block;
   background-color: #ffffff;
   padding: 5px;
+  min-width: 1000px;
   z-index: 999999;
 }

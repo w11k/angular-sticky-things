@@ -19,14 +19,11 @@ import {filter, map, share, startWith, takeUntil, throttleTime} from 'rxjs/opera
 
 export interface StickyPositions {
   offsetY: number;
-  bottomBoundary: number | null;
 }
 
 export interface StickyStatus {
   isSticky: boolean;
-  reachedLowerEdge: boolean;
-  marginTop: number;
-  marginBottom: number;
+  upperScreenEdgeAt: number;
 }
 
 @Directive({
@@ -39,7 +36,7 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
   marginBottom$ = new BehaviorSubject(0);
   enable$ = new BehaviorSubject(true);
 
-  @Input() scrollContainer: string | HTMLElement;
+  @Input() scrollContainer: string | HTMLElement | undefined;
 
   @Input() set marginTop(value: number) {
     this.marginTop$.next(value);
@@ -100,14 +97,12 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
     this.status$ = combineLatest(
       this.enable$,
       this.scrollThrottled$,
-      this.marginTop$,
-      this.marginBottom$,
       this.extraordinaryChange$,
       this.resizeThrottled$,
     )
       .pipe(
         filter(([enabled]) => this.checkEnabled(enabled)),
-        map(([enabled, pageYOffset, marginTop, marginBottom]) => this.determineStatus(this.determineElementOffsets(), pageYOffset, marginTop, marginBottom, enabled)),
+        map(([enabled, pageYOffset]) => this.determineStatus(enabled, pageYOffset)),
         share(),
       );
 
@@ -219,56 +214,82 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
     return el.getBoundingClientRect();
   }
 
-  private determineStatus(originalVals: StickyPositions, pageYOffset: number, marginTop: number, marginBottom: number, enabled: boolean): StickyStatus {
-    const stickyElementHeight = this.getComputedStyle(this.stickyElement.nativeElement).height;
-    const reachedLowerEdge = this.boundaryElement && window.pageYOffset + stickyElementHeight + marginBottom >= (originalVals.bottomBoundary - marginTop);
+  private determineStatus(enabled: boolean, pageYOffset: number) {
+    const elementPos = this.getOriginalPosition();
+    const isSticky = enabled && pageYOffset + this.marginTop$.value > elementPos.offsetY;
     return {
-      isSticky: enabled && pageYOffset > originalVals.offsetY,
-      reachedLowerEdge,
-      marginBottom,
-      marginTop,
+      isSticky,
+      upperScreenEdgeAt: pageYOffset,
     };
+
   }
 
+
+  // not always pixel. e.g. ie9
+  private getMargins(): { top: number, bottom: number } {
+    const stickyStyles = window.getComputedStyle(this.stickyElement.nativeElement);
+    const top = parseInt(stickyStyles.marginTop, 10);
+    const bottom = parseInt(stickyStyles.marginBottom, 10);
+    return {top, bottom};
+  }
 
   /**
    * Gets the offset for element. If the element
    * currently is sticky, it will get removed
    * to access the original position. Other
    * wise this would just be 0 for fixed elements. */
-  private determineElementOffsets(): StickyPositions {
+  private getOriginalPosition(): StickyPositions {
+
+    const margins = this.getMargins();
+
     if (this.sticky) {
       this.removeSticky();
     }
 
-    let bottomBoundary: number | null = null;
-
-    if (this.boundaryElement) {
-      const boundaryElementHeight = this.getComputedStyle(this.boundaryElement).height;
-      const boundaryElementOffset = getPosition(this.boundaryElement).y;
-      bottomBoundary = boundaryElementHeight + boundaryElementOffset;
-    }
-
-    return {offsetY: (getPosition(this.stickyElement.nativeElement).y - this.marginTop$.value), bottomBoundary};
+    return {
+      offsetY: (getPosition(this.stickyElement.nativeElement).y - margins.top),
+    };
   }
 
-  private makeSticky(boundaryReached: boolean = false, marginTop: number, marginBottom: number): void {
+  private prepareSticky(upperScreenEdgeAt: number): void {
+
+    const marginTop: number = this.marginTop$.value;
+    const marginBottom: number = this.marginBottom$.value;
+    const stickyElStyle: ClientRect | DOMRect = this.getComputedStyle(this.stickyElement.nativeElement);
+    const boundaryElStyle: ClientRect | DOMRect | null = this.boundaryElement ? this.getComputedStyle(this.boundaryElement) : null;
+    const cssMargins: { top: number, bottom: number } = this.getMargins();
+    const boundaryReached = this.boundaryElement ? this.determineBoundaryReached(boundaryElStyle.height, stickyElStyle.height, cssMargins, marginTop, marginBottom, upperScreenEdgeAt) : false;
 
     this.boundaryReached = boundaryReached;
 
-    // do this before setting it to pos:fixed
-    const {width, height, left} = this.getComputedStyle(this.stickyElement.nativeElement);
-    const offSet = boundaryReached ? (this.getComputedStyle(this.boundaryElement).bottom - height - this.marginBottom$.value) : this.marginTop$.value;
+    const offSet: number = boundaryReached ? (boundaryElStyle.bottom - stickyElStyle.height - marginBottom - cssMargins.bottom - cssMargins.top) : marginTop;
+
+    this.applySticky(offSet, stickyElStyle.left, stickyElStyle.width, stickyElStyle.height, cssMargins.top, cssMargins.bottom);
+  }
+
+  private applySticky(offSet: number, left: number, width: number, height: number, cssMarginTop: number, cssMarginBottom: number) {
 
     this.sticky = true;
+
     this.stickyElement.nativeElement.style.position = 'fixed';
     this.stickyElement.nativeElement.style.top = offSet + 'px';
     this.stickyElement.nativeElement.style.left = left + 'px';
     this.stickyElement.nativeElement.style.width = `${width}px`;
     if (this.spacerElement) {
-      const spacerHeight = marginBottom + height + marginTop;
+      const spacerHeight = height + cssMarginTop + cssMarginBottom;
       this.spacerElement.style.height = `${spacerHeight}px`;
     }
+
+  }
+
+  private determineBoundaryReached(boundaryHeight: number, stickyElHeight: number, cssMargins, marginTop: number, marginBottom: number, upperScreenEdgeAt: number) {
+
+    const boundaryElementPos = getPosition(this.boundaryElement);
+
+    const boundaryElementLowerEdge = boundaryElementPos.y + boundaryHeight;
+    const lowerEdgeStickyElement = upperScreenEdgeAt + stickyElHeight + marginTop + cssMargins.top + marginBottom + cssMargins.bottom;
+
+    return boundaryElementLowerEdge <= lowerEdgeStickyElement;
   }
 
   private checkSetup() {
@@ -291,7 +312,7 @@ Then pass the spacer element as input:
 
   private setSticky(status: StickyStatus): void {
     if (status.isSticky) {
-      this.makeSticky(status.reachedLowerEdge, status.marginTop, status.marginBottom);
+      this.prepareSticky(status.upperScreenEdgeAt);
     } else {
       this.removeSticky();
     }
