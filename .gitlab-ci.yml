@@ -96,6 +96,24 @@ publish-master:
     - master
 
 
+publish-dev:
+  image: node:10-alpine
+  stage: deploy
+  only:
+    - tags
+  before_script:
+    - export COMMIT_TIME=$(git show -s --format=%ct $CI_COMMIT_SHA)
+    - export PACKAGE_VERSION=$(sed -nE 's/^\s*"version": "(.*?)",$/\1/p' package.json)
+    - export DEV_VERSION="$PACKAGE_VERSION-dev-$COMMIT_TIME"
+  script:
+    - npm version DEV_VERSION
+    - cd dist/@w11k/angular-sticky-things
+    - cp ../../../README.md .
+    - cp ../../../LICENSE .
+    - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
+    - npm publish --access=public --tag next
+
+
 publish:
   image: node:10-alpine
   stage: deploy
