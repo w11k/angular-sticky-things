@@ -25,6 +25,7 @@ export interface StickyPositions {
 
 export interface StickyStatus {
   isSticky: boolean;
+  upperScreenEdgeAt: number;
 }
 
 @Directive({
@@ -37,7 +38,7 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
   marginBottom$ = new BehaviorSubject(0);
   enable$ = new BehaviorSubject(true);
 
-  @Input() scrollContainer: string | HTMLElement;
+  @Input() scrollContainer: string | HTMLElement | undefined;
 
   @Input() set marginTop(value: number) {
     this.marginTop$.next(value);
@@ -220,6 +221,7 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
     const isSticky = enabled && pageYOffset + this.marginTop$.value > elementPos.offsetY;
     return {
       isSticky,
+      upperScreenEdgeAt: pageYOffset,
     };
 
   }
@@ -251,18 +253,18 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
     };
   }
 
-  private prepareSticky(): void {
+  private prepareSticky(upperScreenEdgeAt: number): void {
 
-    const marginTop = this.marginTop$.value;
-    const marginBottom = this.marginBottom$.value;
-    const stickyElStyle = this.getComputedStyle(this.stickyElement.nativeElement);
-    const boundaryElStyle = this.getComputedStyle(this.boundaryElement);
-    const cssMargins = this.getMargins();
-    const boundaryReached = this.determineBoundaryReached(boundaryElStyle.height, stickyElStyle.height, cssMargins, marginTop, marginBottom);
+    const marginTop: number = this.marginTop$.value;
+    const marginBottom: number = this.marginBottom$.value;
+    const stickyElStyle: ClientRect | DOMRect = this.getComputedStyle(this.stickyElement.nativeElement);
+    const boundaryElStyle: ClientRect | DOMRect | null = this.boundaryElement ? this.getComputedStyle(this.boundaryElement) : null;
+    const cssMargins: { top: number, bottom: number } = this.getMargins();
+    const boundaryReached = this.boundaryElement ? this.determineBoundaryReached(boundaryElStyle.height, stickyElStyle.height, cssMargins, marginTop, marginBottom, upperScreenEdgeAt) : false;
 
     this.boundaryReached = boundaryReached;
 
-    const offSet = boundaryReached ? (boundaryElStyle.bottom - stickyElStyle.height - marginBottom - cssMargins.bottom - cssMargins.top) : marginTop;
+    const offSet: number = boundaryReached ? (boundaryElStyle.bottom - stickyElStyle.height - marginBottom - cssMargins.bottom - cssMargins.top) : marginTop;
 
     this.applySticky(offSet, stickyElStyle.left, stickyElStyle.width, stickyElStyle.height, cssMargins.top, cssMargins.bottom);
   }
@@ -282,12 +284,12 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
-  private determineBoundaryReached(boundaryHeight: number, stickyElHeight: number, cssMargins, marginTop: number, marginBottom: number) {
+  private determineBoundaryReached(boundaryHeight: number, stickyElHeight: number, cssMargins, marginTop: number, marginBottom: number, upperScreenEdgeAt: number) {
 
     const boundaryElementPos = getPosition(this.boundaryElement);
 
     const boundaryElementLowerEdge = boundaryElementPos.y + boundaryHeight;
-    const lowerEdgeStickyElement = window.pageYOffset + stickyElHeight + marginTop + cssMargins.top + marginBottom + cssMargins.bottom;
+    const lowerEdgeStickyElement = upperScreenEdgeAt + stickyElHeight + marginTop + cssMargins.top + marginBottom + cssMargins.bottom;
 
     return boundaryElementLowerEdge <= lowerEdgeStickyElement;
   }
@@ -312,7 +314,7 @@ Then pass the spacer element as input:
 
   private setSticky(status: StickyStatus): void {
     if (status.isSticky) {
-      this.prepareSticky();
+      this.prepareSticky(status.upperScreenEdgeAt);
     } else {
       this.removeSticky();
     }
