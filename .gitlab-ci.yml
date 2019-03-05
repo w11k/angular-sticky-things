@@ -21,7 +21,7 @@ build-demo-master:
   stage: integration
   script:
     - npm ci
-    - npm run build
+    - npm run build -- --base-href "/angular-sticky-things/"
   artifacts:
     expire_in: 1 week
     paths:
@@ -29,7 +29,6 @@ build-demo-master:
   only:
     refs:
       - master
-      - develop
 
 
 build-demo-review:
@@ -44,7 +43,6 @@ build-demo-review:
       - dist/angular-sticky-things-demo
   except:
     - master
-    - develop
 
 
 test-lib:
