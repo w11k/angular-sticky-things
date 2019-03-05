@@ -61,6 +61,21 @@ export class SomeModule { }
 </div>
 ```
 
+#### Scroll in Container
+
+Per default Sticky Things expects your body to be the element that scrolls. However, if Sticky Things is used in an `overflow`-container, that container must be made known to the directive.
+
+This is best done with a query selector. If a string is provided it will be called with `document.querySelector`. Instead an HTML element (nativeElement) can be provided as well.
+
+```html
+<div class="scroll-container">
+  <div #spacer></div>
+  <div [spacer]="spacer" stickyThing="" [scrollContainer]="'.scroll-container'">
+    Scroll by!
+  </div>
+</div>
+```
+
 
 #### Boundary Elements
 

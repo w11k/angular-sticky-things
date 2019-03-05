@@ -1,6 +1,6 @@
 {
   "name": "angular-sticky-things-demo",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -9,6 +9,7 @@
     "build:lib": "ng build angular-sticky-things --prod",
     "test": "ng test angular-sticky-things-demo --watch=false",
     "test:lib": "ng test angular-sticky-things --watch=false",
+    "test:lib:watch": "ng test angular-sticky-things",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "e2e-watch": "concurrently --kill-others \"npm start\" \"npm run e2e-watch-no-serve\"",

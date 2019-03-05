@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {HomeComponent} from './home.component';
+import {PosaContainerComponent} from './posa-container.component';
 
-xdescribe('HomeComponent', () => {
-  let component: HomeComponent;
-  let fixture: ComponentFixture<HomeComponent>;
+describe('PosaContainerComponent', () => {
+  let component: PosaContainerComponent;
+  let fixture: ComponentFixture<PosaContainerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [HomeComponent]
+      declarations: [PosaContainerComponent]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HomeComponent);
+    fixture = TestBed.createComponent(PosaContainerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
