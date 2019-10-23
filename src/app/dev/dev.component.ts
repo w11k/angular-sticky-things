@@ -16,7 +16,7 @@ export class DevComponent implements OnInit {
   large = false;
 
 
-  @ViewChild('stickyElement', {read: StickyThingDirective}) stickyElement: StickyThingDirective;
+  @ViewChild('stickyElement', {read: StickyThingDirective, static: true}) stickyElement: StickyThingDirective;
 
   constructor() {
   }
