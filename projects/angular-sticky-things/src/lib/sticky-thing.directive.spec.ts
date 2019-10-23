@@ -1,4 +1,4 @@
-import {StickyStatus, StickyThingDirective} from './sticky-thing.directive';
+import {StickyThingDirective} from './sticky-thing.directive';
 
 // { provide: PLATFORM_ID, useValue: 'browser' },
 
@@ -99,6 +99,16 @@ describe('StickyThingDirective', () => {
   });
 
 
+  describe('boundary element', () => {
+    it('should work with', () => {
+    });
+    it('should work without', () => {
+    });
+    it('should get fixed', () => {
+    });
+    it('should stop', () => {
+    });
+  });
 
 
 });
