@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Directive,
   ElementRef,
+  EventEmitter,
   HostBinding,
   HostListener,
   Inject,
@@ -9,6 +10,7 @@ import {
   isDevMode,
   OnDestroy,
   OnInit,
+  Output,
   PLATFORM_ID
 } from '@angular/core';
 import {isPlatformBrowser} from '@angular/common';
@@ -56,8 +58,8 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
   @Input('boundary') boundaryElement: HTMLElement | undefined;
 
   @HostBinding('class.is-sticky') sticky = false;
-
   @HostBinding('class.boundary-reached') boundaryReached = false;
+  @Output() stickyStatus: EventEmitter<StickyStatus> = new EventEmitter<StickyStatus>();
 
   /**
    * The field represents some position values in normal (not sticky) mode.
@@ -295,6 +297,7 @@ Then pass the spacer element as input:
     } else {
       this.removeSticky();
     }
+    this.stickyStatus.next(status);
   }
 
   private removeSticky(): void {
