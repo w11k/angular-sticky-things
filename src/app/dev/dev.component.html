@@ -1,7 +1,24 @@
 <div class="fixed">
-  Set a margin top: <input (change)="marginTop=+($event.target.value)" [value]="marginTop" id="top" type="text"> <br>
-  Set margin bottom: <input (change)="marginBottom=+($event.target.value)" [value]="marginBottom" id="bottom"
-                            type="text"> <br>
+  <div class="row">
+    <div class="col">
+
+      Set a margin top: <input (change)="marginTop=+($event.target.value)" [value]="marginTop" id="top" type="text">
+      <br>
+      Set margin bottom: <input (change)="marginBottom=+($event.target.value)" [value]="marginBottom" id="bottom"
+                                type="text"> <br>
+
+    </div>
+    <div class="col">
+      Set a margin top:CSS <input (change)="marginTopCss=+($event.target.value)" [value]="marginTopCss" id="css-top"
+                                  type="text"> <br>
+      Set margin bottom:CSS <input (change)="marginBottomCss=+($event.target.value)" [value]="marginBottomCss"
+                                   id="css-bottom"
+                                   type="text">
+
+    </div>
+  </div>
+
+
   <button id="enable-btn" (click)="enabled = !enabled">{{enabled ? 'disable' : 'enable'}}</button>
   <button (click)="toggleSize()" id="size-toggle-btn">Make Sticky Element {{large ? 'small' : 'large'}}.</button>
 </div>
@@ -12,6 +29,10 @@
       <div class="col-6">
         <div #spacer></div>
         <div
+          [ngStyle]="{
+            marginTop: marginTopCss +'px',
+            marginBottom: marginBottomCss +'px'
+          }"
           #stickyElement
           class="some-thing-sticky"
           [class.large]="large"
@@ -21,18 +42,20 @@
           [marginTop]="marginTop"
           [enable]="enabled"
           [marginBottom]="marginBottom"
+          (stickyStatus)="log($event)" (stickyPosition)="log($event)"
         >Hello
         </div>
+        <div style="margin-left: -125px;">Text that should not jump</div>
       </div>
     </div>
   </div>
 </div>
 
 
-<div id="debug-line-1" class="debug-line" [ngStyle]="{ top: 800- marginBottom+ 'px'}">
+<div [ngStyle]="{ top: 800- marginBottom - marginBottomCss + 'px'}" class="debug-line" id="debug-line-1">
   <div class="text">It should stop when reaching this with top.</div>
 </div>
 
-<div id="debug-line-2" class="debug-line" [ngStyle]="{ top: 1000 - marginBottom + 'px'}">
+<div [ngStyle]="{ top: 1000 - marginBottom - marginBottomCss + 'px'}" class="debug-line" id="debug-line-2">
   <div class="text">Or this with bottom.</div>
 </div>

@@ -10,6 +10,8 @@ export class DevComponent implements OnInit {
 
   marginTop = 0;
   marginBottom = 0;
+  marginTopCss = 0;
+  marginBottomCss = 0;
   enabled = true;
   large = false;
 
@@ -25,5 +27,9 @@ export class DevComponent implements OnInit {
   toggleSize() {
     this.large = !this.large;
     this.stickyElement.recalculate();
+  }
+
+  log(event) {
+    console.log(event);
   }
 }

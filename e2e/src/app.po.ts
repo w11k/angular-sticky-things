@@ -10,7 +10,7 @@ export class AppPage {
   }
 
   navigateToDev() {
-    return browser.get('/dev');
+    return browser.get('#/dev');
   }
 
 

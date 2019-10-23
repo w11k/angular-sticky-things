@@ -10,7 +10,7 @@ export class PosaPage {
   }
 
   navigateToDev() {
-    return browser.get('/posa');
+    return browser.get('#/posa');
   }
 
 
