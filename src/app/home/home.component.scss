@@ -3,6 +3,14 @@
   display: block;
 }
 
+.is-sticky {
+  transform: scale(1.2);
+}
+
+.boundary-reached {
+  transform: scale(1);
+}
+
 section {
   min-height: 100vh;
 }

@@ -8,7 +8,6 @@ import {HomeComponent} from './home/home.component';
 import {AppRoutingModule} from './app-routing.module';
 import {AngularStickyThingsModule} from '../../projects/angular-sticky-things/src/lib/angular-sticky-things.module';
 import {PosaContainerComponent} from './test-cases/posa-container/posa-container.component';
-import { EventContainerComponent } from './test-cases/event-container/event-container.component';
 
 @NgModule({
   declarations: [
@@ -16,8 +15,7 @@ import { EventContainerComponent } from './test-cases/event-container/event-cont
     InfoComponent,
     DevComponent,
     HomeComponent,
-    PosaContainerComponent,
-    EventContainerComponent
+    PosaContainerComponent
   ],
   imports: [
     BrowserModule,
