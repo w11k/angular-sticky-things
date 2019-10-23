@@ -1,3 +1,9 @@
+<a name="1.1.3"></a>
+## [1.1.3](https://github.com/w11k/angular-sticky-things/compare/1.1.2...1.1.3) (2019-10-23)
+### Features
+
+* **sticky:** adds event output with status information to sticky components ([7ab98f6](https://github.com/w11k/angular-sticky-things/commit/7ab98f64945fca3e43d46422c727e271f8a9e2d8)) closes [#37](https://github.com/w11k/angular-sticky-things/issues/37) & [#38](https://github.com/w11k/angular-sticky-things/pull/38)
+
 <a name="1.1.1"></a>
 ## [1.1.1](https://github.com/w11k/angular-sticky-things/compare/1.1.0...1.1.1) (2019-03-04)
 
