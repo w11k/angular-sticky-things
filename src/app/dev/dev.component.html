@@ -42,6 +42,7 @@
           [marginTop]="marginTop"
           [enable]="enabled"
           [marginBottom]="marginBottom"
+          (stickyStatus)="log($event)" (stickyPosition)="log($event)"
         >Hello
         </div>
         <div style="margin-left: -125px;">Text that should not jump</div>

@@ -28,4 +28,8 @@ export class DevComponent implements OnInit {
     this.large = !this.large;
     this.stickyElement.recalculate();
   }
+
+  log(event) {
+    console.log(event);
+  }
 }
