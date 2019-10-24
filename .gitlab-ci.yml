@@ -81,6 +81,8 @@ test-demo:
 
 publish-review:
   stage: review
+  before_script:
+    - apt-get install git
   script:
     - git config --global user.email "deploy@w11k.de"
     - git config --global user.name "W11K Deploy"
@@ -98,6 +100,8 @@ publish-review:
 
 publish-master:
   stage: review
+  before_script:
+    - apt-get install git
   script:
     - git config --global user.email "deploy@w11k.de"
     - git config --global user.name "W11K Deploy"
