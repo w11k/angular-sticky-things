@@ -44,8 +44,8 @@ build-demo-review:
     expire_in: 1 week
     paths:
       - dist/angular-sticky-things-demo
-  except:
-    - master
+  only:
+    - develop
   tags:
       - docker
       - linux
@@ -78,51 +78,50 @@ test-demo:
     - linux
 
 
+#publish-review:
+#  stage: review
+#  before_script:
+#    - npm install npx -g
+#    - apk update && apk add git
+#  script:
+#    - git config --global user.email "deploy@w11k.de"
+#    - git config --global user.name "W11K Deploy"
+#    - npx gh-pages -e review/$CI_COMMIT_REF_NAME -d dist/angular-sticky-things-demo --repo https://$GITHUB_TOKEN@github.com/w11k/angular-sticky-things
+#  environment:
+#    name: review/$CI_COMMIT_REF_NAME
+#    url: https://w11k.github.io/angular-sticky-things/review/$CI_COMMIT_REF_NAME
+#  only:
+#    - branches
+#  except:
+#    - master
+#  tags:
+#    - docker
+#    - linux
 
-publish-review:
-  stage: review
-  before_script:
-    - npm install npx -g
-    - apk update && apk add git
-  script:
-    - git config --global user.email "deploy@w11k.de"
-    - git config --global user.name "W11K Deploy"
-    - npx gh-pages -e review/$CI_COMMIT_REF_NAME -d dist/angular-sticky-things-demo --repo https://$GITHUB_TOKEN@github.com/w11k/angular-sticky-things --silent
-  environment:
-    name: review/$CI_COMMIT_REF_NAME
-    url: https://w11k.github.io/angular-sticky-things/review/$CI_COMMIT_REF_NAME
-  only:
-    - branches
-  except:
-    - master
-  tags:
-    - docker
-    - linux
-
-publish-master:
-  stage: review
-  before_script:
-    - npm install npx -g
-    - apk update && apk add git
-  script:
-    - git config --global user.email "deploy@w11k.de"
-    - git config --global user.name "W11K Deploy"
-    - npx gh-pages -d dist/angular-sticky-things-demo --remote https://$GITHUB_TOKEN@github.com/w11k/angular-sticky-things --silent --add
-  environment:
-    name: production
-    url: https://w11k.github.io/angular-sticky-things/
-  only:
-    - master
-  tags:
-    - docker
-    - linux
-
+#publish-master:
+#  stage: review
+#  before_script:
+#    - npm install npx -g
+#    - apk update && apk add git
+#  script:
+#    - git config --global user.email "deploy@w11k.de"
+#    - git config --global user.name "W11K Deploy"
+#    - npx gh-pages -d dist/angular-sticky-things-demo --remote https://$GITHUB_TOKEN@github.com/w11k/angular-sticky-things --add
+#  environment:
+#    name: production
+#    url: https://w11k.github.io/angular-sticky-things/
+#  only:
+#    - master
+#  tags:
+#    - docker
+#    - linux
 
 publish-dev:
   stage: deploy
   only:
     - tags
   before_script:
+    - apk update && apk add git
     - export COMMIT_TIME=$(git show -s --format=%ct $CI_COMMIT_SHA)
     - export PACKAGE_VERSION=$(grep '"version"' package.json | cut -d '"' -f 4)
     - export DEV_VERSION="$PACKAGE_VERSION-dev-$COMMIT_TIME"
