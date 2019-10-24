@@ -1,25 +1,19 @@
 <a name="1.1.4"></a>
 ## [1.1.4](https://github.com/w11k/angular-sticky-things/compare/1.1.3...1.1.4) (2019-10-23)
 
-
 ### Features
 * **sticky:** adds event output with position information to sticky components
-* **sticky:** merge respect margin and scroll container feature ([f6daa60](https://github.com/w11k/angular-sticky-things/commit/f6daa60))
-* **sticky:** merge respect margin and scroll container feature ([a29979b](https://github.com/w11k/angular-sticky-things/commit/a29979b))
-* **sticky:** respect initial css margins ([7f46bab](https://github.com/w11k/angular-sticky-things/commit/7f46bab))
-* **sticky:** respect initial css margins ([38d8205](https://github.com/w11k/angular-sticky-things/commit/38d8205))
-
-
+* **sticky:** merge respect margin and scroll container feature ([f6daa60](https://github.com/w11k/angular-sticky-things/commit/f6daa60), [a29979b](https://github.com/w11k/angular-sticky-things/commit/a29979b))
+* **sticky:** respect initial css margins ([7f46bab](https://github.com/w11k/angular-sticky-things/commit/7f46bab), [38d8205](https://github.com/w11k/angular-sticky-things/commit/38d8205))
 
 <a name="1.1.3"></a>
-## [1.1.3](https://github.com/w11k/angular-sticky-things/compare/1.1.2...1.1.3) (2019-10-23)
+## [1.1.3](https://github.com/w11k/angular-sticky-things/compare/1.1.1...1.1.3) (2019-10-23)
 ### Features
 
 * **sticky:** adds event output with status information to sticky components ([7ab98f6](https://github.com/w11k/angular-sticky-things/commit/7ab98f64945fca3e43d46422c727e271f8a9e2d8)) closes [#37](https://github.com/w11k/angular-sticky-things/issues/37) & [#38](https://github.com/w11k/angular-sticky-things/pull/38)
 
 <a name="1.1.1"></a>
 ## [1.1.1](https://github.com/w11k/angular-sticky-things/compare/1.1.0...1.1.1) (2019-03-04)
-
 
 ### Features
 
