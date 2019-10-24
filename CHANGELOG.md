@@ -1,3 +1,8 @@
+<a name="1.1.6"></a>
+## [1.1.6](https://github.com/w11k/angular-sticky-things/compare/1.1.5...1.1.6) (2019-10-24)
+
+* **tests:** update n2n tests
+
 <a name="1.1.5"></a>
 ## [1.1.5](https://github.com/w11k/angular-sticky-things/compare/1.1.4...1.1.5) (2019-10-24)
 
