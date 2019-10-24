@@ -72,7 +72,7 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
    * */
   private scroll$ = new Subject<number>();
   private scrollThrottled$: Observable<number>;
-
+  private target = this.getScrollTarget();
 
   private resize$ = new Subject<void>();
   private resizeThrottled$: Observable<void>;
@@ -184,13 +184,6 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  removeListener() {
-    if (isPlatformBrowser(this.platformId)) {
-      const target = this.getScrollTarget();
-      target.removeEventListener('scroll', this.listener);
-    }
-  }
-
   listener = (e: Event) => {
     const upperScreenEdgeAt = (e.target as HTMLElement).scrollTop || window.pageYOffset;
     this.scroll$.next(upperScreenEdgeAt);
@@ -204,8 +197,8 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.target.removeEventListener('scroll', this.listener);
     this.componentDestroyed.next();
-    this.removeListener();
   }
 
   private getScrollTarget(): Element | Window {
