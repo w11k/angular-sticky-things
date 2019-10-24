@@ -7,7 +7,6 @@ import {StickyThingDirective} from '../../../projects/angular-sticky-things/src/
   styleUrls: ['./dev.component.scss']
 })
 export class DevComponent implements OnInit {
-
   marginTop = 0;
   marginBottom = 0;
   marginTopCss = 0;
@@ -16,7 +15,7 @@ export class DevComponent implements OnInit {
   large = false;
 
 
-  @ViewChild('stickyElement', {read: StickyThingDirective, static: true}) stickyElement: StickyThingDirective;
+  @ViewChild('stickyElement', {read: StickyThingDirective}) stickyElement: StickyThingDirective;
 
   constructor() {
   }
