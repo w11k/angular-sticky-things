@@ -7,7 +7,7 @@
   bottom: 0;
   height: 100%;
   overflow: auto;
-  background-color: red;
+  background-color: green;
 }
 
 
@@ -18,9 +18,11 @@
 }
 
 .another-scrollable-container {
-  width: 150px;
-  height: 100px;
+  width: auto;
+  height: 200px;
   overflow: auto;
+  display: block;
+  margin: 5em auto;
 
   div {
     background-color: #fff;
