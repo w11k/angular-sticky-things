@@ -19,36 +19,36 @@ build-lib:
     - docker
     - linux
 
-build-demo-master:
-  stage: integration
-  script:
-    - npm ci
-    - npm run build -- --base-href "/angular-sticky-things/"
-  artifacts:
-    expire_in: 1 week
-    paths:
-      - dist/angular-sticky-things-demo
-  only:
-      - master
-  tags:
-    - docker
-    - linux
+#build-demo-master:
+#  stage: integration
+#  script:
+#    - npm ci
+#    - npm run build -- --base-href "/angular-sticky-things/"
+#  artifacts:
+#    expire_in: 1 week
+#    paths:
+#      - dist/angular-sticky-things-demo
+#  only:
+#      - master
+#  tags:
+#    - docker
+#    - linux
 
 
-build-demo-review:
-  stage: integration
-  script:
-    - npm ci
-    - npm run build  -- --base-href /angular-sticky-things/review/$CI_COMMIT_REF_NAME/index.html
-  artifacts:
-    expire_in: 1 week
-    paths:
-      - dist/angular-sticky-things-demo
-  only:
-    - develop
-  tags:
-      - docker
-      - linux
+#build-demo-review:
+#  stage: integration
+#  script:
+#    - npm ci
+#    - npm run build  -- --base-href /angular-sticky-things/review/$CI_COMMIT_REF_NAME/index.html
+#  artifacts:
+#    expire_in: 1 week
+#    paths:
+#      - dist/angular-sticky-things-demo
+#  only:
+#    - develop
+#  tags:
+#      - docker
+#      - linux
 
 
 test-lib:
