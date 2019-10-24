@@ -1,3 +1,8 @@
+## [1.1.7](https://github.com/w11k/angular-sticky-things/compare/1.1.6...1.1.7) (2019-10-24)
+
+* **demo:** add class binding from sticky component
+* **demo:** update angular version from 6 -> 8
+
 <a name="1.1.6"></a>
 ## [1.1.6](https://github.com/w11k/angular-sticky-things/compare/1.1.5...1.1.6) (2019-10-24)
 
