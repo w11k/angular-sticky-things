@@ -1,7 +1,7 @@
 import {browser} from 'protractor';
 import {PosaPage} from './posa.po';
 
-describe('with position:absolute container', () => {
+xdescribe('with position:absolute container', () => {
   let page: PosaPage;
 
   beforeEach(() => {
@@ -10,7 +10,7 @@ describe('with position:absolute container', () => {
   });
 
 
-  it('should recognize sticky ', async () => {
+  xit('should recognize sticky ', async () => {
     await page.navigateToDev();
 
     // dont use window scroll here.
