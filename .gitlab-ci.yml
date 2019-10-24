@@ -1,5 +1,4 @@
 image: node:10-alpine
-
 stages:
   - build
   - integration
@@ -8,7 +7,6 @@ stages:
   - deploy
 
 build-lib:
-  image: node:10-alpine
   stage: build
   script:
     - npm ci
@@ -19,7 +17,6 @@ build-lib:
       - dist/@w11k/angular-sticky-things
 
 build-demo-master:
-  image: node:10-alpine
   stage: integration
   script:
     - npm ci
@@ -34,7 +31,6 @@ build-demo-master:
 
 
 build-demo-review:
-  image: node:10-alpine
   stage: integration
   script:
     - npm ci
@@ -70,7 +66,6 @@ test-demo:
 
 
 publish-review:
-  image: node:10
   stage: review
   script:
     - git config --global user.email "deploy@w11k.de"
@@ -85,7 +80,6 @@ publish-review:
     - master
 
 publish-master:
-  image: node:10
   stage: review
   script:
     - git config --global user.email "deploy@w11k.de"
@@ -99,7 +93,6 @@ publish-master:
 
 
 publish-dev:
-  image: node:10-alpine
   stage: deploy
   only:
     - tags
@@ -117,7 +110,6 @@ publish-dev:
 
 
 publish:
-  image: node:10-alpine
   stage: deploy
   only:
     - tags
@@ -127,5 +119,3 @@ publish:
     - cp ../../../LICENSE .
     - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
     - npm publish --access=public
-
-
