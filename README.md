@@ -1,4 +1,4 @@
-[![npm version](https://badge.fury.io/js/%40w11k%2Fangular-sticky-things.svg)](https://badge.fury.io/js/%40w11k%2Fangular-sticky-things)
+[![npm version](https://d25lcipzij17d.cloudfront.net/badge.svg?id=js&type=6&v=1.1.8&x2=0)](https://badge.fury.io/js/%40w11k%2Fangular-sticky-things)
 
 # Angular Sticky Things
 
