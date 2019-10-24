@@ -15,6 +15,9 @@ build-lib:
     expire_in: 1 week
     paths:
       - dist/@w11k/angular-sticky-things
+  tags:
+    - docker
+    - linux
 
 build-demo-master:
   stage: integration
@@ -26,8 +29,10 @@ build-demo-master:
     paths:
       - dist/angular-sticky-things-demo
   only:
-    refs:
       - master
+  tags:
+    - docker
+    - linux
 
 
 build-demo-review:
@@ -41,6 +46,9 @@ build-demo-review:
       - dist/angular-sticky-things-demo
   except:
     - master
+  tags:
+      - docker
+      - linux
 
 
 test-lib:
@@ -49,6 +57,9 @@ test-lib:
   script:
     - npm ci
     - npm run test:lib
+  tags:
+    - docker
+    - linux
 
 #test-demo:
 #  image: trion/ng-cli-karma
@@ -62,6 +73,9 @@ test-demo:
   script:
     - npm ci
     - npm run e2e
+  tags:
+    - docker
+    - linux
 
 
 
@@ -78,6 +92,9 @@ publish-review:
     - branches
   except:
     - master
+  tags:
+    - docker
+    - linux
 
 publish-master:
   stage: review
@@ -90,6 +107,9 @@ publish-master:
     url: https://w11k.github.io/angular-sticky-things/
   only:
     - master
+  tags:
+    - docker
+    - linux
 
 
 publish-dev:
@@ -107,7 +127,9 @@ publish-dev:
     - cp ../../../LICENSE .
     - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
     - npm publish --access=public --tag next
-
+  tags:
+    - docker
+    - linux
 
 publish:
   stage: deploy
@@ -119,3 +141,6 @@ publish:
     - cp ../../../LICENSE .
     - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
     - npm publish --access=public
+  tags:
+    - docker
+    - linux
