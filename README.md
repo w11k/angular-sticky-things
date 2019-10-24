@@ -120,7 +120,21 @@ A `marginTop` (default `0`) input can be used to add some top spacing to the sti
 </div>
 ```
 
+#### Event Outputs
 
+```html
+<div #boundary style="height:1000px;">
+  <div #spacer></div>
+  <div stickyThing (stickyPosition)="consoleLog($event)" (stickyStatus)="consoleLog($event)" marginTop="30" marginBottom="50">
+    I leave 30px of space to the top when I'm sticky!
+  </div>
+</div>
+```
+Example Output: 
+```
+[Log] stickyPositon - {offsetY: 786, bottomBoundary: 1406.9999389648438, upperScreenEdgeAt: 75, marginBottom: "50", marginTop: "30"}
+[Log] stickyStatus - {isSticky: false, reachedUpperEdge: true, reachedLowerEdge: false}
+```
 ## Patron
 
 ❤️ [W11K - The Web Engineers](https://www.w11k.de/)
