@@ -1,4 +1,4 @@
-## [1.1.9](https://github.com/w11k/angular-sticky-things/compare/1.1.8...1.1.9) (2019-10-24)
+## [1.1.9](https://github.com/w11k/angular-sticky-things/compare/1.1.8...1.1.9) (2019-10-25)
 
 * **sticky:** adds reachedUpperEdge attribute to sticky status event output 
 * **sticky:** adds host binding to class .upper-bound-reached for attribute reachedUpperEdge
