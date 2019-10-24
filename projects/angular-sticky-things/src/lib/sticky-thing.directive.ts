@@ -60,9 +60,10 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
   }
   @Input('spacer') spacerElement: HTMLElement | undefined;
   @Input('boundary') boundaryElement: HTMLElement | undefined;
-
-  @HostBinding('class.is-sticky') sticky = false;
+  sticky = false;
+  @HostBinding('class.is-sticky') isSticky = false;
   @HostBinding('class.boundary-reached') boundaryReached = false;
+  @HostBinding('class.upper-bound-reached') upperBoundReached = false;
   @Output() stickyStatus: EventEmitter<StickyStatus> = new EventEmitter<StickyStatus>();
   @Output() stickyPosition: EventEmitter<StickyPositions> = new EventEmitter<StickyPositions>();
 
@@ -306,9 +307,12 @@ Then pass the spacer element as input:
   private setSticky(status: StickyStatus): void {
     if (status.isSticky) {
       if (status.reachedUpperEdge) {
+        this.upperBoundReached = true;
         this.removeSticky();
       } else {
         this.makeSticky(status.reachedLowerEdge, status.marginTop, status.marginBottom);
+        this.isSticky = true;
+        this.upperBoundReached = false;
       }
     } else {
       this.removeSticky();

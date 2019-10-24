@@ -4,11 +4,15 @@
 }
 
 .is-sticky {
-  transform: scale(1.2);
+  background-color: white;
 }
 
 .boundary-reached {
-  transform: scale(1);
+  background-color: red;
+}
+
+.upper-bound-reached {
+  background-color: green;
 }
 
 section {
