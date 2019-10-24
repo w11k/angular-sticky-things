@@ -12,12 +12,6 @@ describe('angular sticky things', () => {
     // page.setMarginTop(0).then(()=>done());
   });
 
-  it('should have sticky element with text Hello', () => {
-    page.navigateToDev();
-    expect(page.getStickyText()).toEqual('Hello');
-  });
-
-
   it('should be not sticky for scroll(0,0)', async () => {
     page.navigateToDev();
     const hasStickyClass = await hasClass(page.getStickyElement(), 'is-sticky');
