@@ -30,7 +30,8 @@
               "src/styles.scss",
               "node_modules/bootstrap/dist/css/bootstrap.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "aot": true
           },
           "configurations": {
             "production": {
@@ -137,7 +138,8 @@
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
             "tsConfig": "projects/angular-sticky-things/tsconfig.lib.json",
-            "project": "projects/angular-sticky-things/ng-package.json"
+            "project": "projects/angular-sticky-things/ng-package.json",
+            "aot": true
           },
           "configurations": {
             "production": {
