@@ -23,6 +23,9 @@
       ],
       "angular-sticky-things/*": [
         "dist/@w11k/angular-sticky-things/*"
+      ],
+      "@ng-sticky-things": [
+        "projects/angular-sticky-things/src/lib/angular-sticky-things.module.ts"
       ]
     }
   }

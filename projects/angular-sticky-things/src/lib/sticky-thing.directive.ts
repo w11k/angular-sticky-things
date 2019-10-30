@@ -17,6 +17,7 @@ import {isPlatformBrowser} from '@angular/common';
 import {BehaviorSubject, combineLatest, Observable, Subject} from 'rxjs';
 import {animationFrame} from 'rxjs/internal/scheduler/animationFrame';
 import {filter, map, share, startWith, takeUntil, throttleTime} from 'rxjs/operators';
+import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
 
 
 export interface StickyPositions {
@@ -221,8 +222,8 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
     const elementPos = this.determineElementOffsets();
     const isSticky = enabled && pageYOffset > originalVals.offsetY;
     const stickyElementHeight = this.getComputedStyle(this.stickyElement.nativeElement).height;
-    const reachedLowerEdge = this.boundaryElement && window.pageYOffset + stickyElementHeight + marginBottom >= (originalVals.bottomBoundary - marginTop);
-    const reachedUpperEdge = window.pageYOffset < (this.boundaryElement.offsetTop - marginTop);
+    const reachedLowerEdge = isNotNullOrUndefined(this.boundaryElement) ? this.boundaryElement && window.pageYOffset + stickyElementHeight + marginBottom >= (originalVals.bottomBoundary - marginTop) : undefined;
+    const reachedUpperEdge = isNotNullOrUndefined(this.boundaryElement) ? window.pageYOffset < (this.boundaryElement.offsetTop - marginTop) : undefined;
     this.stickyPosition.emit({...elementPos, upperScreenEdgeAt: pageYOffset, marginBottom, marginTop});
     return {
       isSticky,
