@@ -19,36 +19,47 @@ build-lib:
     - docker
     - linux
 
-#build-demo-master:
-#  stage: integration
-#  script:
-#    - npm ci
-#    - npm run build -- --base-href "/angular-sticky-things/"
-#  artifacts:
-#    expire_in: 1 week
-#    paths:
-#      - dist/angular-sticky-things-demo
-#  only:
-#      - master
-#  tags:
-#    - docker
-#    - linux
+build-demo-master:
+  stage: integration
+  script:
+    - npm ci
+    - npm run build -- --base-href "/angular-sticky-things/"
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - dist/angular-sticky-things-demo
+  only:
+    - master
+  tags:
+    - docker
+    - linux
 
 
-#build-demo-review:
-#  stage: integration
-#  script:
-#    - npm ci
-#    - npm run build  -- --base-href /angular-sticky-things/review/$CI_COMMIT_REF_NAME/index.html
-#  artifacts:
-#    expire_in: 1 week
-#    paths:
-#      - dist/angular-sticky-things-demo
-#  only:
-#    - develop
-#  tags:
-#      - docker
-#      - linux
+build-demo-review:
+  stage: integration
+  script:
+    - npm ci
+    - npm run build  -- --base-href /angular-sticky-things/review/$CI_COMMIT_REF_NAME/index.html
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - dist/angular-sticky-things-demo
+  only:
+    - develop
+  tags:
+    - docker
+    - linux
+
+
+test-lib:
+  image: trion/ng-cli-karma
+  stage: test
+  script:
+    - npm ci
+    - npm run test:lib
+  tags:
+    - docker
+    - linux
 
 #test-demo:
 #  image: trion/ng-cli-karma
@@ -56,15 +67,16 @@ build-lib:
 #  script:
 #  - npm run test
 
-#test-demo:
-#  image: trion/ng-cli-karma
-#  stage: test
-#  script:
-#    - npm ci
-#    - npm run e2e
-#  tags:
-#    - docker
-#    - linux
+test-demo:
+  image: trion/ng-cli-karma
+  stage: test
+  script:
+    - npm ci
+    - npm run e2e
+  tags:
+    - docker
+    - linux
+
 
 #publish-review:
 #  stage: review
@@ -104,22 +116,36 @@ build-lib:
 #    - docker
 #    - linux
 
-publish-dev:
+#publish-dev:
+#  stage: deploy
+#  only:
+#    - tags
+#  before_script:
+#    - apk update && apk add git
+#    - export COMMIT_TIME=$(git show -s --format=%ct $CI_COMMIT_SHA)
+#    - export PACKAGE_VERSION=$(grep '"version"' package.json | cut -d '"' -f 4)
+#    - export DEV_VERSION="$PACKAGE_VERSION-dev-$COMMIT_TIME"
+#  script:
+#    - npm version DEV_VERSION
+#    - cd dist/@w11k/angular-sticky-things
+#    - cp ../../../README.md .
+#    - cp ../../../LICENSE .
+#    - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
+#    - npm publish --access=public --tag next
+#  tags:
+#    - docker
+#    - linux
+
+publish:
   stage: deploy
   only:
     - tags
-  before_script:
-    - apk update && apk add git
-    - export COMMIT_TIME=$(git show -s --format=%ct $CI_COMMIT_SHA)
-    - export PACKAGE_VERSION=$(grep '"version"' package.json | cut -d '"' -f 4)
-    - export DEV_VERSION="$PACKAGE_VERSION-dev-$COMMIT_TIME"
   script:
-    - npm version DEV_VERSION
     - cd dist/@w11k/angular-sticky-things
     - cp ../../../README.md .
     - cp ../../../LICENSE .
     - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
-    - npm publish --access=public --tag next
+    - npm publish --access=public
   tags:
     - docker
     - linux
