@@ -1,6 +1,6 @@
 {
   "name": "@w11k/angular-sticky-things",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "peerDependencies": {
     "@angular/common": "^4.0.0 || ^7.0.0 || ^8.0.0",
     "@angular/core": "^4.0.0 || ^7.0.0 || ^8.0.0",

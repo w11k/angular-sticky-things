@@ -1,3 +1,7 @@
+## [1.2.1](https://github.com/w11k/angular-sticky-things/compare/1.2.0...1.2.1) (2019-10-30)
+
+* **ci:** update gitlab-ci
+
 # [1.2.0](https://github.com/w11k/angular-sticky-things/compare/1.1.9...1.2.0) (2019-10-30)
 
 * **sticky:** fixes scroll-container issue [#39](https://github.com/w11k/angular-sticky-things/issues/39)  
