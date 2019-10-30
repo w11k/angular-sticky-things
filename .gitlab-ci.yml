@@ -104,22 +104,22 @@ build-lib:
 #    - docker
 #    - linux
 
-#publish-dev:
-#  stage: deploy
-#  only:
-#    - tags
-#  before_script:
-#    - apk update && apk add git
-#    - export COMMIT_TIME=$(git show -s --format=%ct $CI_COMMIT_SHA)
-#    - export PACKAGE_VERSION=$(grep '"version"' package.json | cut -d '"' -f 4)
-#    - export DEV_VERSION="$PACKAGE_VERSION-dev-$COMMIT_TIME"
-#  script:
-#    - npm version DEV_VERSION
-#    - cd dist/@w11k/angular-sticky-things
-#    - cp ../../../README.md .
-#    - cp ../../../LICENSE .
-#    - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
-#    - npm publish --access=public --tag next
-#  tags:
-#    - docker
-#    - linux
+publish-dev:
+  stage: deploy
+  only:
+    - tags
+  before_script:
+    - apk update && apk add git
+    - export COMMIT_TIME=$(git show -s --format=%ct $CI_COMMIT_SHA)
+    - export PACKAGE_VERSION=$(grep '"version"' package.json | cut -d '"' -f 4)
+    - export DEV_VERSION="$PACKAGE_VERSION-dev-$COMMIT_TIME"
+  script:
+    - npm version DEV_VERSION
+    - cd dist/@w11k/angular-sticky-things
+    - cp ../../../README.md .
+    - cp ../../../LICENSE .
+    - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
+    - npm publish --access=public --tag next
+  tags:
+    - docker
+    - linux
