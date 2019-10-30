@@ -1,3 +1,9 @@
+# [1.2.0](https://github.com/w11k/angular-sticky-things/compare/1.1.9...1.2.0) (2019-10-30)
+
+* **sticky:** fixes scroll-container issue [#39](https://github.com/w11k/angular-sticky-things/issues/39)  
+* **sticky:** fixes error when no boundary is set [#53](https://github.com/w11k/angular-sticky-things/issues/53) 
+
+
 ## [1.1.9](https://github.com/w11k/angular-sticky-things/compare/1.1.8...1.1.9) (2019-10-25)
 
 * **sticky:** adds reachedUpperEdge attribute to sticky status event output 
