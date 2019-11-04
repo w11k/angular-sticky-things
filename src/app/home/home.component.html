@@ -6,7 +6,7 @@
     <div class="row">
       <div class="col-6">
         <div #spacer1></div>
-        <div stickyThing="" [spacer]="spacer1" [boundary]="boundary1" (stickyPosition)="consoleLog($event)" (stickyStatus)="consoleLog($event)" marginTop="30" marginBottom="50">
+        <div stickyThing="" [spacer]="spacer1" [boundary]="boundary1" marginTop="50">
           <svg xmlns="http://www.w3.org/2000/svg" width="210mm" height="155mm"
                viewBox="0 0 210 155">
             <path
@@ -129,10 +129,11 @@
     </div>
   </div>
 </section>
+<section #boundary6>
 <div #spacerX></div>
 <div class="color-2" stickyThing="" [spacer]="spacerX">
   <div class="container">
     <strong>fyi:</strong> Boundary is optional - I'll scroll all the way down.
   </div>
 </div>
-
+</section>

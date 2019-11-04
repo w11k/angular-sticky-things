@@ -83,7 +83,7 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
   private status$: Observable<StickyStatus>;
 
   private componentDestroyed = new Subject<void>();
-
+  private elementOffsetY;
 
   constructor(private stickyElement: ElementRef, @Inject(PLATFORM_ID) private platformId: string) {
 
@@ -195,7 +195,7 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.checkSetup();
     this.setupListener();
-
+    this.elementOffsetY = this.determineElementOffsets().offsetY;
   }
 
   ngOnDestroy(): void {
@@ -220,10 +220,13 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
 
   private determineStatus(originalVals: StickyPositions, pageYOffset: number, marginTop: number, marginBottom: number, enabled: boolean) {
     const elementPos = this.determineElementOffsets();
-    const isSticky = enabled && pageYOffset > originalVals.offsetY;
+    let isSticky = enabled && pageYOffset > originalVals.offsetY;
+    if (pageYOffset < this.elementOffsetY) {
+      isSticky = false;
+    }
     const stickyElementHeight = this.getComputedStyle(this.stickyElement.nativeElement).height;
-    const reachedLowerEdge = isNotNullOrUndefined(this.boundaryElement) ? this.boundaryElement && window.pageYOffset + stickyElementHeight + marginBottom >= (originalVals.bottomBoundary - marginTop) : undefined;
-    const reachedUpperEdge = isNotNullOrUndefined(this.boundaryElement) ? window.pageYOffset < (this.boundaryElement.offsetTop - marginTop) : undefined;
+    const reachedLowerEdge = isNotNullOrUndefined(this.boundaryElement) ? this.boundaryElement && window.pageYOffset + stickyElementHeight + marginBottom >= (originalVals.bottomBoundary - marginTop * 1.0) : undefined;
+    const reachedUpperEdge = isNotNullOrUndefined(this.boundaryElement) ? window.pageYOffset < (this.boundaryElement.offsetTop + marginTop * 1.0) : undefined;
     this.stickyPosition.emit({...elementPos, upperScreenEdgeAt: pageYOffset, marginBottom, marginTop});
     return {
       isSticky,
@@ -251,7 +254,6 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
     if (this.sticky) {
       this.removeSticky();
     }
-
     let bottomBoundary: number | null = null;
 
     if (this.boundaryElement) {
@@ -259,7 +261,9 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
       const boundaryElementOffset = getPosition(this.boundaryElement).y;
       bottomBoundary = boundaryElementHeight + boundaryElementOffset;
     }
-    return {offsetY: (getPosition(this.stickyElement.nativeElement).y - this.marginTop$.value), bottomBoundary};
+    return {
+      offsetY: (getPosition(this.stickyElement.nativeElement).y - this.marginTop$.value), bottomBoundary
+    };
   }
 
   private makeSticky(boundaryReached: boolean = false, marginTop: number, marginBottom: number): void {
@@ -310,6 +314,7 @@ Then pass the spacer element as input:
       if (status.reachedUpperEdge) {
         this.upperBoundReached = true;
         this.removeSticky();
+        return;
       } else {
         this.makeSticky(status.reachedLowerEdge, status.marginTop, status.marginBottom);
         this.isSticky = true;
