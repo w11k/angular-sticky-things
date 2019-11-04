@@ -1,3 +1,8 @@
+## [1.2.2](https://github.com/w11k/angular-sticky-things/compare/1.2.1...1.2.2) (2019-11-04)
+
+* **sticky:** prevents sticky element to scroll till top of the page when no boundary element is set - fixes [#55](https://github.com/w11k/angular-sticky-things/issues/55)  
+
+
 ## [1.2.1](https://github.com/w11k/angular-sticky-things/compare/1.2.0...1.2.1) (2019-10-30)
 
 * **ci:** update gitlab-ci
