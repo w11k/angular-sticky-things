@@ -1,33 +1,46 @@
-:host {
-  display: block;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  height: 100%;
-  overflow: auto;
-  background-color: green;
+section {
+  overflow: hidden;
 }
 
-
-.some-thing-sticky {
-  background-color: #fff;
-  padding: 15px;
-  color: #000;
+.scrollable-container {
+  height: 300px;
+  display: block;
+  margin: 5em auto;
+  overflow: scroll;
 }
 
 .another-scrollable-container {
-  width: auto;
-  height: 200px;
-  overflow: auto;
+  height: 300px;
   display: block;
   margin: 5em auto;
+  overflow: scroll;
+}
+#heading {
+  height: 100px;
+  background-color: coral;
+}
+#first {
+  background-color: coral;
+}
 
-  div {
-    background-color: #fff;
-    border: 1px solid #333;
-    padding: 15px;
-    width: 200px;
-  }
+#second {
+  background-color: cornflowerblue;
+}
+
+#third {
+  background-color: cornflowerblue;
+}
+
+#fourth {
+  background-color: bisque;
+}
+
+p {
+  height: 50px;
+  background-color: aquamarine;
+}
+
+#footer {
+  height: 200px;
+  background-color: lightgoldenrodyellow;
 }

@@ -1,38 +1,64 @@
-<p>
-  I'm special, since the containing div scrolls and not the body.
-</p>
-
-
-<div class="row">
-  <div class="col-6">
-    <div #spacer></div>
-    <div [scrollContainer]="'.scroll-container'" [spacer]="spacer" class="some-thing-sticky" stickyThing="">
-      Scroll by!
+<div id="heading"></div>
+<section class="scrollable-container">
+  <div class="row">
+    <div class="col-12">
+      <p>I'm special, since my content scrolls and not the body.</p>
+      <p>...</p>
+      <p>...</p>
+      <p>...</p>
+      <p>...</p>
+      <p>...</p>
+      <p>...</p>
+      <div id="first" stickyThing [scrollContainer]="'.scrollable-container'">Sticky
+      </div>
+      <p>scrolling</p>
+      <p>...</p>
+      <p>...</p>
+      <p>...</p>
+      <p>...</p>
+      <p>...</p>
+      <p>...</p>
+      <div id="second" stickyThing [scrollContainer]="'.scrollable-container'">Another Sticky
+      </div>
+      <p>scrolling</p>
+      <p>...</p>
+      <p>...</p>
+      <p>...</p>
+      <p>...</p>
+      <p>...</p>
+      <p>End of scrolling</p>
     </div>
   </div>
-</div>
-
-
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-
-
-<div class="another-scrollable-container">
-  <div>Hello</div>
-  <div>Hello</div>
-  <div>Hello</div>
-  <div>Hello</div>
-  <div>Hello</div>
-  <div>Hello</div>
-  <div>Hello</div>
-  <div>Hello</div>
-  <div>Hello</div>
-  <div>Hello</div>
-  <div>Hello</div>
-  <div>Hello</div>
-  <div>Hello</div>
-  <div>Hello</div>
-  <div>Hello</div>
-</div>
+</section>
+<section class="another-scrollable-container">
+  <div class="row">
+    <div class="col-12">
+      <p>I'm also special, since my content scrolls and not the body.</p>
+      <p>...</p>
+      <p>...</p>
+      <p>...</p>
+      <p>...</p>
+      <p>...</p>
+      <p>...</p>
+      <div id="third" stickyThing [scrollContainer]="'.another-scrollable-container'">Sticky
+      </div>
+      <p>scrolling</p>
+      <p>...</p>
+      <p>...</p>
+      <p>...</p>
+      <p>...</p>
+      <p>...</p>
+      <p>...</p>
+      <div id="fourth" stickyThing [scrollContainer]="'.another-scrollable-container'">Another Sticky
+      </div>
+      <p>scrolling</p>
+      <p>...</p>
+      <p>...</p>
+      <p>...</p>
+      <p>...</p>
+      <p>...</p>
+      <p>End of scrolling</p>
+    </div>
+  </div>
+</section>
+<div id="footer"></div>
