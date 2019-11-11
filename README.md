@@ -67,12 +67,13 @@ Per default Sticky Things expects your body to be the element that scrolls. Howe
 
 This is best done with a query selector. If a string is provided it will be called with `document.querySelector`. Instead an HTML element (nativeElement) can be provided as well.
 
+Note: In a scrollable container boundary, spacer and margins don't work.
+
 ```html
-<div class="scroll-container">
-  <div #spacer></div>
-  <div [spacer]="spacer" stickyThing="" [scrollContainer]="'.scroll-container'">
-    Scroll by!
-  </div>
+<div class="scrollable-container">
+  <p>I'm special, since my content scrolls and not the body.</p>
+  <p>...</p>
+  <div stickyThing [scrollContainer]="'.scrollable-container'">Sticky</div>
 </div>
 ```
 
