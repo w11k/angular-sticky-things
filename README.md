@@ -1,4 +1,4 @@
-[![npm version](https://d25lcipzij17d.cloudfront.net/badge.svg?id=js&type=6&v=1.1.9&x2=0)](https://badge.fury.io/js/%40w11k%2Fangular-sticky-things)
+[![npm version](https://d25lcipzij17d.cloudfront.net/badge.svg?id=js&type=6&v=1.2.2&x2=0)](https://badge.fury.io/js/%40w11k%2Fangular-sticky-things)
 
 # Angular Sticky Things
 
@@ -76,6 +76,9 @@ This is best done with a query selector. If a string is provided it will be call
 </div>
 ```
 
+<p align="center">
+  <img src="./src/assets/scrollcontainer.gif?raw=true" alt="Scroll-Container in Action" width="500"/>
+</p>
 
 #### Boundary Elements
 

@@ -3,7 +3,7 @@
   "version": "1.2.2",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --host 0.0.0.0 --disable-host-check",
     "prestart": "npm run build:lib",
     "build": "ng build --prod",
     "build:lib": "ng build angular-sticky-things --prod",
