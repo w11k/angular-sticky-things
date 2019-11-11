@@ -1,3 +1,9 @@
+## [1.2.3](https://github.com/w11k/angular-sticky-things/compare/1.2.2...1.2.3) (2019-11-11)
+
+* **sticky:** added input auditTime for scroll event listener control update ratio of sticky elements  - [#57](https://github.com/w11k/angular-sticky-things/issues/57)  
+* **sticky:** added fix for scrollContainer - [#58](https://github.com/w11k/angular-sticky-things/issues/58)  
+
+
 ## [1.2.2](https://github.com/w11k/angular-sticky-things/compare/1.2.1...1.2.2) (2019-11-04)
 
 * **sticky:** prevents sticky element to scroll till top of the page when no boundary element is set - fixes [#55](https://github.com/w11k/angular-sticky-things/issues/55)  

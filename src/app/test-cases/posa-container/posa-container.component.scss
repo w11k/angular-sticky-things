@@ -4,12 +4,14 @@ section {
 
 .scrollable-container {
   height: 300px;
+  display: block;
   margin: 3em auto;
   overflow: scroll;
 }
 
 .another-scrollable-container {
   height: 300px;
+  display: block;
   margin: 3em auto;
   overflow: scroll;
 }
