@@ -33,6 +33,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 1. Update versions
    1. ./projects/angular-sticky-things/package.json
    1. ./package.json
+   1. update README.md
    1. Commit them (`chore(project): bump version to x.x.x`)
 1. Changelog
    1. Generate `./node_modules/.bin/standard-changelog`

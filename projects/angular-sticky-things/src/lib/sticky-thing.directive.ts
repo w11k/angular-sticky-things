@@ -14,9 +14,9 @@ import {
   PLATFORM_ID
 } from '@angular/core';
 import {isPlatformBrowser} from '@angular/common';
-import {BehaviorSubject, combineLatest, Observable, Subject} from 'rxjs';
+import {BehaviorSubject, combineLatest, Observable, pipe, Subject} from 'rxjs';
 import {animationFrame} from 'rxjs/internal/scheduler/animationFrame';
-import {filter, map, share, startWith, takeUntil, throttleTime} from 'rxjs/operators';
+import {auditTime, filter, map, share, startWith, takeUntil, throttleTime} from 'rxjs/operators';
 import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
 
 
@@ -47,7 +47,7 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
   enable$ = new BehaviorSubject(true);
 
   @Input() scrollContainer: string | HTMLElement | undefined;
-
+  @Input() auditTime = 0;
   @Input() set marginTop(value: number) {
     this.marginTop$.next(value);
   }
@@ -123,9 +123,15 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    const operators = this.scrollContainer ?
+      pipe(takeUntil(this.componentDestroyed)) :
+      pipe(auditTime(this.auditTime), takeUntil(this.componentDestroyed));
     this.status$
-      .pipe(takeUntil(this.componentDestroyed))
-      .subscribe((status) => this.setSticky(status));
+      .pipe(operators)
+      .subscribe((status: StickyStatus) => {
+        this.setSticky(status);
+        this.setStatus(status);
+      });
   }
 
   public recalculate(): void {
@@ -207,8 +213,12 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
     let target: Element | Window;
     if (this.scrollContainer && typeof this.scrollContainer === 'string') {
       target = document.querySelector(this.scrollContainer);
+      this.marginTop$.next(Infinity);
+      this.auditTime = 0;
     } else if (this.scrollContainer && this.scrollContainer instanceof HTMLElement) {
       target = this.scrollContainer;
+      this.marginTop$.next(Infinity);
+      this.auditTime = 0;
     } else {
       target = window;
     }
@@ -267,14 +277,19 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private makeSticky(boundaryReached: boolean = false, marginTop: number, marginBottom: number): void {
-    this.boundaryReached = boundaryReached;
     // do this before setting it to pos:fixed
     const {width, height, left} = this.getComputedStyle(this.stickyElement.nativeElement);
     const offSet = boundaryReached ? (this.getComputedStyle(this.boundaryElement).bottom - height - this.marginBottom$.value) : this.marginTop$.value;
-    this.stickyElement.nativeElement.style.position = 'fixed';
-    this.stickyElement.nativeElement.style.top = offSet + 'px';
-    this.stickyElement.nativeElement.style.left = left + 'px';
-    this.stickyElement.nativeElement.style.width = `${width}px`;
+    if (this.scrollContainer && !this.sticky) {
+      this.stickyElement.nativeElement.style.position = 'sticky';
+      this.stickyElement.nativeElement.style.top = '0px';
+      this.sticky = true;
+    } else {
+      this.stickyElement.nativeElement.style.position = 'fixed';
+      this.stickyElement.nativeElement.style.top = offSet + 'px';
+      this.stickyElement.nativeElement.style.left = left + 'px';
+      this.stickyElement.nativeElement.style.width = `${width}px`;
+    }
     if (this.spacerElement) {
       const spacerHeight = marginBottom + height + marginTop;
       this.spacerElement.style.height = `${spacerHeight}px`;
@@ -311,18 +326,21 @@ Then pass the spacer element as input:
 
   private setSticky(status: StickyStatus): void {
     if (status.isSticky) {
-      if (status.reachedUpperEdge) {
-        this.upperBoundReached = true;
+      if (this.upperBoundReached) {
         this.removeSticky();
-        return;
+        this.isSticky = false;
       } else {
         this.makeSticky(status.reachedLowerEdge, status.marginTop, status.marginBottom);
         this.isSticky = true;
-        this.upperBoundReached = false;
       }
     } else {
       this.removeSticky();
     }
+  }
+
+  private setStatus(status: StickyStatus) {
+    this.upperBoundReached = status.reachedUpperEdge;
+    this.boundaryReached = status.reachedLowerEdge;
     this.stickyStatus.next(status);
   }
 

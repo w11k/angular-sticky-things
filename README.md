@@ -1,4 +1,4 @@
-[![npm version](https://d25lcipzij17d.cloudfront.net/badge.svg?id=js&type=6&v=1.2.2&x2=0)](https://badge.fury.io/js/%40w11k%2Fangular-sticky-things)
+[![npm version](https://d25lcipzij17d.cloudfront.net/badge.svg?id=js&type=6&v=1.2.3&x2=0)](https://badge.fury.io/js/%40w11k%2Fangular-sticky-things)
 
 # Angular Sticky Things
 
@@ -61,22 +61,6 @@ export class SomeModule { }
 </div>
 ```
 
-#### Scroll in Container
-
-Per default Sticky Things expects your body to be the element that scrolls. However, if Sticky Things is used in an `overflow`-container, that container must be made known to the directive.
-
-This is best done with a query selector. If a string is provided it will be called with `document.querySelector`. Instead an HTML element (nativeElement) can be provided as well.
-
-```html
-<div class="scroll-container">
-  <div #spacer></div>
-  <div [spacer]="spacer" stickyThing="" [scrollContainer]="'.scroll-container'">
-    Scroll by!
-  </div>
-</div>
-```
-
-
 #### Boundary Elements
 
 If a boundary element is defined, the sticky element scrolls only within the height of the boundary element and then stops. This is useful if you have multiple sticky elements since it prevents stacking. You can [take a look at the examples](https://w11k.github.io/angular-sticky-things/).
@@ -135,6 +119,34 @@ Example Output:
 [Log] stickyPositon - {offsetY: 786, bottomBoundary: 1406.9999389648438, upperScreenEdgeAt: 75, marginBottom: "50", marginTop: "30"}
 [Log] stickyStatus - {isSticky: false, reachedUpperEdge: true, reachedLowerEdge: false}
 ```
+
+#### Scroll in Container
+
+Per default Sticky Things expects your body to be the element that scrolls. However, if Sticky Things is used in an `overflow`-container, that container must be made known to the directive.
+
+This is best done with a query selector. If a string is provided it will be called with `document.querySelector`. Instead an HTML element (nativeElement) can be provided as well.
+
+Note: In a scrollable container boundary, spacer and margins don't work.
+
+```html
+<div class="scrollable-container">
+  <p>I'm special, since my content scrolls and not the body.</p>
+  <p>...</p>
+  <div stickyThing [scrollContainer]="'.scrollable-container'">Sticky</div>
+</div>
+```
+
+````scss
+.scrollable-container {
+  height: 300px;
+  margin: 3em auto;
+  overflow: scroll;
+}
+````
+<p align="center">
+  <img src="./src/assets/scrollcontainer.gif?raw=true" alt="Scroll-Container in Action" width="500"/>
+</p>
+
 ## Patron
 
 ❤️ [W11K - The Web Engineers](https://www.w11k.de/)
