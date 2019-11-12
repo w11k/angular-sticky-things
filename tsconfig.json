@@ -27,6 +27,7 @@
       "@ng-sticky-things": [
         "projects/angular-sticky-things/src/lib/angular-sticky-things.module.ts"
       ]
-    }
+    },
+    "rootDir": "."
   }
 }

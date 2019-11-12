@@ -3,6 +3,10 @@
   "dest": "../../dist/@w11k/angular-sticky-things",
   "deleteDestPath": false,
   "lib": {
-    "entryFile": "src/public_api.ts"
+    "entryFile": "src/index.ts",
+    "umdModuleIds": {
+      "codelyzer/util/isNotNullOrUndefined": "isNotNullOrUndefined",
+      "rxjs/internal/scheduler/animationFrame": "animationFrame"
+    }
   }
 }
