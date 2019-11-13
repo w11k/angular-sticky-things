@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {DevComponent} from './dev.component';
+import {ScrollContainerComponent} from './scroll-container.component';
 
-xdescribe('DevComponent', () => {
-  let component: DevComponent;
-  let fixture: ComponentFixture<DevComponent>;
+describe('ScrollContainerComponent', () => {
+  let component: ScrollContainerComponent;
+  let fixture: ComponentFixture<ScrollContainerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [DevComponent]
+      declarations: [ScrollContainerComponent]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DevComponent);
+    fixture = TestBed.createComponent(ScrollContainerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

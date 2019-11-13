@@ -1,0 +1,36 @@
+section {
+  overflow: hidden;
+}
+
+.scrollable-container {
+  height: 300px;
+  display: block;
+  overflow: scroll;
+}
+
+#first {
+  background-color: #91AA9D;
+  color: #193441;
+}
+
+#second {
+  background-color: #D1DBBD;
+  color: #193441;
+}
+
+p {
+  height: 50px;
+  background-color: #D1DBBD;
+}
+
+h3 {
+  height: 50px;
+  background-color: #D1DBBD;
+  text-align: center;
+}
+
+h5 {
+  height: 50px;
+  background-color: #D1DBBD;
+  text-align: center;
+}

@@ -17,4 +17,8 @@ export class HomeComponent implements OnInit {
   consoleLog(event) {
     console.log(event);
   }
+
+  switchSticky() {
+    this.enableSticky = !this.enableSticky;
+  }
 }

@@ -3,22 +3,32 @@
   display: block;
 }
 
-.is-sticky {
-  background-color: white;
+.header {
+  background-color: #193441;
+  color: #D1DBBD;
+  display: block;
+}
+
+a {
+  color: #3E606F;
+  text-decoration: underline;
 }
 
 .boundary-reached {
-  background-color: red;
+  background-color: orange;
 }
 
 .upper-bound-reached {
-  background-color: green;
+  background-color: yellowgreen;
 }
 
 section {
   min-height: 100vh;
 }
-
+.color {
+  background-color: #D1DBBD;
+  color: #193441;
+}
 .color-1 {
   background-color: #FCFFF5;
   color: #193441;
@@ -53,27 +63,21 @@ section {
 }
 
 .color-4 {
-  background-color: #3E606F;
-  color: #D1DBBD;
+  margin-top: -5vh;
+  background-color: #91AA9D;
+  color: #193441;
   path {
-    fill: #D1DBBD;
+    fill: #193441;
   }
   p {
-    background-color: #D1DBBD;
+    background-color: #193441;
   }
 }
 
-.color-5 {
-  background-color: #193441;
-  color: #D1DBBD;
-  path {
-    fill: #D1DBBD;
-  }
-  p {
-    background-color: #D1DBBD;
-  }
+.colorX {
+  background-color: #91AA9D;
+  z-index: 9999;
 }
-
 .wrap {
   padding-top: 50px;
   svg {
@@ -91,4 +95,3 @@ section {
     }
   }
 }
-
