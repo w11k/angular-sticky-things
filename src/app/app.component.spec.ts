@@ -1,17 +1,19 @@
 import {async, TestBed} from '@angular/core/testing';
 import {AppComponent} from './app.component';
 import {AngularStickyThingsModule} from '@w11k/angular-sticky-things';
-import {InfoComponent} from './info/info.component';
+import {BrowserTestingModule} from '@angular/platform-browser/testing';
+import {AppRoutingModule} from './app-routing.module';
 
 xdescribe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        BrowserTestingModule,
         AngularStickyThingsModule
       ],
       declarations: [
         AppComponent,
-        InfoComponent,
+        AppRoutingModule
       ],
     }).compileComponents();
   }));

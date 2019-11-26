@@ -1,6 +1,8 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {HomeComponent} from './home.component';
+import {BrowserTestingModule} from '@angular/platform-browser/testing';
+import {AngularStickyThingsModule} from '@ng-sticky-things';
 
 xdescribe('HomeComponent', () => {
   let component: HomeComponent;
@@ -8,6 +10,10 @@ xdescribe('HomeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        BrowserTestingModule,
+        AngularStickyThingsModule
+      ],
       declarations: [HomeComponent]
     })
       .compileComponents();
