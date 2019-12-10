@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'demo-home',
@@ -12,10 +12,6 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-  }
-
-  consoleLog(event) {
-    console.log(event);
   }
 
   switchSticky() {
