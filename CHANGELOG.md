@@ -1,3 +1,8 @@
+## [1.2.4](https://github.com/w11k/angular-sticky-things/compare/1.2.3...1.2.4) (2019-12-10)
+
+* **sticky:** explicitly specified umd module ids for codelyzer/isNotNullOrUndefined and rxjs/.../animationFrame - [#59](https://github.com/w11k/angular-sticky-things/issues/59) 
+
+
 ## [1.2.3](https://github.com/w11k/angular-sticky-things/compare/1.2.2...1.2.3) (2019-11-11)
 
 * **sticky:** added input auditTime for scroll event listener control update ratio of sticky elements  - [#57](https://github.com/w11k/angular-sticky-things/issues/57)  
