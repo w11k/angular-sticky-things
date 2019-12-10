@@ -2,6 +2,10 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/@w11k/angular-sticky-things",
   "lib": {
-    "entryFile": "src/public_api.ts"
+    "entryFile": "src/index.ts",
+    "umdModuleIds": {
+      "codelyzer/util/isNotNullOrUndefined": "isNotNullOrUndefined",
+      "rxjs/internal/scheduler/animationFrame": "animationFrame"
+    }
   }
 }

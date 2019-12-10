@@ -1,12 +1,12 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {HomeComponent} from './home.component';
+import {ScrollContainerComponent} from './scroll-container.component';
 import {BrowserTestingModule} from '@angular/platform-browser/testing';
 import {AngularStickyThingsModule} from '@ng-sticky-things';
 
-xdescribe('HomeComponent', () => {
-  let component: HomeComponent;
-  let fixture: ComponentFixture<HomeComponent>;
+describe('ScrollContainerComponent', () => {
+  let component: ScrollContainerComponent;
+  let fixture: ComponentFixture<ScrollContainerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -14,13 +14,13 @@ xdescribe('HomeComponent', () => {
         BrowserTestingModule,
         AngularStickyThingsModule
       ],
-      declarations: [HomeComponent]
+      declarations: [ScrollContainerComponent]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HomeComponent);
+    fixture = TestBed.createComponent(ScrollContainerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
