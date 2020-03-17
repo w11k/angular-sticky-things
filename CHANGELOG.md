@@ -1,3 +1,7 @@
+## [1.2.5](https://github.com/w11k/angular-sticky-things/compare/1.2.4...1.2.5) (2020-03-17)
+
+* **sticky:** removed codelyzer/isNotNullOrUndefined - [#59](https://github.com/w11k/angular-sticky-things/issues/59) 
+
 ## [1.2.4](https://github.com/w11k/angular-sticky-things/compare/1.2.3...1.2.4) (2019-12-10)
 
 * **sticky:** explicitly specified umd module ids for codelyzer/isNotNullOrUndefined and rxjs/.../animationFrame - [#59](https://github.com/w11k/angular-sticky-things/issues/59) 
