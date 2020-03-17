@@ -5,7 +5,6 @@
   "lib": {
     "entryFile": "src/index.ts",
     "umdModuleIds": {
-      "codelyzer/util/isNotNullOrUndefined": "isNotNullOrUndefined",
       "rxjs/internal/scheduler/animationFrame": "animationFrame"
     }
   }
