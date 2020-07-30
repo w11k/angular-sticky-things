@@ -10,7 +10,7 @@
       "prefix": "demo",
       "schematics": {
         "@schematics/angular:component": {
-          "styleext": "scss"
+          "style": "scss"
         }
       },
       "architect": {
@@ -35,6 +35,12 @@
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -46,7 +52,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
@@ -143,7 +148,8 @@
           "configurations": {
             "production": {
               "project": "projects/angular-sticky-things/ng-package.prod.json"
-            }
+            ,              "tsConfig": "projects/angular-sticky-things/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {

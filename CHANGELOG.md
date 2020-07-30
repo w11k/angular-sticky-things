@@ -1,3 +1,10 @@
+## [1.3.0](https://github.com/w11k/angular-sticky-things/compare/1.2.5...1.3.0) (2020-07-30)
+
+* **sticky:** update dependencies to support Angular up to 10
+* **sticky:** dropping support of IE 9 and 10, because Angular 10 does not support these version either
+* **sticky:** fix deep import of rxjs AnimationFrameScheduler
+* **demo:** update demo to Angular 10
+
 ## [1.2.5](https://github.com/w11k/angular-sticky-things/compare/1.2.4...1.2.5) (2020-03-17)
 
 * **sticky:** removed codelyzer/isNotNullOrUndefined - [#59](https://github.com/w11k/angular-sticky-things/issues/59) 

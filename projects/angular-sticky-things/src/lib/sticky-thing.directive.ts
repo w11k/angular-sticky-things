@@ -14,8 +14,7 @@ import {
   PLATFORM_ID
 } from '@angular/core';
 import {isPlatformBrowser} from '@angular/common';
-import {BehaviorSubject, combineLatest, Observable, pipe, Subject} from 'rxjs';
-import {animationFrame} from 'rxjs/internal/scheduler/animationFrame';
+import {BehaviorSubject, combineLatest, Observable, pipe, Subject, animationFrameScheduler} from 'rxjs';
 import {auditTime, filter, map, share, startWith, takeUntil, throttleTime} from 'rxjs/operators';
 
 
@@ -90,7 +89,7 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
      * Throttle the scroll to animation frame (around 16.67ms) */
     this.scrollThrottled$ = this.scroll$
       .pipe(
-        throttleTime(0, animationFrame),
+        throttleTime(0, animationFrameScheduler),
         share()
       );
 
@@ -98,7 +97,7 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
      * Throttle the resize to animation frame (around 16.67ms) */
     this.resizeThrottled$ = this.resize$
       .pipe(
-        throttleTime(0, animationFrame),
+        throttleTime(0, animationFrameScheduler),
         // emit once since we are currently using combineLatest
         startWith(null),
         share()
