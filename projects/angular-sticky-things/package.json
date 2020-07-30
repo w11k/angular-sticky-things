@@ -1,9 +1,9 @@
 {
   "name": "@w11k/angular-sticky-things",
-  "version": "1.2.5",
+  "version": "1.3.0",
   "peerDependencies": {
-    "@angular/common": "^4.0.0 || ^7.0.0 || ^8.0.0",
-    "@angular/core": "^4.0.0 || ^7.0.0 || ^8.0.0",
+    "@angular/common": "^4.0.0 || ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0",
+    "@angular/core": "^4.0.0 || ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0",
     "rxjs": "^6.0.0"
   },
   "repository": {
@@ -15,5 +15,8 @@
     "rxjs/operators": "rxjs/operators",
     "@angular/common": "@angular/common",
     "@angular/core": "@angular/core"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
   }
 }
