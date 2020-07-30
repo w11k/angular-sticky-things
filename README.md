@@ -10,7 +10,7 @@ An Angular directive for making things sticky when the user scrolls (for Angular
 ### Requirements
 
 * Angular (requires Angular 4.x or higher)
-* Supports all major browsers and IE9 and up (lower versions might not be supported)
+* Supports all major browsers and IE11 and up (lower versions might not be supported)
 
 ### Features:
 * Stick all the things!
