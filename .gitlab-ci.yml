@@ -141,6 +141,10 @@ publish:
   only:
     - tags
   script:
+    - rm -rf node_modules
+    - rm -rf dist
+    - npm ci
+    - npm run build:lib
     - cd dist/@w11k/angular-sticky-things
     - cp ../../../README.md .
     - cp ../../../LICENSE .
