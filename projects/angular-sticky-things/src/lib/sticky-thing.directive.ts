@@ -81,7 +81,6 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
   private status$: Observable<StickyStatus>;
 
   private componentDestroyed = new Subject<void>();
-  private elementOffsetY;
 
   constructor(private stickyElement: ElementRef, @Inject(PLATFORM_ID) private platformId: string) {
 
@@ -199,7 +198,6 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.checkSetup();
     this.setupListener();
-    this.elementOffsetY = this.determineElementOffsets().offsetY;
   }
 
   ngOnDestroy(): void {
@@ -229,7 +227,7 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
   private determineStatus(originalVals: StickyPositions, pageYOffset: number, marginTop: number, marginBottom: number, enabled: boolean) {
     const elementPos = this.determineElementOffsets();
     let isSticky = enabled && pageYOffset > originalVals.offsetY;
-    if (pageYOffset < this.elementOffsetY) {
+    if (pageYOffset < elementPos.offsetY) {
       isSticky = false;
     }
     const stickyElementHeight = this.getComputedStyle(this.stickyElement.nativeElement).height;
