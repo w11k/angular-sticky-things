@@ -1,3 +1,8 @@
+# [1.4.0](https://github.com/w11k/angular-sticky-things/compare/1.3.2...1.4.0) (2021-09-27)
+
+* **sticky:** add support for angular 11 - [#91](https://github.com/w11k/angular-sticky-things/issues/91)
+* **sticky:** add support for angular 12 - [#98](https://github.com/w11k/angular-sticky-things/issues/98)
+
 ## [1.3.2](https://github.com/w11k/angular-sticky-things/compare/1.3.0...1.3.2) (2021-07-16)
 
 * **sticky:** makes sticky things work when site is re-visited - [#70](https://github.com/w11k/angular-sticky-things/issues/70)
