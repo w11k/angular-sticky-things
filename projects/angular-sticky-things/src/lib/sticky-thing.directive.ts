@@ -238,6 +238,8 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
       isSticky,
       reachedUpperEdge,
       reachedLowerEdge,
+      marginTop,
+      marginBottom
     };
 
   }
