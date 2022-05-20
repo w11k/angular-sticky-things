@@ -38,5 +38,5 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 1. Changelog
    1. Generate `./node_modules/.bin/standard-changelog`
    1. Commit: `docs(changelog): update changelog for version x.x.x`
-1. Finish release: `git flow release finish`
+1. Finish release: `git flow release finish x.x.x`
 1. Push: `git push --tags && git push origin develop:develop && git push origin master:master`
