@@ -224,7 +224,7 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
     return el.getBoundingClientRect();
   }
 
-  private determineStatus(originalVals: StickyPositions, pageYOffset: number, marginTop: number, marginBottom: number, enabled: boolean) {
+  private determineStatus(originalVals: StickyPositions, pageYOffset: number, marginTop: number, marginBottom: number, enabled: boolean): StickyStatus {
     const elementPos = this.determineElementOffsets();
     let isSticky = enabled && pageYOffset > originalVals.offsetY;
     if (pageYOffset < elementPos.offsetY) {
@@ -238,6 +238,8 @@ export class StickyThingDirective implements OnInit, AfterViewInit, OnDestroy {
       isSticky,
       reachedUpperEdge,
       reachedLowerEdge,
+      marginTop,
+      marginBottom,
     };
 
   }
