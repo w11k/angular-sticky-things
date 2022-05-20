@@ -3,9 +3,6 @@
   "dest": "../../dist/@w11k/angular-sticky-things",
   "deleteDestPath": false,
   "lib": {
-    "entryFile": "src/index.ts",
-    "umdModuleIds": {
-      "rxjs/internal/scheduler/animationFrame": "animationFrame"
-    }
+    "entryFile": "src/index.ts"
   }
 }
