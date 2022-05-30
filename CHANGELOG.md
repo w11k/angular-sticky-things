@@ -1,3 +1,6 @@
+## [1.5.1](https://github.com/w11k/angular-sticky-things/compare/1.3.2...1.5.1) (2022-05-30)
+* **sticky:** allows rxjs 7 as peerDep - [#110](https://github.com/w11k/angular-sticky-things/issues/110)
+
 # [1.5.0](https://github.com/w11k/angular-sticky-things/compare/1.3.2...1.5.0) (2022-05-20)
 * **sticky:** add support for angular 13 - [#110](https://github.com/w11k/angular-sticky-things/issues/110)
 
