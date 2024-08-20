@@ -1,3 +1,6 @@
+# [1.6.0](https://github.com/w11k/angular-sticky-things/compare/1.5.0...1.6.0) (2024-08-20)
+* **sticky:** add support for angular 14
+
 # [1.5.0](https://github.com/w11k/angular-sticky-things/compare/1.3.2...1.5.0) (2022-05-20)
 * **sticky:** add support for angular 13 - [#110](https://github.com/w11k/angular-sticky-things/issues/110)
 
