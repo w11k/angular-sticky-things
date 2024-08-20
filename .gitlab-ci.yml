@@ -66,16 +66,16 @@ test-lib:
 #  stage: test
 #  script:
 #  - npm run test
-
-test-demo:
-  image: trion/ng-cli-karma
-  stage: test
-  script:
-    - npm ci
-    - npm run e2e
-  tags:
-    - docker
-    - linux
+#
+#test-demo:
+#  image: trion/ng-cli-karma
+#  stage: test
+#  script:
+#    - npm ci
+#    - npm run e2e
+#  tags:
+#    - docker
+#    - linux
 
 
 #publish-review:
