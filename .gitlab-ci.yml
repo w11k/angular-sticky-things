@@ -1,4 +1,4 @@
-image: node:12-alpine
+image: node:16-alpine
 stages:
   - build
   - integration
