@@ -2,8 +2,8 @@
   "name": "@w11k/angular-sticky-things",
   "version": "1.9.1",
   "peerDependencies": {
-    "@angular/common": ">=4.0.0 <18.0.0",
-    "@angular/core": ">=4.0.0 <18.0.0",
+    "@angular/common": ">=4.0.0 <19.0.0",
+    "@angular/core": ">=4.0.0 <19.0.0",
     "rxjs": "^6.0.0"
   },
   "repository": {
