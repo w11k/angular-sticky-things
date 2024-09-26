@@ -1,3 +1,6 @@
+# [1.9.0](https://github.com/w11k/angular-sticky-things/compare/1.6.0...1.9.0) (2024-09-26)
+* **sticky:** add support for angular 17
+
 # [1.8.0](https://github.com/w11k/angular-sticky-things/compare/1.6.0...1.8.0) (2024-09-26)
 * **sticky:** add support for angular 16
 
