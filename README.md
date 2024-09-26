@@ -17,6 +17,7 @@ Sure! Here's the compatibility chart formatted as a Markdown table:
 | 14              | 1.6.0           |
 | 15              | 1.7.0           |
 | 16              | 1.8.0           |
+| 17              | 1.9.0           |
 
 ### Requirements
 
