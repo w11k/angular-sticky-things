@@ -6,6 +6,16 @@ An Angular directive for making things sticky when the user scrolls (for Angular
 
 [See the demo here](https://w11k.github.io/angular-sticky-things/).
 
+Sure! Here's the compatibility chart formatted as a Markdown table:
+
+### Compatibility Chart
+
+| Angular Version | Package Version |
+|-----------------|-----------------|
+| 11-12           | 1.4.0           |
+| 13              | 1.5.0           |
+| 14              | 1.6.0           |
+| 15              | 1.7.0           |
 
 ### Requirements
 
