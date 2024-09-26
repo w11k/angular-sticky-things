@@ -1,26 +1,50 @@
-/*
-  This is a "Solution Style" tsconfig.json file, and is used by editors and TypeScript’s language server to improve development experience.
-  It is not intended to be used to perform a compilation.
-
-  To learn more about this file see: https://angular.io/config/solution-tsconfig.
-*/
 {
-  "files": [],
-  "references": [
-    {
-      "path": "./src/tsconfig.app.json"
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "module": "es2020",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es5",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2017",
+      "dom"
+    ],
+    "paths": {
+      "@w11k/angular-sticky-things": [
+        "dist/@w11k/angular-sticky-things"
+      ],
+      "angular-sticky-things/*": [
+        "dist/@w11k/angular-sticky-things/*"
+      ],
+      "@ng-sticky-things": [
+        "projects/angular-sticky-things/src/lib/angular-sticky-things.module.ts"
+      ]
     },
-    {
-      "path": "./src/tsconfig.spec.json"
-    },
-    {
-      "path": "./e2e/tsconfig.e2e.json"
-    },
-    {
-      "path": "./projects/angular-sticky-things/tsconfig.lib.json"
-    },
-    {
-      "path": "./projects/angular-sticky-things/tsconfig.spec.json"
-    }
-  ]
+    "rootDir": "."
+  }
 }
+//{
+//  "files": [],
+//  "references": [
+//    {
+//      "path": "./src/tsconfig.app.json"
+//    },
+//    {
+//      "path": "./src/tsconfig.spec.json"
+//    },
+//    {
+//      "path": "./projects/angular-sticky-things/tsconfig.lib.json"
+//    },
+//    {
+//      "path": "./projects/angular-sticky-things/tsconfig.spec.json"
+//    }
+//  ]
+//}
