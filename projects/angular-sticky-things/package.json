@@ -1,10 +1,10 @@
 {
   "name": "@w11k/angular-sticky-things",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "peerDependencies": {
     "@angular/common": ">=4.0.0 <17.0.0",
     "@angular/core": ">=4.0.0 <17.0.0",
-    "rxjs": "^6.0.0"
+    "rxjs": "^7.0.0"
   },
   "repository": {
     "type": "git",
