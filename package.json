@@ -1,6 +1,6 @@
 {
   "name": "angular-sticky-things-demo",
-  "version": "1.10.0",
+  "version": "1.10.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --disable-host-check",
